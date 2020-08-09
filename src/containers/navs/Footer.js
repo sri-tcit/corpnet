@@ -36,26 +36,26 @@ const Footer = () => {
     //   </div>
     // </footer>
 
-    <footer class="page-footer">
-        <div class="footer-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <p class="mb-0 text-muted">Copyright © 2020 Mashreq. All Rights Reserved.</p>
+    <footer className="page-footer">
+        <div className="footer-content">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-12 col-sm-6">
+                        <p className="mb-0 text-muted">Copyright © 2020 Mashreq. All Rights Reserved.</p>
                     </div>
-                    <div class="col-sm-6 d-none d-sm-block ">
-                        <ul class="breadcrumb footer  pt-0 pr-0 float-right">
-                            <li class="breadcrumb-item mb-0">
-                                <a href="#" class="btn-link">Mashreq Intranet</a>
+                    <div className="col-sm-6 d-none d-sm-block ">
+                        <ul className="breadcrumb footer  pt-0 pr-0 float-right">
+                            <li className="breadcrumb-item mb-0">
+                                <a href="#" className="btn-link">Mashreq Intranet</a>
                             </li>
-                            <li class="breadcrumb-item mb-0">
-                                <a href="#" class="btn-link">Disclaimer</a>
+                            <li className="breadcrumb-item mb-0">
+                                <a href="#" className="btn-link">Disclaimer</a>
                             </li>
-                            <li class="breadcrumb-item mb-0">
-                                <a href="#" class="btn-link">Terms of Use</a>
+                            <li className="breadcrumb-item mb-0">
+                                <a href="#" className="btn-link">Terms of Use</a>
                             </li>
-                            <li class="breadcrumb-item mb-0">
-                                <a href="#" class="btn-link">Privacy Policy</a>
+                            <li className="breadcrumb-item mb-0">
+                                <a href="#" className="btn-link">Privacy Policy</a>
                             </li>
                         </ul>
                     </div>

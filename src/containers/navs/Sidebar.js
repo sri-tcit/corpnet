@@ -5,6 +5,7 @@ import { Nav, NavItem, Collapse } from 'reactstrap';
 import { NavLink, withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import axios from 'axios';
 
 import IntlMessages from '../../helpers/IntlMessages';
 
@@ -15,16 +16,30 @@ import {
   changeSelectedMenuHasSubItems,
 } from '../../redux/actions';
 
-import menuItems from '../../constants/menu';
-
+// import this.state.menuItems from '../../constants/menu';
 class Sidebar extends Component {
+  state = {
+    menuItems :[]
+  };
+  
   constructor(props) {
     super(props);
+    var _menuItems =[];
+    var link =`http://148.72.206.209:93/api/Menu/ALL`;
+    axios.get(link)
+      .then(res => {  
+        res.data.map((data)=>{
+          _menuItems.push(data)
+          console.log('this.state.menuItems',this.state.menuItems,res.data);
+        })
+      })
     this.state = {
       selectedParentMenu: '',
+      menuItems : _menuItems,
       viewingParentMenu: '',
-      collapsedMenus: [],
+      collapsedMenus: []
     };
+    
   }
 
   handleWindowResize = (event) => {
@@ -213,9 +228,11 @@ class Sidebar extends Component {
           callback
         );
       } else if (this.state.selectedParentMenu === '') {
+       
+
         this.setState(
           {
-            selectedParentMenu: menuItems[0].id,
+            selectedParentMenu: this.state.menuItems.length > 0 ? this.state.menuItems[0].DirName : "",
           },
           callback
         );
@@ -231,9 +248,9 @@ class Sidebar extends Component {
 
   getIsHasSubItem = () => {
     const { selectedParentMenu } = this.state;
-    const menuItem = menuItems.find((x) => x.id === selectedParentMenu);
+    const menuItem = this.state.menuItems.find((x) => x.DirName === selectedParentMenu);
     if (menuItem)
-      return !!(menuItem && menuItem.subs && menuItem.subs.length > 0);
+      return !!(menuItem && menuItem.SubMenu && menuItem.SubMenu.length > 0);
     return false;
   };
 
@@ -259,10 +276,17 @@ class Sidebar extends Component {
   }
 
   openSubMenu = (e, menuItem) => {
-    const selectedParent = menuItem.id;
-    const hasSubMenu = menuItem.subs && menuItem.subs.length > 0;
-    this.props.changeSelectedMenuHasSubItems(hasSubMenu);
+    const Submenus=[];
+    Submenus.push(menuItem);
+    console.log('menuItem',menuItem,Submenus?.length,Submenus[0]?.SubMenu?.length)
+    console.log('menuItem',Submenus.length,Submenus[0].SubMenu.length)
+    const selectedParent = menuItem.DirName;
+    const hasSubMenu = Submenus.length && Submenus[0].SubMenu.length > 0;
+    // const hasSubMenu =  menuItem.length > 0 ? menuItem.SubMenu:;
+      console.log('hasSubMenu',hasSubMenu,menuItem.SubMenu)
+      this.props.changeSelectedMenuHasSubItems(hasSubMenu);
     if (!hasSubMenu) {
+      console.log('hasSubMenu',hasSubMenu)
       this.setState({
         viewingParentMenu: selectedParent,
         selectedParentMenu: selectedParent,
@@ -337,35 +361,35 @@ class Sidebar extends Component {
               options={{ suppressScrollX: true, wheelPropagation: false }}
             >
               <Nav vertical className="list-unstyled">
-                {menuItems &&
-                  menuItems.map((item) => {
+                {this.state.menuItems &&
+                  this.state.menuItems.map((item) => {
                     return (
                       <NavItem
-                        key={item.id}
+                        key={item.DirName}
                         className={classnames({
                           active:
-                            (selectedParentMenu === item.id &&
+                            (selectedParentMenu === item.DirName &&
                               viewingParentMenu === '') ||
-                            viewingParentMenu === item.id,
+                            viewingParentMenu === item.DirName,
                         })}
                       >
                         {item.newWindow ? (
                           <a
-                            href={item.to}
+                            href={item.url}
                             rel="noopener noreferrer"
                             target="_blank"
                           >
-                            <i className={item.icon} />{' '}
-                            <IntlMessages id={item.label} />
+                            <i className={item.Thumbnail} />{' '}
+                            <IntlMessages id={item.DirName} />
                           </a>
                         ) : (
                           <NavLink
-                            to={item.to}
+                            to={item.url}
                             onClick={(e) => this.openSubMenu(e, item)}
-                            data-flag={item.id}
+                            data-flag={item.DirName}
                           >
-                            <i className={item.icon} />{' '}
-                            <IntlMessages id={item.label} />
+                            <i className={item.Thumbnail} />{' '}
+                            <IntlMessages id={item.DirName} />
                           </NavLink>
                         )}
                       </NavItem>
@@ -381,91 +405,91 @@ class Sidebar extends Component {
             <PerfectScrollbar
               options={{ suppressScrollX: true, wheelPropagation: false }}
             >
-              {menuItems &&
-                menuItems.map((item) => {
+              {this.state.menuItems &&
+                this.state.menuItems.map((item) => {
                   return (
                     <Nav
-                      key={item.id}
+                      key={item.DirName}
                       className={classnames({
                         'd-block':
-                          (this.state.selectedParentMenu === item.id &&
+                          (this.state.selectedParentMenu === item.DirName &&
                             this.state.viewingParentMenu === '') ||
-                          this.state.viewingParentMenu === item.id,
+                          this.state.viewingParentMenu === item.DirName,
                       })}
-                      data-parent={item.id}
+                      data-parent={item.DirName}
                     >
-                      {item.subs &&
-                        item.subs.map((sub, index) => {
+                      {item.SubMenu &&
+                        item.SubMenu.map((sub, index) => {
                           return (
                             <NavItem
-                              key={`${item.id}_${index}`}
+                              key={`${item.DirName}_${index}`}
                               className={`${
-                                sub.subs && sub.subs.length > 0
+                                sub.SubMenu && sub.SubMenu.length > 0
                                   ? 'has-sub-item'
                                   : ''
                               }`}
                             >
                               {sub.newWindow ? (
                                 <a
-                                  href={sub.to}
+                                  href={sub.url}
                                   rel="noopener noreferrer"
                                   target="_blank"
                                 >
-                                  <i className={sub.icon} />{' '}
-                                  <IntlMessages id={sub.label} />
+                                  <i className={sub.Thumbnail} />{' '}
+                                  <IntlMessages id={sub.DirName} />
                                 </a>
-                              ) : sub.subs && sub.subs.length > 0 ? (
+                              ) : sub.SubMenu && sub.SubMenu.length > 0 ? (
                                 <>
                                   <NavLink
                                     className={`rotate-arrow-icon opacity-50 ${
                                       collapsedMenus.indexOf(
-                                        `${item.id}_${index}`
+                                        `${item.DirName}_${index}`
                                       ) === -1
                                         ? ''
                                         : 'collapsed'
                                     }`}
-                                    to={sub.to}
-                                    id={`${item.id}_${index}`}
+                                    to={sub.url}
+                                    id={`${item.DirName}_${index}`}
                                     onClick={(e) =>
                                       this.toggleMenuCollapse(
                                         e,
-                                        `${item.id}_${index}`
+                                        `${item.DirName}_${index}`
                                       )
                                     }
                                   >
                                     <i className="simple-icon-arrow-down" />{' '}
-                                    <IntlMessages id={sub.label} />
+                                    <IntlMessages id={sub.DirName} />
                                   </NavLink>
 
                                   <Collapse
                                     isOpen={
                                       collapsedMenus.indexOf(
-                                        `${item.id}_${index}`
+                                        `${item.DirName}_${index}`
                                       ) === -1
                                     }
                                   >
                                     <Nav className="third-level-menu">
-                                      {sub.subs.map((thirdSub, thirdIndex) => {
+                                      {sub.SubMenu.map((thirdSub, thirdIndex) => {
                                         return (
                                           <NavItem
-                                            key={`${item.id}_${index}_${thirdIndex}`}
+                                            key={`${item.DirName}_${index}_${thirdIndex}`}
                                           >
                                             {thirdSub.newWindow ? (
                                               <a
-                                                href={thirdSub.to}
+                                                href={thirdSub.url}
                                                 rel="noopener noreferrer"
                                                 target="_blank"
                                               >
-                                                <i className={thirdSub.icon} />{' '}
+                                                <i className={thirdSub.Thumbnail} />{' '}
                                                 <IntlMessages
-                                                  id={thirdSub.label}
+                                                  id={thirdSub.DirName}
                                                 />
                                               </a>
                                             ) : (
-                                              <NavLink to={thirdSub.to}>
-                                                <i className={thirdSub.icon} />{' '}
+                                              <NavLink to={thirdSub.url}>
+                                                <i className={thirdSub.Thumbnail} />{' '}
                                                 <IntlMessages
-                                                  id={thirdSub.label}
+                                                  id={thirdSub.DirName}
                                                 />
                                               </NavLink>
                                             )}
@@ -476,9 +500,9 @@ class Sidebar extends Component {
                                   </Collapse>
                                 </>
                               ) : (
-                                <NavLink to={sub.to}>
-                                  <i className={sub.icon} />{' '}
-                                  <IntlMessages id={sub.label} />
+                                <NavLink to={sub.url}>
+                                  <i className={sub.Thumbnail} />{' '}
+                                  <IntlMessages id={sub.DirName} />
                                 </NavLink>
                               )}
                             </NavItem>

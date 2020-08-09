@@ -10,6 +10,9 @@ const Dashboards = React.lazy(() =>
 const Pages = React.lazy(() =>
   import(/* webpackChunkName: "pages" */ './pages')
 );
+const Category = React.lazy(() =>
+  import(/* webpackChunkName: "pages" */ '../../views/category')
+);
 const Applications = React.lazy(() =>
   import(/* webpackChunkName: "applications" */ './applications')
 );
@@ -37,6 +40,10 @@ const App = ({ match }) => {
             <Route
               path={`${match.url}/applications`}
               render={(props) => <Applications {...props} />}
+            />
+            <Route
+              path={`${match.url}/category`}
+              render={(props) => <Category {...props} />}
             />
             <Route
               path={`${match.url}/pages`}

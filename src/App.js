@@ -13,6 +13,7 @@ import ColorSwitcher from './components/common/ColorSwitcher';
 import { NotificationContainer } from './components/common/react-notifications';
 import { isMultiColorActive, isDemo, adminRoot } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
+// import AppLayout from '../src/layout/AppLayout';
 
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app')
@@ -22,6 +23,9 @@ const ViewHome = React.lazy(() =>
 );
 const ViewUser = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/user')
+);
+const ViewCategory = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/category')
 );
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
@@ -80,6 +84,7 @@ class App extends React.Component {
             {isMultiColorActive && <ColorSwitcher />}
             <Suspense fallback={<div className="loading" />}>
               <Router>
+            {/* <AppLayout> */}
                 <Switch>
                   <AuthRoute
                     path={adminRoot}
@@ -95,6 +100,10 @@ class App extends React.Component {
                     exact
                     render={(props) => <ViewError {...props} />}
                   />
+                    <Route
+                    path="/app/category/:id"
+                    render={(props) => <ViewCategory {...props} />}
+                  />
                   <Route
                     path="/"
                     exact
@@ -107,6 +116,7 @@ class App extends React.Component {
                   /> */}
                   <Redirect to="/error" />
                 </Switch>
+            {/* </AppLayout> */}
               </Router>
             </Suspense>
           </>
