@@ -164,4 +164,4 @@ const mapStateToProps = ({ todoApp }) => {
 };
 export default connect(mapStateToProps, {
   addTodoItemAction: addTodoItem,
-})(AddNewTodoModal);
+})(AddNewTodoModal); 
