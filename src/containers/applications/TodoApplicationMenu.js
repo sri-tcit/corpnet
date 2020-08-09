@@ -168,7 +168,7 @@ const mapStateToProps = ({ todoApp }) => {
     labels,
     categories,
   };
-};
+}; 
 export default connect(mapStateToProps, {
   getTodoListWithFilterAction: getTodoListWithFilter,
 })(TodoApplicationMenu);
