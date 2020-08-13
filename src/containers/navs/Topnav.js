@@ -3,7 +3,8 @@
 /* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import { injectIntl } from 'react-intl';
-
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import axios from 'axios';
 import {
   UncontrolledDropdown,
   DropdownItem,
@@ -53,6 +54,8 @@ const TopNav = ({
 }) => {
   const [isInFullScreen, setIsInFullScreen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchResult, setsearchResult] = useState([]);
+  const [showSearchResult, setshowSearchResult] = useState(false);
 
   const search = () => {
     history.push(`${searchPath}?key=${searchKeyword}`);
@@ -111,6 +114,7 @@ const TopNav = ({
 
   const handleDocumentClickSearch = (e) => {
     let isSearchClick = false;
+
     if (
       e.target &&
       e.target.classList &&
@@ -142,6 +146,7 @@ const TopNav = ({
   };
 
   const addEventsSearch = () => {
+
     document.addEventListener('click', handleDocumentClickSearch, true);
   };
 
@@ -202,6 +207,29 @@ const TopNav = ({
   };
 
   const { messages } = intl;
+
+  /* Search Function */
+  const fetchSearchResult = (query) => {
+    if (query) {
+      var link = `http://148.72.206.209:93/api/Document/search/${query}`;
+      axios.get(link)
+        .then(res => {
+          if (res.status == 200) {
+            if (res.data.length > 0) {
+              setshowSearchResult(true);
+            }
+            setsearchResult(res.data)
+          }
+        })
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.classList.contains("search-item") && !e.target.classList.contains("form-control") && !e.target.classList.contains("scrollbar-container")) {
+     setshowSearchResult(false)
+    }
+  }, true);
+
   return (
     <nav className="navbar fixed-top">
       <div className="d-flex align-items-center navbar-left">
@@ -223,24 +251,44 @@ const TopNav = ({
         >
           <MobileMenuIcon />
         </NavLink>
+        <UncontrolledDropdown>
+          <div className="search">
+            <Input
+              name="searchKeyword"
+              id="searchKeyword"
+              autoComplete={false}
+              placeholder={messages['menu.search']}
+              value={searchKeyword}
+              onChange={(e) => { setSearchKeyword(e.target.value); fetchSearchResult(e.target.value) }}
+              onKeyPress={(e) => handleSearchInputKeyPress(e)}
 
-        <div className="search">
-          <Input
-            name="searchKeyword"
-            id="searchKeyword"
-            placeholder={messages['menu.search']}
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-            onKeyPress={(e) => handleSearchInputKeyPress(e)}
-          />
-          <span
-            className="search-icon"
-            onClick={(e) => handleSearchIconClick(e)}
-          >
-            <i className="simple-icon-magnifier" />
-          </span>
-        </div>
+            />
+            <span
+              className="search-icon"
+              onClick={(e) => handleSearchIconClick(e)}
+            >
+              <i className="simple-icon-magnifier" />
+            </span>
+            {/* top: "24px", left: "0px",  */}
+            {showSearchResult &&
+              <div role="menu" id="iconMenuDropdown" aria-hidden="false" className="position-absolute mt-3 dropdown-menu dropdown-menu-right show" x-placement="bottom-end" style={{ position: "absolute", willChange: "transform", width: "100%", borderRadius: "17px", overflowY: 'auto' }}>
+                <PerfectScrollbar
+                  options={{ suppressScrollX: true, wheelPropagation: false }}
+                >
+                  {searchResult.map((data, index) => {
+                    return <a key={data.id} className="search-item" target="_blank" href={data.DocPath}>
+                      {data.DocName}
+                      <span className="search-item-desc">
+                        {data.DocDescription}
+                      </span>
+                    </a>;
+                  })}
+                </PerfectScrollbar>
+              </div>
+            }
 
+          </div>
+        </UncontrolledDropdown>
         {/* <div className="d-inline-block">
           <UncontrolledDropdown className="ml-2">
             <DropdownToggle
@@ -264,7 +312,7 @@ const TopNav = ({
               })}
             </DropdownMenu>
           </UncontrolledDropdown>
-        </div> */}
+        </div>  */}
         {/* <div className="position-relative d-none d-none d-lg-inline-block">
           <a
             className="btn btn-outline-primary btn-sm ml-2"
@@ -275,7 +323,7 @@ const TopNav = ({
           </a>
         </div> */}
       </div>
-      <NavLink className="navbar-logo" to={adminRoot}>
+      <NavLink className="navbar-logo" to="/app/landingpage">
         <span className="logo d-none d-xs-block" />
         <span className="logo-mobile d-block d-xs-none" />
       </NavLink>
@@ -291,7 +339,7 @@ const TopNav = ({
             id="fullScreenButton"
             onClick={toggleFullScreen}
           > */}
-            {/* {isInFullScreen ? (
+          {/* {isInFullScreen ? (
               <i className="simple-icon-size-actual d-block" />
             ) : (
               <i className="simple-icon-size-fullscreen d-block" />
@@ -306,7 +354,7 @@ const TopNav = ({
                 <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
               </span>
             </DropdownToggle>
-            <DropdownMenu className="mt-3" right>
+            {/* <DropdownMenu className="mt-3" right>
               <DropdownItem>Account</DropdownItem>
               <DropdownItem>Features</DropdownItem>
               <DropdownItem>History</DropdownItem>
@@ -315,7 +363,7 @@ const TopNav = ({
               <DropdownItem onClick={() => handleLogout()}>
                 Sign out
               </DropdownItem>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </UncontrolledDropdown>
         </div>
       </div>

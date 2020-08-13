@@ -1,11 +1,36 @@
-import React from 'react';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import IntlMessages from '../../helpers/IntlMessages';
-import { adminRoot } from '../../constants/defaultValues';
+import React, { Component } from "react";
+import axios from 'axios';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+class TopnavEasyAccess extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            menus:[]
+        }
 
-const TopnavEasyAccess = () => {
+    }
+    componentWillMount() {
+        console.log('mount',this.state.menus.length)
+    }
+    componentDidMount() {
+        let _menus =[];
+  
+      var link =`http://148.72.206.209:93/api/Menu/CN`;
+      axios.get(link)
+              .then(res => {
+                  if (res.data) {
+                      console.log('result',)
+                    res.data.map((data)=>{
+                        _menus.push(data)
+                        this.setState({menus:_menus});
+                  })
+                }
+              })
+}
+  render() {
   return (
+    <>
     <div className="position-relative d-none d-sm-inline-block">
       <UncontrolledDropdown className="dropdown-menu-right">
         <DropdownToggle className="header-icon" color="empty">
@@ -16,35 +41,41 @@ const TopnavEasyAccess = () => {
           right
           id="iconMenuDropdown"
         >
-          <NavLink to={`${adminRoot}/dashboards/default`} className="icon-menu-item">
-            <i className="iconsminds-shop-4 d-block" />{' '}
-            <IntlMessages id="menu.dashboards" />
-          </NavLink>
+          <div className="al_line">
+    <a href="/app/landingpage" className="">
+        <i className="iconsminds-left-1 d-block"></i>
+        <span>Mashreq Intranet</span>
+    </a>
+        <div className="separator ">
 
-          <NavLink to={`${adminRoot}/ui`} className="icon-menu-item">
-            <i className="iconsminds-pantone d-block" />{' '}
-            <IntlMessages id="menu.ui" />
-          </NavLink>
-          <NavLink to={`${adminRoot}/ui/charts`} className="icon-menu-item">
-            <i className="iconsminds-bar-chart-4 d-block" />{' '}
-            <IntlMessages id="menu.charts" />
-          </NavLink>
-          <NavLink to={`${adminRoot}/applications/chat`} className="icon-menu-item">
-            <i className="iconsminds-speach-bubble d-block" />{' '}
-            <IntlMessages id="menu.chat" />
-          </NavLink>
-          <NavLink to={`${adminRoot}/applications/survey`} className="icon-menu-item">
-            <i className="iconsminds-formula d-block" />{' '}
-            <IntlMessages id="menu.survey" />
-          </NavLink>
-          <NavLink to={`${adminRoot}/applications/todo`} className="icon-menu-item">
-            <i className="iconsminds-check d-block" />{' '}
-            <IntlMessages id="menu.todo" />
-          </NavLink>
-        </DropdownMenu>
-      </UncontrolledDropdown>
+        </div>
+</div>
+
+    <div className="al_line fav">
+        <i className="simple-icon-star"></i>
+        <span>Favorites</span>
     </div>
-  );
-};
+{
+this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
+    
+        <a href={data.url} className="min_fied">
+        <div className="links_with_icon">
+        <i className={"glyph-icon "+ data.Thumbnail}></i>
+          <span>{data.DirName}</span>
+        </div>
+        </a>
+    )}
+    
+         </DropdownMenu>
+   
+     
+ </UncontrolledDropdown>
+ 
+ </div>
+ </> );
+         
+       };
+   // }
+ };
 
 export default TopnavEasyAccess;

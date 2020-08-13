@@ -24,18 +24,10 @@ class Sidebar extends Component {
   
   constructor(props) {
     super(props);
-    var _menuItems =[];
-    var link =`http://148.72.206.209:93/api/Menu/ALL`;
-    axios.get(link)
-      .then(res => {  
-        res.data.map((data)=>{
-          _menuItems.push(data)
-          console.log('this.state.menuItems',this.state.menuItems,res.data);
-        })
-      })
+   
     this.state = {
       selectedParentMenu: '',
-      menuItems : _menuItems,
+      menuItems : [],
       viewingParentMenu: '',
       collapsedMenus: []
     };
@@ -241,6 +233,7 @@ class Sidebar extends Component {
   };
 
   setHasSubItemStatus = () => {
+    // if(this.state.menuItems)
     const hasSubmenu = this.getIsHasSubItem();
     this.props.changeSelectedMenuHasSubItems(hasSubmenu);
     this.toggle();
@@ -248,7 +241,12 @@ class Sidebar extends Component {
 
   getIsHasSubItem = () => {
     const { selectedParentMenu } = this.state;
-    const menuItem = this.state.menuItems.find((x) => x.DirName === selectedParentMenu);
+     console.log('menuItem2',this.state.menuItems)
+
+    const Submenus=[];
+    Submenus.push(this.state.menuItems);
+    const menuItem = Submenus[0].find((x) => x.DirName === selectedParentMenu);
+    // console.log('menuItem2',menuItem,Submenus[0])
     if (menuItem)
       return !!(menuItem && menuItem.SubMenu && menuItem.SubMenu.length > 0);
     return false;
@@ -264,10 +262,21 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleWindowResize);
-    this.handleWindowResize();
-    this.handleProps();
-    this.setSelectedLiActive(this.setHasSubItemStatus);
+    let _menuItems =[];
+    var link =`http://148.72.206.209:93/api/Menu/ALL`;
+    axios.get(link)
+      .then(res => {  
+        res.data.map((data)=>{
+          _menuItems.push(data)
+          this.setState({menuItems:_menuItems});
+          window.addEventListener('resize', this.handleWindowResize);
+          this.handleWindowResize();
+          this.handleProps();
+          this.setSelectedLiActive(this.setHasSubItemStatus);
+          console.log('menuItems',this.state.menuItems,res.data);
+        })
+        
+      })
   }
 
   componentWillUnmount() {
@@ -408,14 +417,15 @@ class Sidebar extends Component {
               {this.state.menuItems &&
                 this.state.menuItems.map((item) => {
                   return (
-                    <Nav
+                    <Nav vertical className="list-unstyled"
                       key={item.DirName}
                       className={classnames({
-                        'd-block':
-                          (this.state.selectedParentMenu === item.DirName &&
-                            this.state.viewingParentMenu === '') ||
-                          this.state.viewingParentMenu === item.DirName,
-                      })}
+                          'd-block':
+                            (selectedParentMenu === item.DirName &&
+                              viewingParentMenu === '') ||
+                            viewingParentMenu === item.DirName,
+                        })}
+                       
                       data-parent={item.DirName}
                     >
                       {item.SubMenu &&
@@ -508,9 +518,10 @@ class Sidebar extends Component {
                             </NavItem>
                           );
                         })}
-                    </Nav>
+                          </Nav>                
                   );
                 })}
+               
             </PerfectScrollbar>
           </div>
         </div>

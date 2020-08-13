@@ -27,6 +27,12 @@ const ViewUser = React.lazy(() =>
 const ViewCategory = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/category')
 );
+const ViewGeneric = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/generic')
+);
+const ViewLanding = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/landingpage')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -105,9 +111,13 @@ class App extends React.Component {
                     render={(props) => <ViewCategory {...props} />}
                   />
                   <Route
+                  path="/app/generic/:id"
+                  render={(props) => <ViewGeneric {...props} />}
+                />
+                  <Route
                     path="/"
                     exact
-                    render={(props) =><Redirect to="/app/dashboards/default" /> }
+                    render={(props) => <Redirect to="/app/landingpage"/>}
                   />
                   {/* <Route
                     path="/"
