@@ -271,7 +271,7 @@ const TopNav = ({
             </span>
             {/* top: "24px", left: "0px",  */}
             {showSearchResult &&
-              <div role="menu" id="iconMenuDropdown" aria-hidden="false" className="position-absolute mt-3 dropdown-menu dropdown-menu-right show" x-placement="bottom-end" style={{ position: "absolute", willChange: "transform", width: "100%", borderRadius: "17px", overflowY: 'auto' }}>
+              <div role="menu" id="iconMenuDropdown" aria-hidden="false" className="position-absolute mt-3 dropdown-menu dropdown-menu-right show" x-placement="bottom-end" style={{ position: "absolute", willChange: "transform", width: "100%",  overflowY: 'auto' }}>
                 <PerfectScrollbar
                   options={{ suppressScrollX: true, wheelPropagation: false }}
                 >

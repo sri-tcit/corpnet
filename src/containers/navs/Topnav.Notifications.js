@@ -57,23 +57,29 @@ class TopnavNotifications extends Component {
 <>  
     <div className="position-relative d-inline-block">
          {/* <i className="simple-icon-bell" /> */}
+       
        <UncontrolledDropdown className="dropdown-menu-right">
-         <DropdownToggle
+       
+ <DropdownToggle
            className="header-icon notificationButton"
            color="empty"
          >
           <i className="simple-icon-bell" />
   <span className="count">{this.state.menus.length}</span>
            </DropdownToggle>
-
+          
           {/* <span className="count">3</span> */}
 
       <DropdownMenu
-          className="position-absolute mt-3 scroll"
+          className="position-absolute mt-3"
           right
            id="notificationDropdown"
-        >
-          {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
+        > 
+
+<PerfectScrollbar
+options={{ suppressScrollX: true, wheelPropagation: false  }}
+>    
+   {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
     <div className="scroll ps ps--active-y">
                             <div className="d-flex flex-row mb-3 pb-3 border-bottom">
                                 <a href={data.DocPath} target="_blank">
@@ -122,6 +128,7 @@ class TopnavNotifications extends Component {
                             </div> */}
                         </div>
           )}
+</PerfectScrollbar>
     
         </DropdownMenu>
   

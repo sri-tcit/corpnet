@@ -32,6 +32,7 @@ class TopnavEasyAccess extends Component {
   return (
     <>
     <div className="position-relative d-none d-sm-inline-block">
+
       <UncontrolledDropdown className="dropdown-menu-right">
         <DropdownToggle className="header-icon" color="empty">
           <i className="simple-icon-grid" />
@@ -41,6 +42,10 @@ class TopnavEasyAccess extends Component {
           right
           id="iconMenuDropdown"
         >
+
+    <PerfectScrollbar
+options={{ suppressScrollX: true, wheelPropagation: false }}
+> 
           <div className="al_line">
     <a href="/app/landingpage" className="">
         <i className="iconsminds-left-1 d-block"></i>
@@ -55,9 +60,10 @@ class TopnavEasyAccess extends Component {
         <i className="simple-icon-star"></i>
         <span>Favorites</span>
     </div>
+   
 {
 this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
-    
+
         <a href={data.url} className="min_fied">
         <div className="links_with_icon">
         <i className={"glyph-icon "+ data.Thumbnail}></i>
@@ -65,7 +71,8 @@ this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
         </div>
         </a>
     )}
-    
+ </PerfectScrollbar>
+
          </DropdownMenu>
    
      

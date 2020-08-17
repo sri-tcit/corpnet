@@ -794,6 +794,10 @@ li.list_acc a[aria-expanded="true"] i {
 i.simple-icon-star.show-on-hover {
     display: none;
 }
+i.simple-icon-star.color{
+    color: green;
+    // background-color: red;
+}
 button.btn.btn-link.acc_head:hover >.show-on-hover {
     display: inline-block !important;
     font-size: 14px;
@@ -835,7 +839,9 @@ a.invert_style {
 .h-400 {
     height: 400px;
 }
-.h-195{height: 205px;
+.h-195{
+    // overflow-y: scroll;
+    height: 205px;
     width: 335px;
     margin-left: -3px;}
 .box {
@@ -2462,14 +2468,12 @@ button {
         padding: 1.5rem !important;
         height: 280px;
         right: 15px;
-        overflow-y: scroll;
     }
 
     #iconMenuDropdown {
         width: 240px;
         padding: 1.5rem !important;
         height: 280px;
-        overflow-y: scroll;
     }
 
     .icon-menu-item {

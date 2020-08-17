@@ -241,12 +241,12 @@ class Sidebar extends Component {
 
   getIsHasSubItem = () => {
     const { selectedParentMenu } = this.state;
-     console.log('menuItem2',this.state.menuItems)
+     //console.log('menuItem2',this.state.menuItems)
 
     const Submenus=[];
     Submenus.push(this.state.menuItems);
     const menuItem = Submenus[0].find((x) => x.DirName === selectedParentMenu);
-    // console.log('menuItem2',menuItem,Submenus[0])
+    // //console.log('menuItem2',menuItem,Submenus[0])
     if (menuItem)
       return !!(menuItem && menuItem.SubMenu && menuItem.SubMenu.length > 0);
     return false;
@@ -273,7 +273,7 @@ class Sidebar extends Component {
           this.handleWindowResize();
           this.handleProps();
           this.setSelectedLiActive(this.setHasSubItemStatus);
-          console.log('menuItems',this.state.menuItems,res.data);
+          //console.log('menuItems',this.state.menuItems,res.data);
         })
         
       })
@@ -287,15 +287,15 @@ class Sidebar extends Component {
   openSubMenu = (e, menuItem) => {
     const Submenus=[];
     Submenus.push(menuItem);
-    console.log('menuItem',menuItem,Submenus?.length,Submenus[0]?.SubMenu?.length)
-    console.log('menuItem',Submenus.length,Submenus[0].SubMenu.length)
+    //console.log('menuItem',menuItem,Submenus?.length,Submenus[0]?.SubMenu?.length)
+    //console.log('menuItem',Submenus.length,Submenus[0].SubMenu.length)
     const selectedParent = menuItem.DirName;
     const hasSubMenu = Submenus.length && Submenus[0].SubMenu.length > 0;
     // const hasSubMenu =  menuItem.length > 0 ? menuItem.SubMenu:;
-      console.log('hasSubMenu',hasSubMenu,menuItem.SubMenu)
+      //console.log('hasSubMenu',hasSubMenu,menuItem.SubMenu)
       this.props.changeSelectedMenuHasSubItems(hasSubMenu);
     if (!hasSubMenu) {
-      console.log('hasSubMenu',hasSubMenu)
+      //console.log('hasSubMenu',hasSubMenu)
       this.setState({
         viewingParentMenu: selectedParent,
         selectedParentMenu: selectedParent,
