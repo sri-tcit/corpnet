@@ -11,7 +11,7 @@ class TopnavEasyAccess extends Component {
 
     }
     componentWillMount() {
-        console.log('mount',this.state.menus.length)
+        //console.log('mount',this.state.menus.length)
     }
     componentDidMount() {
         let _menus =[];
@@ -20,7 +20,7 @@ class TopnavEasyAccess extends Component {
       axios.get(link)
               .then(res => {
                   if (res.data) {
-                      console.log('result',)
+                      //console.log('result',)
                     res.data.map((data)=>{
                         _menus.push(data)
                         this.setState({menus:_menus});

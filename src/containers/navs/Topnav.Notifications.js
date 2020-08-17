@@ -26,12 +26,12 @@ class TopnavNotifications extends Component {
       else{
         minutes = _date.getMinutes();
       }
-      console.log('minutes',_date.getMinutes())
+      //console.log('minutes',_date.getMinutes())
          _date = _date.getDate() + "." + (_date.getMonth()+1) + "." + _date.getFullYear() + " - " + hours + ":"+ minutes
          return _date
          }
     componentWillMount() {
-        console.log('mount',this.state.menus.length)
+        //console.log('mount',this.state.menus.length)
     }
     componentDidMount() {
         let _menus =[];
@@ -40,7 +40,7 @@ class TopnavNotifications extends Component {
       axios.get(link)
               .then(res => {
                   if (res.data) {
-                      console.log('result',)
+                      //console.log('result',)
                     res.data.map((data)=>{
                         _menus.push(data)
                         this.setState({menus:_menus});
