@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { getAnimationType } from "react-scroll/modules/mixins/animate-scroll";
+import Parser from 'html-react-parser'; 
 import axios from 'axios';
 class category extends Component {
     constructor(props) {
@@ -12,9 +13,12 @@ class category extends Component {
         this.state = {
 
             baseUrl: "http://148.72.206.209:93/api/",
+            loader: false,
             result: [],
-            loader : false,
-            
+            document: []
+
+
+            //console.log('query', this.props.match.params.id)
         }
         this.hasFileOrDir = this.hasFileOrDir.bind(this)
     }
@@ -25,7 +29,7 @@ class category extends Component {
             e.stopPropagation();
             e.preventDefault();
         }
-        //console.log("Make Favourute" + id)
+        console.log("Make Favourute" + id)
     }
     getFileLists(data) {
 
@@ -46,7 +50,6 @@ class category extends Component {
                     result[i].show = false;
                 }
             }
-            //console.log(result)
             return { result };
 
         })
@@ -58,39 +61,23 @@ class category extends Component {
             return data.map((data, key) => {
                 return <li key={key} className={"list_acc" + (data.show == true ? '' : ' hide')}>
 
-                    <a style={{ cursor: 'pointer' }} data-toggle="collapse" data-target={"#inner_comp_" + data.id} className={!data.show ? 'collapsed' : ''} aria-expanded={data.show ? 'true' : 'false'}>
+                    <a style={{ cursor: 'pointer' }} data-toggle="collapse" data-target={"#inner_comp_" + data.ID} className={!data.show ? 'collapsed' : ''} aria-expanded={data.show ? 'true' : 'false'}>
                         <span onClick={() => this.showSubTree(data.ID)} >
                             <i className="iconsminds-folder"></i>
-                            {data.DirName &&
-                                <span className="d-inline-block">{data.DirName != '' ? data.DirName.replace("&amp;", "&") : ''} </span>
-                            } </span>
-                        {data.ShowFavourite &&
-
-                            <i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                        }
-                        {!data.ShowFavourite &&
-
-                            <i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                        }
-
+                            <span className="d-inline-block">{data.DirName.replace("&amp;", "&")} </span>
+                        </span>
+                        <i onClick={() => this.makeFavorite(data.ID)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
                     </a>
-
                     <span id={"inner_comp_" + data.ID} className="collapse show">
                         <ul className="list-unstyled inner-level-menu-new">
                             {data.show && data.Files && data.Files.map((file, fileIndex) =>
                                 <li key={fileIndex} className="list_acc second_level">
-                                    <a href={`${file.DocPath}`} target="_blank">
+                                    <a href={`${this.state.baseUrl}${file.DocPath}`} target="_blank">
                                         <i className="simple-icon-doc"></i>
                                         <span
                                             className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span>
-                                        {file.ShowFavourite &&
-
-                                            <i onClick={(e) => this.makeFavorite(file.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                                        }
-                                        {!file.ShowFavourite &&
-
-                                            <i onClick={(e) => this.makeFavorite(file.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                                        }   </a>
+                                        <i onClick={(e) => this.makeFavorite(file.id, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
+                                    </a>
                                 </li>
                             )
                             }
@@ -140,34 +127,54 @@ class category extends Component {
     getCategoryList(id) {
         id = id.split("/");
         id = id[id.length - 1];
-        this.setState({ result: [] , loader : true });
+        console.log();
+        this.setState({ document: [], result: [], loader: true });
         if (id) {
             var link = `http://148.72.206.209:93/api/directory/${id}`;
             axios.get(link)
                 .then(res => {
                     if (res.status == 200) {
-                        if (Object.keys(res.data[0]).length > 0)
-                            this.setState({ result: res.data[0]?.Dir , loader : false });
+                        let _res = [];
+                        if (res.data[1].hasOwnProperty('Content')) {
+                            if (res.data[1].Content[0].hasOwnProperty('Dir'))
+                                _res = res.data[1]?.Content[0]?.Dir;
+                            if (res.data[1].Content[0].hasOwnProperty('files')) {
+                                _res = [{
+                                    ID: res.data[0][0].Title[0].ID,
+                                    DirName: res.data[0][0].Title[0].DirName,
+                                    ShowFavourite: 0,
+                                    Files: res.data[1].Content[0].files
+                                }]
+                            }
+                            if (res.data[1].Content[0].hasOwnProperty('Files')) {
+                                _res = [{
+                                    ID: res.data[0][0].Title[0].ID,
+                                    DirName: res.data[0][0].Title[0].DirName,
+                                    ShowFavourite: 0,
+                                    Files: res.data[1].Content[0].Files
+                                }]
+                            }
+                        }
+                        var mainTitle = document.querySelector(".sidebar .active ").querySelector("a").getAttribute("data-flag")
+                        this.setState({ mainTitle: mainTitle, document: res.data[0][0].Title[0], result: _res, loader: false });
+                        // console.log(this.state);
                     }
                 })
         }
 
     }
 
-
     componentDidMount() {
         this.getCategoryList(this.props.location.pathname);
     }
 
 
-
     render() {
-
 
         return (
             <>
-            {this.state.loader && <div className="loading" /> }
-            {!this.state.loader &&   <div>
+                {this.state.loader && <div className="loading" />}
+                {!this.state.loader && <div>
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-12">
@@ -177,22 +184,26 @@ class category extends Component {
                                         <li className="breadcrumb-item">
                                             <a href="./index.html">Home</a>
                                         </li>
-                                        <li className="breadcrumb-item">
-                                            <a href="./index.html">SOP's</a>
+                                        {this.state.mainTitle &&
+                                            <li className="breadcrumb-item">
+                                                <a href="#">{this.state.mainTitle}</a>
+                                            </li>
+                                        }
+                                        {this.state.document && <li className="breadcrumb-item active" aria-current="page">
+                                        {Parser(" "+this.state.document.DirDescription)}
                                         </li>
-                                        <li className="breadcrumb-item active" aria-current="page">O &amp; T</li>
+                                        }
                                     </ol>
                                 </nav>
-                                <div className="head_top"> <h1>Standard Operating Procedures</h1></div>
+                                {this.state.document && <div className="head_top"> <h1>{Parser(" "+this.state.document.DirDescription)}</h1></div>}
 
                                 <div className="row">
                                     <div className="col-lg-12 col-sm-12 mb-4">
                                         <div className="card dashboard-progress height-auto">
                                             <div className="card-body ">
-                                                <h2 className="page_title">O &amp; T</h2>
+                                                {this.state.document && <h2 className="page_title">{Parser(" "+this.state.document.DirDescription)}</h2>}
                                                 <div className="col-lg-12">
                                                     <div className="row">
-
 
                                                         <div className="col-lg-6">
                                                             <div id="accordion" className="">
@@ -201,25 +212,16 @@ class category extends Component {
                                                                     Math.ceil(this.state.result.length / 2) > index &&
                                                                     <div key={data.ID + index} className="sec_acc ">
                                                                         <button className={"btn btn-link acc_head" + (data.show == true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show == true ? true : false} aria-controls="comp_1">
-                                                                            {data.DirName &&
-
-                                                                                <span onClick={() => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {data.DirName != '' ? data.DirName.replace("&amp;", "&") : ''}  </span>}
-                                                                            <i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
+                                                                            <span onClick={() => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {data.DirName.replace("&amp;", "&")}  </span> <i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
                                                                         </button>
                                                                         <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show == true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.Files?.length > 0 && data.Files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        {file.ShowFavourite &&
-                                                                                            <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
-                                                                                                <i className="simple-icon-doc"></i>
-                                                                                                <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span><i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                                                                                            </a>}
-                                                                                        {!file.ShowFavourite &&
-                                                                                            <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
-                                                                                                <i className="simple-icon-doc"></i>
-                                                                                                <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span><i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                                                                                            </a>}
+                                                                                        <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
+                                                                                            <i className="simple-icon-doc"></i>
+                                                                                            <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span><i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
+                                                                                        </a>
                                                                                     </li>
                                                                                 )}
                                                                                 {this.hasFileOrDir(data.Dir)}
@@ -238,26 +240,16 @@ class category extends Component {
                                                                     Math.ceil(this.state.result?.length / 2) <= index &&
                                                                     <div key={data.ID + index} className="sec_acc ">
                                                                         <button className={"btn btn-link acc_head" + (data.show == true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show == true ? true : false} aria-controls="comp_1">
-                                                                            {data.DirName &&
-                                                                                <span onClick={() => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {data.DirName != '' ? data.DirName.replace("&amp;", "&") : ''}  </span>} <i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-
+                                                                            <span onClick={() => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {data.DirName.replace("&amp;", "&")}  </span> <i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
                                                                         </button>
                                                                         <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show == true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.Files?.length > 0 && data.Files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        {file.ShowFavourite &&
-                                                                                            <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
-                                                                                                <i className="simple-icon-doc"></i>
-                                                                                                <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span><i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                                                                                            </a>
-                                                                                        }
-                                                                                        {!file.ShowFavourite &&
-                                                                                            <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
-                                                                                                <i className="simple-icon-doc"></i>
-                                                                                                <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span><i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
-                                                                                            </a>
-                                                                                        }
+                                                                                        <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
+                                                                                            <i className="simple-icon-doc"></i>
+                                                                                            <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span><i onClick={(e) => this.makeFavorite(data.ID, e)} data-brackets-id="15856" className="simple-icon-star show-on-hover"></i>
+                                                                                        </a>
                                                                                     </li>
                                                                                 )}
                                                                                 {this.hasFileOrDir(data.Dir)}
@@ -280,7 +272,7 @@ class category extends Component {
                         </div>
                     </div>
                 </div>
-    }
+                }
             </>
 
         );

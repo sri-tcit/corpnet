@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import Parser from 'html-react-parser'; 
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Tabs, Tab } from 'react-bootstrap-tabs';
 import {
@@ -17,6 +19,7 @@ import {
   Label,
 } from 'reactstrap';
 import IntlMessages from '../helpers/IntlMessages';
+
 class category extends Component {
 
   constructor(props) {
@@ -24,7 +27,8 @@ class category extends Component {
     // const [modalLong, setModalLong] = useState(false);
 
     this.state = {
-      menus: []
+      menus: [],
+      content: []
     }
 
   }
@@ -33,6 +37,7 @@ class category extends Component {
   }
   componentDidMount() {
     let _menus = [];
+    let _content = [];
 
     var link = `http://148.72.206.209:93/api/Menu/CN`;
     axios.get(link)
@@ -44,15 +49,29 @@ class category extends Component {
             this.setState({ menus: _menus });
           })
         }
-      })
+      })        
+      var contentLink = `http://148.72.206.209:93/api/Generic/page/0`;
+      console.log('result',contentLink)
+
+      axios.get(contentLink)
+        .then(res => {
+          console.log('result',res)
+          if (res.data) {
+            
+            res.data.map((data) => {
+              _content.push(data)
+              this.setState({ content: _content });
+            })
+          }
+        })
   }
   render() {
     return (
       <>
         <div className="row">
-          <div className="col-12">  <h1 className="main_head">CorpNet</h1>
+          {/* <div className="col-12">  <h1 className="main_head">CorpNet</h1>
             <div className="separator mb-5"></div>
-          </div>
+          </div> */}
 
 
           <div className="col-xl-8 col-lg-12 mb-4">
@@ -60,39 +79,91 @@ class category extends Component {
 
             <div className="banner-outer">
 
-              <div className="cta">
+              {/* <div className="cta">
                 <a href="">Click here</a>
 
-              </div>
+              </div> */}
             </div>
-          </div>
+       </div>
 
           <div className="col-md-6 col-lg-4 mb-4">
             <div className="card h-400">
               <div className="card-body">
-                <div className="img_sec">
+
+              {this.state.content?.length > 0 && this.state.content.map((data, index) =>
+              data.id==5  &&
+              
+              <div className="img_sec">
+              
+              
                   <img src="/assets/img/landing-page/applications/contact-banner.png" />
-                  <h3>Need help?</h3>
-                  <p>knackered cup of char show off show off pick your nose and blow off faff about it's all gone to pot tosser that so I said, happy days do one bite your arm off ummm I'm telling.</p>
-                  <div className="cta-contact"><a href="">i help</a> <span></span>
+                  <h3>{data.maintitle}</h3>
+                  <p>{data.pagecontent.length > 0 &&
+                  Parser(data.pagecontent.slice(0,400)) }
+                  {data.pagecontent.length > 400 && 
+               <div className="learn_more">
+                     
+                     <Link className="btn-link"  target="_self"
+                                      to={{
+                                          pathname: "/app/generic/5",
+                                          state: {
+                                              id: "5"
+
+                                          }
+                                      }}>
+                                   <br/>    <a href="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></a>
+                            </Link>
+                 
+                </div>
+                }
+                  </p>
+               
+              
+              
+              </div>
+              )}
+              <div className="cta-contact"><a href="">i help</a> <span></span>
                     <a href="" className="invert_style">+9714 45454545</a>
                   </div>
-
-
-
-
-                </div>
               </div>
+              
             </div>
           </div>
           <div className="row">
             <div className="col-lg-8 col-sm-12 mb-4">
               <div className="card dashboard-progress">
-
+              
                 <div className="card-body">
-                  <h2 className="title_cn">WELCOME TO CORPNET</h2>
-                  <p className="welcome_content">SOP knackered cup of char show off show off pick your nose and blow off faff about it's all gone to pot tosser that so I said, happy days do one bite your arm off ummm I'm telling.SOP knackered cup of char show off show off pick your nose and blow off faff about it's all gone to pot tosser that so I said, happy days do one bite your arm off ummm I'm telling.SOP knackered cup of char show off show off pick your nose and blow off faff about it's all gone to pot tosser that so I said, happy days do one bite your arm off ummm I'm telling.</p>
-                  <div className="block-section">
+              {this.state.content?.length > 0 && this.state.content.map((data, index) =>
+             data.id==4  &&
+              
+              <div>
+              <h2 className="title_cn">{data.maintitle}</h2>
+                  <p className="welcome_content">
+                  {data.pagecontent.length > 0 &&
+                    Parser(data.pagecontent.slice(0,450)) }
+                    {data.pagecontent.length > 400 && 
+                 <div className="learn_more">
+                       
+                       <Link className="btn-link"  target="_self"
+                                        to={{
+                                            pathname: "/app/generic/4",
+                                            state: {
+                                                id: "4"
+  
+                                            }
+                                        }}>
+                                     <br/>    <a href="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></a>
+                              </Link>
+                   
+                  </div>
+               }
+                    </p>
+                    </div>
+                
+                
+               )} 
+               <div className="block-section">
                     <div className="row">
                       {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
 
@@ -119,17 +190,43 @@ class category extends Component {
                     </div>
 
                   </div>
-
+                  </div>
                 </div>
+                
               </div>
-            </div>
+            
+            
             <div className="col-md-6 col-lg-4 col-12 mb-4 h-400">
-              <div className="imp_block"><h3>Corporate Affairs</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <div className="imp_block">
 
-                <div className="learn_more"><a href="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></a>
+              {this.state.content?.length > 0 && this.state.content.map((data, index) =>
+               data.id==6  &&
+              
+                    <div>
+                      <h3>{data.maintitle}</h3>
+                      <p>
+                        {data.pagecontent.length > 0 &&
+                          Parser(data.pagecontent.slice(0, 80))}
+                        {data.pagecontent.length >100 &&
+                          <div className="learn_more">
+
+                            <Link className="btn-link" target="_self"
+                              to={{
+                                pathname: "/app/generic/6",
+                                state: {
+                                  id: "6"
+
+                                }
+                              }}>
+                              <a href="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></a>
+                            </Link>
+
+                          </div>
+                        }
+                      </p> 
+                  </div>
+              )}
                 </div>
-              </div>
-
 
               <div className="card h-195">
                 {/* <div className="card-header pl-0 pr-0">
@@ -143,7 +240,7 @@ class category extends Component {
                 </ul>
               </div> */}
 
-                  <Tabs headerStyle={{  }}   onSelect={(index, label) => //console.log(`Selected Index: ${index}, Label: ${label}`)} selected={0}>
+                  <Tabs headerStyle={{  }}   onSelect={(index, label) => console.log(`Selected Index: ${index}, Label: ${label}`)} selected={0}>
                     <Tab label="Quick Links">
                       
                       <div className="card-body">
@@ -191,12 +288,6 @@ class category extends Component {
             </div>
 
           </div>
-          {/* </div>
-          </div> */}
-
-
-
-
         </div>
 
         <div className="row sortable extra_links">

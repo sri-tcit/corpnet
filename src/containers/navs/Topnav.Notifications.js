@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component,useState } from "react";
 import axios from 'axios';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Moment from 'moment';
+import DatePicker from 'react-datepicker';
+// (int) The current year
 class TopnavNotifications extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,7 @@ class TopnavNotifications extends Component {
         minutes = _date.getMinutes();
       }
       //console.log('minutes',_date.getMinutes())
-         _date = _date.getDate() + "." + (_date.getMonth()+1) + "." + _date.getFullYear() + " - " + hours + ":"+ minutes
+         _date =  " - " + hours + ":"+ minutes+" hours"
          return _date
          }
     componentWillMount() {
@@ -88,7 +90,9 @@ options={{ suppressScrollX: true, wheelPropagation: false  }}
                                 <div className="pl-3">
                                     <a href={data.DocPath}  target="_blank">
                                         <p className="font-weight-medium mb-1">{data.DocName}</p>
-          <p className="text-muted mb-0 text-small">{this.systemDateFormat(data.ModifiedDate)}</p>
+          <p className="text-muted mb-0 text-small">
+              {/* <DatePicker selected={startDate} dateFormat="MMMM eeee d,yyyy h:mm aa"></DatePicker> */}
+   {Moment(data.ModifiedDate).format("ddd, MMM DD,yyyy")}{this.systemDateFormat(data.ModifiedDate)}</p>
                                     </a>
                                 </div>
                             </div>
