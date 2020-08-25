@@ -394,6 +394,31 @@ $error-color: #c43d4b;
 //     color: #848484;
 // }
 //shanmug css
+.justify-center{
+    justify-content: space-around;
+    flex: 1;
+    display: flex;
+}
+.justify-center button{
+ border-radius : 10px;
+}
+.row-remove{
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.admin li.list_acc.second_level {
+    padding-left: 0px !important; 
+    margin-left: -40px;
+}
+.title{
+  padding-top: 10px;
+  padding-left: 10px;
+}
+.fav-icon{
+    color: #ed7117 !important;
+    font-weight: 600;
+}
 .search-item{
     display: block;
     padding: 10px 0px;

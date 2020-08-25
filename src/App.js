@@ -33,6 +33,9 @@ const ViewGeneric = React.lazy(() =>
 const ViewLanding = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/landingpage')
 );
+const ViewMenuSelection = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/menuselection')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -114,10 +117,14 @@ class App extends React.Component {
                   path="/app/generic/:id"
                   render={(props) => <ViewGeneric {...props} />}
                 />
+                <Route
+                path="/app/menuselection/"
+                render={(props) => <ViewMenuSelection {...props} />}
+              />
                   <Route
                     path="/"
                     exact
-                    render={(props) => <Redirect to="/app/landingpage"/>}
+                    render={(props) => <Redirect to="/app/home"/>}
                   />
                   {/* <Route
                     path="/"

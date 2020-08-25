@@ -19,14 +19,16 @@ import {
   Label,
 } from 'reactstrap';
 import IntlMessages from '../helpers/IntlMessages';
+import { api } from '../views/Shared/baseurl-api';
 
-class category extends Component {
+class landingpage extends Component {
 
   constructor(props) {
     super(props);
     // const [modalLong, setModalLong] = useState(false);
 
     this.state = {
+      baseurl:api,
       menus: [],
       content: []
     }
@@ -39,7 +41,7 @@ class category extends Component {
     let _menus = [];
     let _content = [];
 
-    var link = `http://148.72.206.209:93/api/Menu/CN`;
+    var link = this.state.baseurl + `Menu/CN`;
     axios.get(link)
       .then(res => {
         if (res.data) {
@@ -50,7 +52,7 @@ class category extends Component {
           })
         }
       })        
-      var contentLink = `http://148.72.206.209:93/api/Generic/page/0`;
+      var contentLink = this.state.baseurl + `Generic/page/0`;
       console.log('result',contentLink)
 
       axios.get(contentLink)
@@ -351,5 +353,5 @@ class category extends Component {
   };
 }
 
-category.propTypes = {}
-export default category;
+landingpage.propTypes = {}
+export default landingpage;

@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { Component } from "react";
+import { api } from '../views/Shared/baseurl-api';
 import Parser from 'html-react-parser'; 
 class generic extends Component {
     constructor(props) {
         super(props);
         //console.log("generic", this.props)
         this.state = {
-            result: []
+      baseurl:api,
+      result: []
         }
         this.loadData = this.loadData.bind(this)
 
@@ -22,7 +24,7 @@ class generic extends Component {
     loadData(prop) {
         let _result = [];
         //console.log('loadData', prop, this.props.location.state.id)
-        var link = `http://148.72.206.209:93/api/Generic/page/` + prop;
+        var link = this.state.baseurl + `Generic/page/` + prop;
         //console.log('link', link)
         axios.get(link)
             .then(res => {

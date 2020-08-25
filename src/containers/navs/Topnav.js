@@ -39,8 +39,11 @@ import TopnavNotifications from './Topnav.Notifications';
 import TopnavDarkSwitch from './Topnav.DarkSwitch';
 
 import { getDirection, setDirection } from '../../helpers/Utils';
+import { api } from '../../views/Shared/baseurl-api';
 
 const TopNav = ({
+  
+
   intl,
   history,
   containerClassnames,
@@ -211,7 +214,7 @@ const TopNav = ({
   /* Search Function */
   const fetchSearchResult = (query) => {
     if (query) {
-      var link = `http://148.72.206.209:93/api/Document/search/${query}`;
+      var link = api + `Document/search/${query}`;
       axios.get(link)
         .then(res => {
           if (res.status == 200) {
@@ -256,7 +259,6 @@ const TopNav = ({
             <Input
               name="searchKeyword"
               id="searchKeyword"
-              autoComplete={false}
               placeholder={messages['menu.search']}
               value={searchKeyword}
               onChange={(e) => { setSearchKeyword(e.target.value); fetchSearchResult(e.target.value) }}
@@ -323,7 +325,7 @@ const TopNav = ({
           </a>
         </div> */}
       </div>
-      <NavLink className="navbar-logo" to="/app/landingpage">
+      <NavLink className="navbar-logo" to="/app/home">
         <span className="logo d-none d-xs-block" />
         <span className="logo-mobile d-block d-xs-none" />
       </NavLink>
@@ -331,8 +333,14 @@ const TopNav = ({
       <div className="navbar-right">
         {/* {isDarkSwitchActive && <TopnavDarkSwitch />} */}
         <div className="header-icons d-inline-block align-middle">
-          <TopnavEasyAccess />
+          <TopnavEasyAccess  />
           <TopnavNotifications />
+          {/* <button
+            className="header-icon btn btn-empty d-none d-sm-inline-block"
+            type="button"
+            onClick={TopnavNotifications}
+          >
+            </button> */}
           {/* <button
             className="header-icon btn btn-empty d-none d-sm-inline-block"
             type="button"
@@ -386,6 +394,7 @@ export default injectIntl(
     setContainerClassnamesAction: setContainerClassnames,
     clickOnMobileMenuAction: clickOnMobileMenu,
     logoutUserAction: logoutUser,
-    changeLocaleAction: changeLocale,
+      changeLocaleAction: changeLocale,
+    
   })(TopNav)
 );

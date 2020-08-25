@@ -370,9 +370,10 @@ class Sidebar extends Component {
               options={{ suppressScrollX: true, wheelPropagation: false }}
             >
               <Nav vertical className="list-unstyled">
-                {this.state.menuItems &&
+                {this.state.menuItems && 
                   this.state.menuItems.map((item) => {
                     return (
+                      item.ShowLeftNav &&
                       <NavItem
                         key={item.DirName}
                         className={classnames({
@@ -389,7 +390,7 @@ class Sidebar extends Component {
                             target="_blank"
                           >
                             <i className={item.Thumbnail} />{' '}
-                            <IntlMessages id={item.DirName} />
+                           {item.DirName} 
                           </a>
                         ) : (
                           <NavLink
@@ -398,7 +399,7 @@ class Sidebar extends Component {
                             data-flag={item.DirName}
                           >
                             <i className={item.Thumbnail} />{' '}
-                            <IntlMessages id={item.DirName} />
+                           {item.DirName}
                           </NavLink>
                         )}
                       </NavItem>
@@ -415,8 +416,11 @@ class Sidebar extends Component {
               options={{ suppressScrollX: true, wheelPropagation: false }}
             >
               {this.state.menuItems &&
-                this.state.menuItems.map((item) => {
+                this.state.menuItems.map((item) => 
+                {
+                  
                   return (
+                    item.ShowLeftNav &&
                     <Nav vertical className="list-unstyled"
                       key={item.DirName}
                       className={classnames({
@@ -446,7 +450,7 @@ class Sidebar extends Component {
                                   target="_blank"
                                 >
                                   <i className={sub.Thumbnail} />{' '}
-                                  <IntlMessages id={sub.DirName} />
+                                 {sub.DirName} 
                                 </a>
                               ) : sub.SubMenu && sub.SubMenu.length > 0 ? (
                                 <>
@@ -468,7 +472,7 @@ class Sidebar extends Component {
                                     }
                                   >
                                     <i className="simple-icon-arrow-down" />{' '}
-                                    <IntlMessages id={sub.DirName} />
+                                   {sub.DirName}
                                   </NavLink>
 
                                   <Collapse
@@ -482,7 +486,7 @@ class Sidebar extends Component {
                                       {sub.SubMenu.map((thirdSub, thirdIndex) => {
                                         return (
                                           <NavItem
-                                            key={`${item.DirName}_${index}_${thirdIndex}`}
+                                            key={`${item.DirName}${index}${thirdIndex}`}
                                           >
                                             {thirdSub.newWindow ? (
                                               <a
@@ -491,16 +495,14 @@ class Sidebar extends Component {
                                                 target="_blank"
                                               >
                                                 <i className={thirdSub.Thumbnail} />{' '}
-                                                <IntlMessages
-                                                  id={thirdSub.DirName}
-                                                />
+                                               {thirdSub.DirName}
+                                                
                                               </a>
                                             ) : (
                                               <NavLink to={thirdSub.url}>
                                                 <i className={thirdSub.Thumbnail} />{' '}
-                                                <IntlMessages
-                                                  id={thirdSub.DirName}
-                                                />
+                                               {thirdSub.DirName}
+                                               
                                               </NavLink>
                                             )}
                                           </NavItem>
@@ -512,7 +514,7 @@ class Sidebar extends Component {
                               ) : (
                                 <NavLink to={sub.url}>
                                   <i className={sub.Thumbnail} />{' '}
-                                  <IntlMessages id={sub.DirName} />
+                                  {sub.DirName}
                                 </NavLink>
                               )}
                             </NavItem>

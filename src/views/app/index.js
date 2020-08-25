@@ -16,6 +16,12 @@ const Category = React.lazy(() =>
 const Landing = React.lazy(() =>
   import(/* webpackChunkName: "pages" */ '../../views/landingpage')
 );
+const Home = React.lazy(() =>
+  import(/* webpackChunkName: "pages" */ '../../views/home')
+);
+const MenuSelection = React.lazy(() =>
+  import(/* webpackChunkName: "pages" */ '../../views/menuselection')
+);
 const Generic = React.lazy(() =>
   import(/* webpackChunkName: "pages" */ '../../views/generic')
 );
@@ -54,6 +60,14 @@ const App = ({ match }) => {
             <Route
               path={`${match.url}/landingpage`}
               render={(props) => <Landing {...props} />}
+            />
+            <Route
+              path={`${match.url}/home`}
+              render={(props) => <Home {...props} />}
+            />
+            <Route
+              path={`${match.url}/menuselection`}
+              render={(props) => <MenuSelection {...props} />}
             />
             <Route
               path={`${match.url}/generic`}

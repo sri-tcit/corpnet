@@ -1,22 +1,28 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
+import { api } from '../../views/Shared/baseurl-api';
+
 import PerfectScrollbar from 'react-perfect-scrollbar';
 class TopnavEasyAccess extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            menus:[]
+      baseurl:api,
+      menus:[]
         }
 
     }
     componentWillMount() {
         //console.log('mount',this.state.menus.length)
     }
+    componentDidUpdate(){
+      console.log("Cmponent DId Update")
+    }
     componentDidMount() {
         let _menus =[];
   
-      var link =`http://148.72.206.209:93/api/Menu/CN`;
+      var link =this.state.baseurl + `Favourite/admin`;
       axios.get(link)
               .then(res => {
                   if (res.data) {
@@ -29,7 +35,9 @@ class TopnavEasyAccess extends Component {
               })
 }
   render() {
-  return (
+    console.log("res");
+    return (
+    
     <>
     <div className="position-relative d-none d-sm-inline-block">
 
@@ -47,7 +55,7 @@ class TopnavEasyAccess extends Component {
 options={{ suppressScrollX: true, wheelPropagation: false }}
 > 
           <div className="al_line">
-    <a href="/app/landingpage" className="">
+    <a href="/app/home" className="">
         <i className="iconsminds-left-1 d-block"></i>
         <span>Mashreq Intranet</span>
     </a>
@@ -62,12 +70,12 @@ options={{ suppressScrollX: true, wheelPropagation: false }}
     </div>
    
 {
-this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
+this.state.menus?.length > 0 && this.state.menus.map((data) =>
 
-        <a href={data.url} className="min_fied">
+        <a href={`${this.state.baseUrl}${data.DocPath}`} target="_blank" className="min_fied">
         <div className="links_with_icon">
-        <i className={"glyph-icon "+ data.Thumbnail}></i>
-          <span>{data.DirName}</span>
+        <i className="simple-icon-star"></i>
+          <span>{data.FavName}</span>
         </div>
         </a>
     )}
