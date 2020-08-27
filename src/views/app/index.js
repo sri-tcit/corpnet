@@ -4,17 +4,14 @@ import { connect } from 'react-redux';
 
 import AppLayout from '../../layout/AppLayout';
 
-const Dashboards = React.lazy(() =>
-  import(/* webpackChunkName: "dashboards" */ './dashboards')
-);
-const Pages = React.lazy(() =>
-  import(/* webpackChunkName: "pages" */ './pages')
-);
+// const Dashboards = React.lazy(() =>
+//   import(/* webpackChunkName: "dashboards" */ './dashboards')
+// );
+// const Pages = React.lazy(() =>
+//   import(/* webpackChunkName: "pages" */ './pages')
+// );
 const Category = React.lazy(() =>
   import(/* webpackChunkName: "pages" */ '../../views/category')
-);
-const Landing = React.lazy(() =>
-  import(/* webpackChunkName: "pages" */ '../../views/landingpage')
 );
 const Home = React.lazy(() =>
   import(/* webpackChunkName: "pages" */ '../../views/home')
@@ -25,14 +22,26 @@ const MenuSelection = React.lazy(() =>
 const Generic = React.lazy(() =>
   import(/* webpackChunkName: "pages" */ '../../views/generic')
 );
-const Applications = React.lazy(() =>
-  import(/* webpackChunkName: "applications" */ './applications')
+const CategoryAdmin = React.lazy(() =>
+  import(/* webpackChunkName: "pages" */ '../../views/categoryAdmin')
 );
-const Ui = React.lazy(() => import(/* webpackChunkName: "ui" */ './ui'));
-const Menu = React.lazy(() => import(/* webpackChunkName: "menu" */ './menu'));
-const BlankPage = React.lazy(() =>
-  import(/* webpackChunkName: "blank-page" */ './blank-page')
+const ViewAdminMenus = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ '../../views/adminmenus')
 );
+const ViewAdminRoles = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ '../../views/adminroles')
+);
+const ViewAdminContent = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ '../../views/admincontent')
+);
+// const Applications = React.lazy(() =>
+//   import(/* webpackChunkName: "applications" */ './applications')
+// );
+// const Ui = React.lazy(() => import(/* webpackChunkName: "ui" */ './ui'));
+// const Menu = React.lazy(() => import(/* webpackChunkName: "menu" */ './menu'));
+// const BlankPage = React.lazy(() =>
+//   import(/* webpackChunkName: "blank-page" */ './blank-page')
+// );
 
 const App = ({ match }) => {
   return (
@@ -40,7 +49,7 @@ const App = ({ match }) => {
       <div className="dashboard-wrapper">
         <Suspense fallback={<div className="loading" />}>
           <Switch>
-            <Redirect
+            {/* <Redirect
               exact
               from={`${match.url}/`}
               to={`${match.url}/dashboards`}
@@ -48,18 +57,14 @@ const App = ({ match }) => {
             <Route
               path={`${match.url}/dashboards`}
               render={(props) => <Dashboards {...props} />}
-            />
-            <Route
+            /> */}
+            {/* <Route
               path={`${match.url}/applications`}
               render={(props) => <Applications {...props} />}
-            />
+            /> */}
             <Route
               path={`${match.url}/category`}
               render={(props) => <Category {...props} />}
-            />
-            <Route
-              path={`${match.url}/landingpage`}
-              render={(props) => <Landing {...props} />}
             />
             <Route
               path={`${match.url}/home`}
@@ -74,6 +79,22 @@ const App = ({ match }) => {
               render={(props) => <Generic {...props} />}
             />
             <Route
+              path={`${match.url}/categoryAdmin`}
+              render={(props) => <CategoryAdmin {...props} />}
+            />
+            <Route
+              path={`${match.url}/adminmenus`}
+              render={(props) => <ViewAdminMenus {...props} />}
+            />
+            <Route
+              path={`${match.url}/adminroles`}
+              render={(props) => <ViewAdminRoles {...props} />}
+            />
+            <Route
+              path={`${match.url}/admincontent`}
+              render={(props) => <ViewAdminContent {...props} />}
+            />
+            {/* <Route
               path={`${match.url}/pages`}
               render={(props) => <Pages {...props} />}
             />
@@ -84,11 +105,11 @@ const App = ({ match }) => {
             <Route
               path={`${match.url}/menu`}
               render={(props) => <Menu {...props} />}
-            />
-            <Route
+            /> */}
+            {/* <Route
               path={`${match.url}/blank-page`}
               render={(props) => <BlankPage {...props} />}
-            />
+            /> */}
             <Redirect to="/error" />
           </Switch>
         </Suspense>

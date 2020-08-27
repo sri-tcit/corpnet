@@ -14,6 +14,7 @@ class category extends Component {
         this.state = {
 
             baseUrl: "http://148.72.206.209:93/api/",
+            docBaseUrl: "http://148.72.206.209:93/",
             loader: false,
             result: [],
             document: []
@@ -311,7 +312,7 @@ class category extends Component {
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
+                                                                                        <a href={`${this.state.docBaseUrl + 'data/SOP/sample.pdf'}`} target="_blank">
                                                                                             <i className="simple-icon-doc"></i>
                                                                                             <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}  </span><i onClick={(e) => this.makeFavorite(file.ID, e, 2, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>

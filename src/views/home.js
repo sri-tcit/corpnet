@@ -148,16 +148,16 @@
 // ];
 
 // const themes = [
-//   { title: "Navy Blue", class: "bluenavy" },
-//   { title: "Olympic Blue", class: "blueolympic" },
-//   { title: "Yale Blue", class: "blueyale" },
-//   { title: "Moss Green", class: "greenmoss" },
-//   { title: "Lime Green", class: "greenlime" },
-//   { title: "Carrot Orange", class: "carrotorange" },
-//   { title: "Ruby Red", class: "rubyred" },
-//   { title: "Monster Purple", class: "monsterpurple" },
-//   { title: "Steel Grey", class: "steelgrey" },
-//   { title: "Granola Yellow", class: "granolayellow" },
+//   { title: "Navy Blue", className: "bluenavy" },
+//   { title: "Olympic Blue", className: "blueolympic" },
+//   { title: "Yale Blue", className: "blueyale" },
+//   { title: "Moss Green", className: "greenmoss" },
+//   { title: "Lime Green", className: "greenlime" },
+//   { title: "Carrot Orange", className: "carrotorange" },
+//   { title: "Ruby Red", className: "rubyred" },
+//   { title: "Monster Purple", className: "monsterpurple" },
+//   { title: "Steel Grey", className: "steelgrey" },
+//   { title: "Granola Yellow", className: "granolayellow" },
 // ];
 
 
@@ -229,18 +229,18 @@
 //       <div className="mobile-menu" onClick={(event) => event.stopPropagation()} >
 //         <a className="logo-mobile c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'home')} >
 //           <span></span>
-//         </a>
+//         </NavLink>
 //         <ul className="navbar-nav">
-//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'features')}>FEATURES</a></li>
-//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'layouts')}>LAYOUTS</a></li>
-//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'components')}>COMPONENTS</a></li>
-//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'apps')}>APPS</a></li>
-//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'themes')}>THEMES</a></li>
+//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'features')}>FEATURES</NavLink></li>
+//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'layouts')}>LAYOUTS</NavLink></li>
+//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'components')}>COMPONENTS</NavLink></li>
+//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'apps')}>APPS</NavLink></li>
+//           <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'themes')}>THEMES</NavLink></li>
 //           <li className="nav-item">
 //             <div className="separator"></div>
 //           </li>
 //           <li className="nav-item text-center">
-//             <a className="btn btn-outline-primary btn-sm mobile-menu-cta" target="_blank" rel="noopener noreferrer" href={buyUrl}>BUY</a>
+//             <a className="btn btn-outline-primary btn-sm mobile-menu-cta" target="_blank" rel="noopener noreferrer" href={buyUrl}>BUY</NavLink>
 //           </li>
 //         </ul>
 //       </div>
@@ -252,17 +252,17 @@
 //               <a className="navbar-logo pull-left c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'home')}>
 //                 <span className="white"></span>
 //                 <span className="dark"></span>
-//               </a>
+//               </NavLink>
 //               <ul className="navbar-nav d-none d-lg-flex flex-row">
-//                 {/* <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'features')}>FEATURES</a></li>
-//                 <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'layouts')}>LAYOUTS</a></li>
-//                 <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'components')}>COMPONENTS</a>
+//                 {/* <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'features')}>FEATURES</NavLink></li>
+//                 <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'layouts')}>LAYOUTS</NavLink></li>
+//                 <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'components')}>COMPONENTS</NavLink>
 //                 </li> */}
-//                 <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'apps')}>APPS</a></li>
-//                 {/* <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'themes')}>THEMES</a></li>
+//                 <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'apps')}>APPS</NavLink></li>
+//                 {/* <li className="nav-item"><a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'themes')}>THEMES</NavLink></li>
 //                 <li className="nav-item pl-4">
 //                   <a className="btn btn-outline-semi-light btn-sm pr-4 pl-4" target="_blank" rel="noopener noreferrer"
-//                     href={buyUrl}>BUY</a>
+//                     href={buyUrl}>BUY</NavLink>
 //                 </li> */}
 //               </ul>
 //               <span className="mobile-menu-button" onClick={(event) => { setShowMobileMenu(!showMobileMenu); event.stopPropagation() }}>
@@ -331,7 +331,7 @@
 //                 <a className="btn btn-circle btn-outline-semi-light hero-circle-button"
 //                   href="#scroll" onClick={(event) => scrollTo(event, 'features')}>
 //                   <i className="simple-icon-arrow-down"></i>
-//                 </a>
+//                 </NavLink>
 //               </div>
 //             </div>
 //           </div>
@@ -453,10 +453,10 @@
 //                     {
 //                       applications.map((app, index) => (
 //                         <NavItem key={`app_nav_${index}`}>
-//                           <a href="#tab"
+//                           <NavLink to="#tab"
 //                             className={classnames({ 'nav-link':true, active: activeTab === index})}
 //                             onClick={(event) => { event.preventDefault(); toggle(index); }}
-//                           >{app.title}</a>
+//                           >{app.title}</NavLink>
 //                         </NavItem>
 //                       ))
 //                     }
@@ -499,14 +499,14 @@
 //                     <div className="col-12 col-md-6 col-lg-4 offset-lg-2 mb-3">
 //                       <div className="depth-2 color-container">
 //                         {['left', 'center', 'right'].map((align, i) => (
-//                           <div key={`light_${index}_${i}`} className={t.class + '-light-' + (i + 1) + ' color-' + align}></div>
+//                           <div key={`light_${index}_${i}`} className={t.className + '-light-' + (i + 1) + ' color-' + align}></div>
 //                         ))}
 //                       </div>
 //                     </div>
 //                     <div className="col-12 col-md-6 col-lg-4 mb-3">
 //                       <div className="depth-2 color-container">
 //                         {['left', 'center', 'right'].map((align, i) => (
-//                           <div key={`dark_${index}_${i}`} className={t.class + '-dark-' + (i + 1) + ' color-' + align}></div>
+//                           <div key={`dark_${index}_${i}`} className={t.className + '-dark-' + (i + 1) + ' color-' + align}></div>
 //                         ))}
 //                       </div>
 //                     </div>
@@ -525,7 +525,7 @@
 //                 </div>
 //                 <div className="col-12 offset-0 col-lg-6 offset-lg-3 newsletter-input-container">
 //                   <div className="text-center mb-3">
-//                     <a className="btn btn-secondary btn-xl" target="_blank" rel="noopener noreferrer" href={buyUrl}>BUY NOW</a>
+//                     <a className="btn btn-secondary btn-xl" target="_blank" rel="noopener noreferrer" href={buyUrl}>BUY NOW</NavLink>
 //                   </div>
 //                 </div>
 //               </div>
@@ -537,13 +537,13 @@
 //               <div className="row footer-row">
 //                 <div className="col-12 text-right">
 //                   <a className="btn btn-circle btn-outline-semi-light footer-circle-button c-pointer"
-//                     href="#scroll" onClick={(event) => scrollTo(event, 'home')}><i className="simple-icon-arrow-up"></i></a>
+//                     href="#scroll" onClick={(event) => scrollTo(event, 'home')}><i className="simple-icon-arrow-up"></i></NavLink>
 //                 </div>
 //                 <div className="col-12 text-center footer-content">
 //                   <a className="c-pointer" href="#scroll" onClick={(event) => scrollTo(event, 'home')}>
 //                     <img className="footer-logo" alt="footer logo"
 //                       src="/assets/logos/white-full.svg" />
-//                   </a>
+//                   </NavLink>
 //                 </div>
 //               </div>
 //             </div>
@@ -567,7 +567,7 @@
 import React, { Component } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Parser from 'html-react-parser'; 
-import { Link } from 'react-router-dom';
+import { Link,NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { Tabs, Tab } from 'react-bootstrap-tabs';
 
@@ -588,7 +588,7 @@ import {
 } from 'reactstrap';
 import IntlMessages from '../helpers/IntlMessages';
 
-class Home extends Component {
+class home extends Component {
 
   constructor(props) {
     super(props);
@@ -646,13 +646,44 @@ class Home extends Component {
           <div className="col-xl-8 col-lg-12 mb-4">
 
 
-            <div className="banner-outer">
-
-              {/* <div className="cta">
-                <a href="">Click here</a>
-
-              </div> */}
-            </div>
+            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+              <ol className="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              </ol>
+              <div className="carousel-inner">
+                <div className="banner-outer-1 carousel-item active">
+                 
+         <div className="carousel-caption d-none d-md-block">
+                      <h5>Sample test</h5>
+                      <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
+                    </div>
+    </div>
+                  <div className="banner-outer-2 carousel-item">
+                 
+        <div className="carousel-caption d-none d-md-block">
+                        <h5>Sample test</h5>
+                        <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
+                      </div>
+    </div>
+                    <div className="banner-outer-3 carousel-item">
+                    
+        <div className="carousel-caption d-none d-md-block">
+                          <h5>Sample test</h5>
+                          <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
+                        </div>
+    </div>
+                    </div>
+                    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span className="sr-only">Previous</span>
+                    </a>
+                    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span className="sr-only">Next</span>
+                    </a>
+                  </div>
        </div>
 
           <div className="col-md-6 col-lg-4 mb-4">
@@ -680,8 +711,8 @@ class Home extends Component {
 
                                           }
                                       }}>
-                                   <br/>    <a href="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></a>
                             </Link>
+                            <br/>    <NavLink to="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></NavLink>
                  
                 </div>
                 }
@@ -691,8 +722,8 @@ class Home extends Component {
               
               </div>
               )}
-              <div className="cta-contact"><a href="">i help</a> <span></span>
-                    <a href="" className="invert_style">+9714 45454545</a>
+              <div className="cta-contact"><NavLink to="">i help</NavLink> <span></span>
+                    <NavLink to="" className="invert_style">+9714 45454545</NavLink>
                   </div>
               </div>
               
@@ -708,7 +739,7 @@ class Home extends Component {
               
               <div>
               <h2 className="title_cn">{data.maintitle}</h2>
-                  <p className="welcome_content">
+                  <span className="welcome_content">
                   {data.pagecontent.length > 0 &&
                     Parser(data.pagecontent.slice(0,450)) }
                     {data.pagecontent.length > 400 && 
@@ -722,12 +753,12 @@ class Home extends Component {
   
                                             }
                                         }}>
-                                     <br/>    <a href="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></a>
                               </Link>
+                              <br/>    <NavLink to="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></NavLink>
                    
                   </div>
                }
-                    </p>
+                    </span>
                     </div>
                 
                 
@@ -740,7 +771,7 @@ class Home extends Component {
                           <div className="inner-block">
                             {data.ShowContNav &&
 
-                              <a href={data.url} className="box_sec">
+                              <NavLink to={data.url} className="box_sec">
                                 <div className={"glyph-icon " + data.Thumbnail + " icons_new  "}></div>
                                 <div className="p_content">
 
@@ -748,7 +779,7 @@ class Home extends Component {
                                   <p className="text-muted mb-0 text-small">{data.DirDescription}</p>
 
                                 </div>
-                              </a>
+                              </NavLink>
                             }
                           </div>
 
@@ -773,7 +804,7 @@ class Home extends Component {
               
                     <div>
                       <h3>{data.maintitle}</h3>
-                      <p>
+                      <span>
                         {data.pagecontent.length > 0 &&
                           Parser(data.pagecontent.slice(0, 80))}
                         {data.pagecontent.length >100 &&
@@ -787,12 +818,12 @@ class Home extends Component {
 
                                 }
                               }}>
-                              <a href="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></a>
                             </Link>
+                            <NavLink to="">Learn more <i className="glyph-icon iconsminds-arrow-right-2"></i></NavLink>
 
                           </div>
                         }
-                      </p> 
+                      </span> 
                   </div>
               )}
                 </div>
@@ -801,10 +832,10 @@ class Home extends Component {
                 {/* <div className="card-header pl-0 pr-0">
                 <ul className="nav nav-tabs card-header-tabs  ml-0 mr-0" role="tablist">
                   <li className="nav-item w-50 text-center">
-                    <a className="nav-link active" id="first-tab_" data-toggle="tab" href="#firstFull" role="tab" aria-controls="first" aria-selected="true">Quick Links</a>
+                    <a className="nav-link active" id="first-tab_" data-toggle="tab" href="#firstFull" role="tab" aria-controls="first" aria-selected="true">Quick Links</NavLink>
                   </li>
                   <li className="nav-item w-50 text-center">
-                    <a className="nav-link" id="second-tab_" data-toggle="tab" href="#secondFull" role="tab" aria-controls="second" aria-selected="false">Recent Links</a>
+                    <a className="nav-link" id="second-tab_" data-toggle="tab" href="#secondFull" role="tab" aria-controls="second" aria-selected="false">Recent Links</NavLink>
                   </li>
                 </ul>
               </div> */}
@@ -818,14 +849,14 @@ class Home extends Component {
 
                           {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
 
-                            <a href={data.url}>
+                            <NavLink to={data.url}>
 
                               {data.ShowQuickLink &&
                                 <div className="links_with_icon">
                                   <i className="glyph-icon iconsminds-link-2"></i><span>{data.DirName}</span>
                                 </div>
                               }
-                            </a>
+                            </NavLink>
                           )}
                         </div>
 
@@ -839,14 +870,14 @@ class Home extends Component {
                         <div className="tab-content">
                           {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
 
-                            <a href={data.url}>
+                            <NavLink to={data.url}>
                               {data.ShowQuickLink &&
 
                                 <div className="links_with_icon">
                                   <i className="glyph-icon iconsminds-link-2"></i><span>{data.DirName}</span>
                                 </div>
                               }
-                            </a>
+                            </NavLink>
                           )}
                         </div>
                       </div>
@@ -864,7 +895,7 @@ class Home extends Component {
             Math.ceil(this.state.menus.length / 2) &&
             <div className="col-xl-3 col-lg-6 mb-4">
 
-              <a href={data.url}>
+              <NavLink to={data.url}>
                 <div className="card">
                   {data.ShowBottomNav &&
 
@@ -875,12 +906,12 @@ class Home extends Component {
                     </div>
                   }
                 </div>
-              </a>
+              </NavLink>
             </div>
           )}
 
           {/* <div className="col-xl-3 col-lg-6 mb-4">
-            <a href="">
+            <NavLink to="">
               <div className="card">
 
                 <div className="card-body d-flex  align-items-center">
@@ -888,10 +919,10 @@ class Home extends Component {
                   <h6 className="mb-0 pl-3">User Information</h6>
 
                 </div>
-              </div></a>
+              </div></NavLink>
           </div>
           <div className="col-xl-3 col-lg-6 mb-4">
-            <a href="">
+            <NavLink to="">
               <div className="card">
 
                 <div className="card-body d-flex  align-items-center">
@@ -899,10 +930,10 @@ class Home extends Component {
                   <h6 className="mb-0 pl-3">Policies</h6>
 
                 </div>
-              </div></a>
+              </div></NavLink>
           </div>
           <div className="col-xl-3 col-lg-6 mb-4">
-            <a href="">
+            <NavLink to="">
               <div className="card">
 
                 <div className="card-body d-flex  align-items-center">
@@ -910,7 +941,7 @@ class Home extends Component {
                   <h6 className="mb-0 pl-3">User Manual</h6>
 
                 </div>
-              </div></a>
+              </div></NavLink>
           </div> */}
         </div>
 
@@ -920,5 +951,5 @@ class Home extends Component {
   };
 }
 
-Home.propTypes = {}
-export default Home;
+home.propTypes = {}
+export default home;

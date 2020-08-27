@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import * as Icon from 'react-bootstrap-icons';
 // import { ArrowRight } from 'react-bootstrap-icons';
 import Switch from 'rc-switch';
+import { Link,NavLink } from 'react-router-dom';
 
 import 'rc-switch/assets/index.css';
 // import { Checkbox } from 'react-bootstrap/Checkbox';
@@ -389,11 +390,23 @@ onSort(event, sortKey) {
   return (
   <>
    <div className="row">
-                        <div className="card dashboard-progress">
+                        <div className="card dashboard-progress"   style={{ width : '100%' }}>
 
                             <div className="card-body">
         <div className="table-caption">
-            <h1>Manage Navigation </h1>
+          <div className="row">
+            <div className="col-md-10">
+            <h1>Manage Navigation</h1>
+            </div>
+            <div className="col-md-2">
+
+            <NavLink to="/app/adminmenus">
+                                             <h4>Back to Home</h4>      </NavLink>
+            </div>
+
+          </div>
+            
+
             {/* <div className="row">
                 <div className="col-md-4">
                     <input type="text" name="search" max="20" onChange={(event) => this.handleChange(event)} placeholder="Search" className="form-control" />
