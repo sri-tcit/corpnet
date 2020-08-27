@@ -52,7 +52,6 @@ const TopNav = ({
   locale,
   setContainerClassnamesAction,
   clickOnMobileMenuAction,
-  logoutUserAction,
   changeLocaleAction,
 }) => {
   const [isInFullScreen, setIsInFullScreen] = useState(false);
@@ -186,7 +185,9 @@ const TopNav = ({
   };
 
   const handleLogout = () => {
-    logoutUserAction(history);
+    history.push(`${adminRoot}/adminmenus`);
+
+    // history.push(`${adminRoot}/categoryAdmin');
   };
 
   const menuButtonClick = (e, _clickCount, _conClassnames) => {
@@ -362,16 +363,16 @@ const TopNav = ({
                 <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
               </span>
             </DropdownToggle>
-            {/* <DropdownMenu className="mt-3" right>
-              <DropdownItem>Account</DropdownItem>
+            <DropdownMenu className="mt-3" right>
+              {/* <DropdownItem>Account</DropdownItem>
               <DropdownItem>Features</DropdownItem>
               <DropdownItem>History</DropdownItem>
               <DropdownItem>Support</DropdownItem>
-              <DropdownItem divider />
+              <DropdownItem divider /> */}
               <DropdownItem onClick={() => handleLogout()}>
-                Sign out
+                Admin Panel
               </DropdownItem>
-            </DropdownMenu> */}
+            </DropdownMenu>
           </UncontrolledDropdown>
         </div>
       </div>
@@ -393,7 +394,6 @@ export default injectIntl(
   connect(mapStateToProps, {
     setContainerClassnamesAction: setContainerClassnames,
     clickOnMobileMenuAction: clickOnMobileMenu,
-    logoutUserAction: logoutUser,
       changeLocaleAction: changeLocale,
     
   })(TopNav)

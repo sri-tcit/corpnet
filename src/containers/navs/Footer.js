@@ -1,7 +1,5 @@
 import React from 'react';
 import { NavLink,Link } from 'react-router-dom';
-import { Row } from 'reactstrap';
-import { Colxx } from '../../components/common/CustomBootstrap';
 
 // var Link = Router.Link;
 // const backUrl = '/some/other/value';
