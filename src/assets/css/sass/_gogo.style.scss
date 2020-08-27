@@ -396,7 +396,7 @@ $error-color: #c43d4b;
 .banner-outer-1 {
     // background-image: url(../img/banner-4.png);
 
-    background-image: url($logo-banner);
+    background-image: url($logo-banner4);
     background-color: white !important;
     width: inherit;
     height: 400px;
@@ -407,7 +407,7 @@ $error-color: #c43d4b;
 }
 .banner-outer-2 {
     // background-image: url(../img/banner-3.png);
-    background-image: url($logo-banner);
+    background-image: url($logo-banner3);
     background-color: #221c58 !important;
     width: inherit;
     height: 400px;
@@ -418,7 +418,7 @@ $error-color: #c43d4b;
 }
 .banner-outer-3 {
     // background-image: url(../img/banner-1.png);
-    background-image: url($logo-banner);
+    background-image: url($logo-banner1);
     background-color: white !important;
     width: inherit;
     height: 400px;
@@ -439,6 +439,7 @@ $error-color: #c43d4b;
     color: #fdbe5b;
     text-align: center;
     width: 50%;
+    z-index: 0 !important;
 }
 .carousel-indicators li {
     background-color: #1c4398 !important;
@@ -470,6 +471,7 @@ $error-color: #c43d4b;
 .fav-icon{
     color: #ed7117 !important;
     font-weight: 600;
+    padding: 20px;
 }
 .search-item{
     display: block;
@@ -789,11 +791,11 @@ button.btn.btn-link.acc_head {
 }
 li.list_acc a span {
     font-size: 15px !important;
-    padding: 8px;
+    padding: 12px;
     color: #848484;
 }
 li.list_acc a i {
-    padding-left: 15px;
+    padding-left: 10px;
     font-size: 15px;
     /* font-weight: 600; */
     color: #1c4398;
@@ -870,6 +872,8 @@ li.list_acc a[aria-expanded="true"] i {
 }
 i.simple-icon-star.show-on-hover {
     display: none;
+    padding: 15px;
+
 }
 i.simple-icon-star.color{
     color: green;

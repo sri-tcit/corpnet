@@ -52,8 +52,18 @@ class adminroles extends Component {
                     <div className="row">
                         <div className="card dashboard-progress" style={{ width : '100%' }}>
 
-                            <div className="card-body" style={{ width : '600px' }}>
-                            <h2 className="title_cn"style={{ marginBottom : '30px' }}>Manage Roles</h2></div></div></div>
+                            <div className="card-body">
+                            <div className="row">
+            <div className="col-md-10">
+            <h1>Manage Roles</h1>
+            </div>
+            <div className="col-md-2">
+
+            <NavLink to="/app/adminmenus">
+                                             <h4>Back to Home</h4>      </NavLink>
+            </div>
+
+          </div></div></div></div>
             </>
         );
     };

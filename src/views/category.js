@@ -166,7 +166,7 @@ class category extends Component {
                         <ul className="list-unstyled inner-level-menu-new">
                             {data.show && data.files && data.files.map((file, fileIndex) =>
                                 <li key={fileIndex} className="list_acc second_level">
-                                    <a href={`${this.state.baseUrl}${file.DocPath}`} target="_blank">
+                                    <a href={`${this.state.docBaseUrl + 'data/SOP/sample.pdf'}`}target="_blank">
                                         <i className="simple-icon-doc"></i>
                                         <span
                                             className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span>
@@ -306,7 +306,7 @@ class category extends Component {
                                                                     Math.ceil(this.state.result.length / 2) > index &&
                                                                     <div key={data.ID + index} className="sec_acc ">
                                                                         <button className={"btn btn-link acc_head" + (data.show == true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show == true ? true : false} aria-controls="comp_1">
-                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {data.DirName.replace("&amp;", "&")}</span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {data.DirName.replace("&amp;", "&")}</span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)}  className={"simple-icon-star  " + (data.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                         </button>
                                                                         <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show == true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
@@ -314,7 +314,7 @@ class category extends Component {
                                                                                     <li key={fileIndex} className="list_acc">
                                                                                         <a href={`${this.state.docBaseUrl + 'data/SOP/sample.pdf'}`} target="_blank">
                                                                                             <i className="simple-icon-doc"></i>
-                                                                                            <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}  </span><i onClick={(e) => this.makeFavorite(file.ID, e, 2, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                                            <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}  </span><i onClick={(e) => this.makeFavorite(file.ID, e, 2, 1)}  className={"simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>
                                                                                     </li>
                                                                                 )}
@@ -340,7 +340,7 @@ class category extends Component {
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        <a href={`${this.state.baseUrl + file.DocPath}`} target="_blank">
+                                                                                        <a href={`${this.state.docBaseUrl + 'data/SOP/sample.pdf'}`} target="_blank">
                                                                                             <i className="simple-icon-doc"></i>
                                                                                             <span className="d-inline-block">{file.DocName.replace("&amp;", "&")}</span><i onClick={(e) => this.makeFavorite(data.ID, e, 2, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>

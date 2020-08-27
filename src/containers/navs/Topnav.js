@@ -258,6 +258,7 @@ const TopNav = ({
         <UncontrolledDropdown>
           <div className="search">
             <Input
+            autoComplete = {'off'}
               name="searchKeyword"
               id="searchKeyword"
               placeholder={messages['menu.search']}
@@ -360,7 +361,7 @@ const TopNav = ({
             <DropdownToggle className="p-0" color="empty">
               <span className="name mr-1">Sarah Kortney</span>
               <span>
-                <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
+                <img alt="Profile" src="/assets/img/l-1.jpg" />
               </span>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>

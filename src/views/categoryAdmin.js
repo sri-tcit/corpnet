@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import Select from 'react-select';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Link,NavLink } from 'react-router-dom';
 
 import DropzoneComponent from 'react-dropzone-component';
 import { api } from '../views/Shared/baseurl-api';
@@ -251,8 +252,24 @@ class category extends Component {
 
         return (
             <>
+             
+             <div className="row">
+            <div className="col-md-10">
+            <h1>Manage Files</h1>
+            </div>
+            <div className="col-md-2">
+
+            <NavLink to="/app/adminmenus">
+                                             <h4>Back to Home</h4>      </NavLink>
+            </div>
+
+          </div>
+            
                 {this.state.loader && <div className="loading" />}
                 {!this.state.loader &&
+                 
+                
+                 
                     <div className="row">
                         <div className="col-md-12 row">
                             <div className="col-md-3">

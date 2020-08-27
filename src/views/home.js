@@ -654,37 +654,37 @@ class home extends Component {
               </ol>
               <div className="carousel-inner">
                 <div className="banner-outer-1 carousel-item active">
-                 
-         <div className="carousel-caption d-none d-md-block">
-                      <h5>Sample test</h5>
-                      <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
-                    </div>
-    </div>
-                  <div className="banner-outer-2 carousel-item">
-                 
-        <div className="carousel-caption d-none d-md-block">
-                        <h5>Sample test</h5>
-                        <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
-                      </div>
-    </div>
-                    <div className="banner-outer-3 carousel-item">
-                    
-        <div className="carousel-caption d-none d-md-block">
-                          <h5>Sample test</h5>
-                          <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
-                        </div>
-    </div>
-                    </div>
-                    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                      <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span className="sr-only">Previous</span>
-                    </a>
-                    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                      <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span className="sr-only">Next</span>
-                    </a>
+
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>Sample test</h5>
+                    <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
                   </div>
-       </div>
+                </div>
+                <div className="banner-outer-2 carousel-item">
+
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>Sample test</h5>
+                    <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
+                  </div>
+                </div>
+                <div className="banner-outer-3 carousel-item">
+
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>Sample test</h5>
+                    <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
+                  </div>
+                </div>
+              </div>
+              <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="sr-only">Previous</span>
+              </a>
+              <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
 
           <div className="col-md-6 col-lg-4 mb-4">
             <div className="card h-400">
@@ -696,7 +696,7 @@ class home extends Component {
               <div className="img_sec">
               
               
-                  <img src="/assets/img/landing-page/applications/contact-banner.png" />
+                  <img src="/assets/img/contact-banner.png" />
                   <h3>{data.maintitle}</h3>
                   <p>{data.pagecontent.length > 0 &&
                   Parser(data.pagecontent.slice(0,400)) }
