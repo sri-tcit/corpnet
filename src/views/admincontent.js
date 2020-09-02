@@ -24,7 +24,6 @@ import Select from 'react-select';
 
 import ReactQuill, { Quill, Mixin, Toolbar } from 'react-quill'; // ES6
 import { RouteEditor } from 'react-yandex-maps';
-
 class admincontent extends Component {
     constructor(props) {
         
@@ -207,6 +206,10 @@ onChange = (name, value) => {
             { label: data.maintitle, value: data.id, key: index },
             
         ]);
+        const options = [
+            'one', 'two', 'three'
+          ];
+          const defaultOption = options[0];
         return (
             <>
                     <div className="row">
@@ -275,6 +278,22 @@ onChange = (name, value) => {
                         
                         />
                          {(this.state.submittet || this.state.pageDetails.maintitle.touched) && !this.state.pageDetails.maintitle._value && <span className="text-danger">{this.state.pageDetails.maintitle.errorMsg}</span>}
+
+                        <Select
+                            id="selectPage"
+                            className="react-select"
+                            placeholder = "Select a page"
+                            classNamePrefix="react-select"
+                        />
+                    </div>
+                   
+
+                    <div className="form-group">
+                        <Input
+                            name="title"
+                            id="title"
+                            placeholder={"Page Title"}
+                        />
                     </div>
                     <div className="form-group">
                         <Input
@@ -298,13 +317,28 @@ onChange = (name, value) => {
                             value={this.state.pageDetails.pagecontent._value}
                     />
                         {(this.state.submittet || this.state.pageDetails.pagecontent.touched) && !this.state.pageDetails.pagecontent._value && <span className="text-danger">{this.state.pageDetails.pagecontent.errorMsg}</span>}  
+
+                        />
+                    </div>
+                    <div className="form-group">
+                    
+                    <Input
+                            name="contentEditor"
+                            id="contentEditor"
+                            placeholder={"Page Content (Editor - https://gogo-react.coloredstrategies.com/app/ui/components/editors)"}
+                        />
+                        
                        
                     </div>
                     
                     <div className="form-group">
                     <Button value="Send"
                             color="secondary"
+
                             onClick={this.updateData}
+
+                            onClick={this.Submit}
+
                         >
                             Update
                         </Button>
