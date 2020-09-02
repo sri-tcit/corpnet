@@ -7,14 +7,16 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
-import './helpers/Firebase';
+// import './helpers/Firebase';
 import AppLocale from './lang';
 import ColorSwitcher from './components/common/ColorSwitcher';
 // import { NotificationContainer } from './components/common/react-notifications';
 import { isMultiColorActive, isDemo, adminRoot } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import AppLayout from '../src/layout/AppLayout';
-
+toast.configure();
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app')
 );
@@ -44,6 +46,9 @@ const ViewAdminRoles = React.lazy(() =>
 );
 const ViewAdminContent = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/admincontent')
+);
+const ViewDropzone= React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/dropzone')
 );
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
@@ -145,6 +150,10 @@ class App extends React.Component {
                   <Route
                     path={`/app/admincontent`}
                     render={(props) => <ViewAdminContent {...props} />}
+                  />
+                  <Route
+                    path={`/app/dropzone`}
+                    render={(props) => <ViewDropzone {...props} />}
                   />
                   <Route
                     path="/"

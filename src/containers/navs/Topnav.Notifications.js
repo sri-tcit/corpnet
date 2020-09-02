@@ -3,7 +3,7 @@ import axios from 'axios';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Moment from 'moment';
-import { api } from '../../views/Shared/baseurl-api';
+import { api,mediaPath } from '../../views/Shared/baseurl-api';
 
 import DatePicker from 'react-datepicker';
 // (int) The current year
@@ -11,7 +11,7 @@ class TopnavNotifications extends Component {
     constructor(props) {
         super(props);
         this.state = {
-      baseurl:api,
+      baseurl:api,docBaseUrl:mediaPath,
       menus:[]
         }
         
@@ -87,11 +87,11 @@ options={{ suppressScrollX: true, wheelPropagation: false  }}
    {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
     <div  className="scroll ps ps--active-y">
                             <div className="d-flex flex-row mb-3 pb-3 border-bottom" key={data.id}>
-                                <a href={data.DocPath} target="_blank">
+                                <a href={`${this.state.docBaseUrl}${data.DocPath}`} target="_blank">
                                    <i className={"glyph-icon "+ data.Thumbnail}></i>
                                 </a>
                                 <div className="pl-3">
-                                    <a href={data.DocPath}  target="_blank">
+                                    <a href={`${this.state.docBaseUrl}${data.DocPath}`} target="_blank">
                                         <p className="font-weight-medium mb-1">{data.DocName}</p>
           <p className="text-muted mb-0 text-small">
               {/* <DatePicker selected={startDate} dateFormat="MMMM eeee d,yyyy h:mm aa"></DatePicker> */}

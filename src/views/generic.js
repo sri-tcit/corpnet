@@ -18,8 +18,12 @@ class generic extends Component {
         //console.log('mount', this.state.result[0])
     }
     componentDidMount() {
-        //console.log('prop', this.props.location.state.id)
-        this.loadData(this.props.location.state.id);
+        console.log('prop', this.props.location.pathname)
+        let id=this.props.location.pathname;
+
+        id = id.split("/");
+        id = id[id.length - 1];
+        this.loadData(id);
     }
     loadData(prop) {
         let _result = [];

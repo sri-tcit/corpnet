@@ -52,7 +52,7 @@ class adminmenus extends Component {
                     <div className="row">
                         <div className="card dashboard-progress"  style={{ width : '100%' }}>
 
-                            <div className="card-body" style={{ width : '600px' }}>
+                            <div className="card-body">
                             <h2 className="title_cn" style={{ marginBottom : '30px' }}>Admin Panel </h2>
                             
 {/* 
@@ -78,11 +78,11 @@ class adminmenus extends Component {
 
                             <div className="row sortable extra_links">
 
-                                <div className="col-xl-12 col-lg-6 mb-4">
+                                <div className="col-xl-12 col-lg-12 mb-4">
 
                                     <div className="table-caption">
-                                        <div className="row">
-                                            <div className="col-lg-6 col-12 mb-4">
+                                        <div className="row admin_icon_fix">
+                                            <div className="col-lg-4 col-12 mb-4">
                                                 <NavLink to="/app/menuselection">
                                                     <div className="card">
 
@@ -93,13 +93,24 @@ class adminmenus extends Component {
                                                         </div>
                                                     </div></NavLink>
                                             </div>
-                                            <div className="col-lg-6 col-12 mb-4">
+                                            <div className="col-lg-4 col-12 mb-4">
                                                 <NavLink to="/app/categoryAdmin/2">
                                                     <div className="card">
 
                                                         <div className="card-body d-flex  align-items-center">
                                                             <div className="glyph-icon iconsminds-folder-cloud"></div>
                                                             <h6 className="mb-0 pl-3">Manage Files</h6>
+
+                                                        </div>
+                                                    </div></NavLink>
+                                            </div>
+                                            <div className="col-lg-4 col-12 mb-4">
+                                                <NavLink to="">
+                                                    <div className="card">
+
+                                                        <div className="card-body d-flex  align-items-center">
+                                                            <div className="glyph-icon iconsminds-folder-cloud"></div>
+                                                            <h6 className="mb-0 pl-3">Lorem ipsum</h6>
 
                                                         </div>
                                                     </div></NavLink>
@@ -121,10 +132,10 @@ class adminmenus extends Component {
                             </div>
 
                             <div className="row sortable extra_links">
-                                <div className="col-xl-12 col-lg-6 mb-4">
+                                <div className="col-xl-12 col-lg-12 mb-4">
                                 <div className="table-caption">
-                                        <div className="row">
-                                        <div className="col-lg-6 col-12 mb-4">
+                                        <div className="row admin_icon_fix">
+                                        <div className="col-lg-4 col-12 mb-4">
                                                 <NavLink to="/app/admincontent">
                                                     <div className="card">
 
@@ -135,13 +146,24 @@ class adminmenus extends Component {
                                                         </div>
                                                     </div></NavLink>
                                             </div>
-                                            <div className="col-lg-6 col-12 mb-4">
+                                            <div className="col-lg-4 col-12 mb-4">
                                                 <NavLink to="/app/adminroles">
                                                     <div className="card">
 
                                                         <div className="card-body d-flex  align-items-center">
                                                             <div className="glyph-icon simple-icon-people"></div>
                                                             <h6 className="mb-0 pl-3">Manage Roles</h6>
+
+                                                        </div>
+                                                    </div></NavLink>
+                                            </div>
+                                            <div className="col-lg-4 col-12 mb-4">
+                                                <NavLink to="">
+                                                    <div className="card">
+
+                                                        <div className="card-body d-flex  align-items-center">
+                                                            <div className="glyph-icon simple-icon-people"></div>
+                                                            <h6 className="mb-0 pl-3">Lorem ipsum</h6>
 
                                                         </div>
                                                     </div></NavLink>

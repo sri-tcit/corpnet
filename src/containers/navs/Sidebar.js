@@ -7,7 +7,8 @@ import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import axios from 'axios';
 
-import IntlMessages from '../../helpers/IntlMessages';
+// import IntlMessages from '../../helpers/IntlMessages';
+import { api } from '../../views/Shared/baseurl-api';
 
 import {
   setContainerClassnames,
@@ -28,6 +29,7 @@ class Sidebar extends Component {
     this.state = {
       selectedParentMenu: '',
       menuItems : [],
+      baseurl: api,
       viewingParentMenu: '',
       collapsedMenus: []
     };
@@ -263,7 +265,7 @@ class Sidebar extends Component {
 
   componentDidMount() {
     let _menuItems =[];
-    var link =`http://148.72.206.209:93/api/Menu/ALL`;
+    var link =this.state.baseurl+`Menu/ALL`;
     axios.get(link)
       .then(res => {  
         res.data.map((data)=>{

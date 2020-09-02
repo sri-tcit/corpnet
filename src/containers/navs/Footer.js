@@ -15,7 +15,7 @@ const Footer = () => {
                     <div className="col-sm-6 d-none d-sm-block ">
                         <ul className="breadcrumb footer  pt-0 pr-0 float-right">
                             <li className="breadcrumb-item mb-0">
-                                <a href="http://mashreq.com" target="_self" className="btn-link">Mashreq Intranet</a>
+                                <a href="http://mashreqintranet/" target="_target" className="btn-link">Mashreq Intranet</a>
                             </li>
                             <li className="breadcrumb-item mb-0">
                             

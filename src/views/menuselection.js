@@ -366,7 +366,7 @@ let checkedShowQuickNavDetails = Object.assign({}, this.state.checkedShowQuickNa
     //     "checkedShowQuickNav": this.state.checkedShowQuickNav
     //   }
       console.log('sampleid',datas);
-        axios.post(this.state.baseurl + `Directory/UpdateNav`, datas)
+        axios.put(this.state.baseurl + `Directory/UpdateNav`, datas)
           .then(res => {
             if (res) {
               this.setState((prev) => {});

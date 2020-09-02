@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
-import { api } from '../../views/Shared/baseurl-api';
+import { api,mediaPath } from '../../views/Shared/baseurl-api';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 class TopnavEasyAccess extends Component {
     constructor(props) {
         super(props);
         this.state = {
-      baseurl:api,
+            docBaseUrl: mediaPath,
+            baseurl:api,
       menus:[]
         }
 
@@ -72,10 +73,10 @@ options={{ suppressScrollX: true, wheelPropagation: false }}
 {
 this.state.menus?.length > 0 && this.state.menus.map((data) =>
 
-        <a href={`${this.state.baseUrl}${data.DocPath}`} target="_blank" className="min_fied">
-        <div className="links_with_icon">
-        <i className="simple-icon-star"></i>
-          <span>{data.FavName}</span>
+        <a href={data.DocPath} target="_blank" className="min_fied">
+        <div className="links_with_icon  row col-lg-12">
+        <i className="simple-icon-star  col-lg-2"></i>
+          <span  className="col-lg-10">{data.FavName}</span>
         </div>
         </a>
     )}
