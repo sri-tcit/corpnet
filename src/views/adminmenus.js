@@ -94,7 +94,7 @@ class adminmenus extends Component {
                                                     </div></NavLink>
                                             </div>
                                             <div className="col-lg-4 col-12 mb-4">
-                                                <NavLink to="/app/categoryAdmin/2">
+                                                <NavLink to="/app/categoryAdmin">
                                                     <div className="card">
 
                                                         <div className="card-body d-flex  align-items-center">
@@ -147,12 +147,12 @@ class adminmenus extends Component {
                                                     </div></NavLink>
                                             </div>
                                             <div className="col-lg-4 col-12 mb-4">
-                                                <NavLink to="/app/adminroles">
+                                                <NavLink to="/app/adminusers">
                                                     <div className="card">
 
                                                         <div className="card-body d-flex  align-items-center">
                                                             <div className="glyph-icon simple-icon-people"></div>
-                                                            <h6 className="mb-0 pl-3">Manage Roles</h6>
+                                                            <h6 className="mb-0 pl-3">Manage Admin Users</h6>
 
                                                         </div>
                                                     </div></NavLink>

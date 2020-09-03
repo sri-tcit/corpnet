@@ -73,13 +73,26 @@ options={{ suppressScrollX: true, wheelPropagation: false }}
 {
 this.state.menus?.length > 0 && this.state.menus.map((data) =>
 
+        data.DocDirType == '1' &&
         <a href={data.DocPath} target="_blank" className="min_fied">
+        <div className="links_with_icon  row col-lg-12">
+        <i className="simple-icon-star  col-lg-2"></i>
+          <span  className="col-lg-10">{data.FavName}</span>
+        </div>
+        </a> 
+    )}
+
+{
+this.state.menus?.length > 0 && this.state.menus.map((data) =>
+        data.DocDirType == '2' &&
+        <a href={`${this.state.docBaseUrl}${data.DocPath}`} target="_blank" className="min_fied">
         <div className="links_with_icon  row col-lg-12">
         <i className="simple-icon-star  col-lg-2"></i>
           <span  className="col-lg-10">{data.FavName}</span>
         </div>
         </a>
     )}
+
  </PerfectScrollbar>
 
          </DropdownMenu>

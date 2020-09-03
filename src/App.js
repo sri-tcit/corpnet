@@ -47,8 +47,8 @@ const ViewAdminRoles = React.lazy(() =>
 const ViewAdminContent = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/admincontent')
 );
-const ViewDropzone= React.lazy(() =>
-  import(/* webpackChunkName: "views-user" */ './views/dropzone')
+const ViewAdminUsers= React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/adminusers')
 );
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
@@ -152,8 +152,8 @@ class App extends React.Component {
                     render={(props) => <ViewAdminContent {...props} />}
                   />
                   <Route
-                    path={`/app/dropzone`}
-                    render={(props) => <ViewDropzone {...props} />}
+                    path={`/app/adminusers`}
+                    render={(props) => <ViewAdminUsers {...props} />}
                   />
                   <Route
                     path="/"

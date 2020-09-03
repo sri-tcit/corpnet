@@ -10121,6 +10121,11 @@ react-circular-progressbar@^2.0.3:
   resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-2.0.3.tgz#fa8eb59f8db168d2904bae4590641792c80f5991"
   integrity sha512-YKN+xAShXA3gYihevbQZbavfiJxo83Dt1cUxqg/cltj4VVsRQpDr7Fg1mvjDG3x1KHGtd9NmYKvJ2mMrPwbKyw==
 
+react-confirm-alert@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/react-confirm-alert/-/react-confirm-alert-2.6.2.tgz#775c6e5233cd2c4b06f4ddedd59b8de03e071876"
+  integrity sha512-lvlk+Sic7p3wbOcsetkCHVXA3LJCDViqjO8sV7FtCfJwjw36ZKCJv2FiaxUCiw3g8PXvmpjEtvAvLqPKb8yh/A==
+
 react-contextmenu@^2.14.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.14.0.tgz#d8966f30614b9b780b928be4c8d92bd740d55cdd"

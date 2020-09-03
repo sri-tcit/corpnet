@@ -18,7 +18,8 @@ class category extends Component {
             docBaseUrl: mediaPath,
             loader: false,
             result: [],
-            document: []
+            document: [],
+            user: "hakkimb"
 
 
             //console.log('query', this.props.match.params.id)
@@ -150,6 +151,29 @@ class category extends Component {
         })
     }
 
+    makeRecent(id, e, user,DocPath) {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        console.log("recent" + id)
+        var link = this.state.baseUrl + 'Generic/AddRecentLink';
+        axios.post(link, {
+            "ldapUser_id": user,
+            "fk_Document_id": id,
+            "createdBy": user,
+            "modifiedBy": user
+            
+        }).then(res => {
+           console.log(id)
+        })
+        let path = `${this.state.docBaseUrl + DocPath}`; 
+    //    window.location.href=path;
+        window.open(path, '_blank');
+      //  const history = useHistory()
+      //  let path = `${this.state.docBaseUrl + 'data/SOP/sample.pdf'}`; 
+      //  this.props.history.push(path);
+    }
     hasFileOrDir(data) {
 
         if (data) {
@@ -167,7 +191,7 @@ class category extends Component {
                         <ul className="list-unstyled inner-level-menu-new">
                             {data.show && data.files && data.files.map((file, fileIndex) =>
                                 <li key={fileIndex} className="list_acc second_level">
-                                    <a href={`${this.state.docBaseUrl}${file.DocPath}`} target="_blank">
+                                    <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, this.state.user,file.DocPath)} target="_blank">
                                         <i className="simple-icon-doc"></i>
                                         <span
                                             className="d-inline-block">{Parser(" "+file.DocName)}</span>
@@ -230,9 +254,9 @@ class category extends Component {
                 .then(res => {
                     if (res.status == 200) {
                         let _res = [];
-                        console.log('test',res,res.data[1].Content[0].hasOwnProperty('Dir'))
+                        // console.log('test',res,res.data[1].Content[0].hasOwnProperty('Dir'))
                         if (res.data[1].hasOwnProperty('Content')) {
-                        console.log('test',res.data[1].Content[0].hasOwnProperty('Dir'))
+                        // console.log('test',res.data[1].Content[0].hasOwnProperty('Dir'))
 
                             if (res.data[1].Content[0].hasOwnProperty('Dir'))
                         _res = res.data[1]?.Content[0]?.Dir;
@@ -271,6 +295,7 @@ class category extends Component {
 
 
     render() {
+        const { user } = this.state
 
         return (
             <>
@@ -317,7 +342,7 @@ class category extends Component {
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        <a href={`${this.state.docBaseUrl}${file.DocPath}`} target="_blank"  className="row col-lg-12">
+                                                                                        <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
                                                                                             <i className="simple-icon-doc col-lg-2"></i>
                                                                                             <span className="d-inline-block col-lg-8">{file.DocName}  </span><i onClick={(e) => this.makeFavorite(file.ID, e, 2, 1)}  className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>
@@ -345,7 +370,7 @@ class category extends Component {
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        <a href={`${this.state.docBaseUrl}${file.DocPath}`}  target="_blank"  className="row col-lg-12">
+                                                                                        <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
                                                                                             <i className="simple-icon-doc  col-lg-2"></i>
                                                                                             <span className="d-inline-block  col-lg-8">{Parser(" "+file.DocName)}</span><i onClick={(e) => this.makeFavorite(data.ID, e, 2, 1)} data-brackets-id="15856" className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>

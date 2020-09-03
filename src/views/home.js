@@ -6,7 +6,7 @@ import { Link,NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { Tabs, Tab } from 'react-bootstrap-tabs';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import { api } from '../views/Shared/baseurl-api';
+import { api } from '../views/Shared/baseurl-api';import Carousel from 'react-bootstrap/Carousel';
 import {
   Row,
   Card,
@@ -31,6 +31,7 @@ class home extends Component {
 
     this.state = {
       menus: [],
+      recentlinks: [],
       baseurl:api,
       content: []
     }
@@ -42,6 +43,7 @@ class home extends Component {
   componentDidMount() {
     let _menus = [];
     let _content = [];
+    let _recent = [];
 
     var link = this.state.baseurl + `Menu/CN`;
     axios.get(link)
@@ -53,7 +55,19 @@ class home extends Component {
             this.setState({ menus: _menus });
           })
         }
-      })        
+      })  
+         
+      var link = this.state.baseurl + `Generic/GetRecentLinks?username=hakkimb`;
+    axios.get(link)
+      .then(res => {
+        if (res.data) {
+          //console.log('result')
+          res.data.map((data) => {
+            _recent.push(data)
+            this.setState({ recentlinks: _recent });
+          })
+        }
+      })       
       var contentLink = this.state.baseurl + `Generic/page/0`;
       console.log('result',contentLink)
 
@@ -79,47 +93,46 @@ class home extends Component {
 
 
           <div className="col-xl-8 col-lg-12 mb-4">
+          <div className="card-body">
+          <div className="card h-400">
+          <Carousel>
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src="/assets/img/banner-4.png"
+      alt="First slide"
+    />
+    <Carousel.Caption>
+      <h3>First slide label</h3>
+      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src="/assets/img/banner-3.png"
+      alt="Third slide"
+    />
 
+    <Carousel.Caption>
+      <h3>Second slide label</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src="/assets/img/banner-1.png"
+      alt="Third slide"
+    />
 
-            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-              <ol className="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-              </ol>
-              <div className="carousel-inner">
-                <div className="banner-outer-1 carousel-item active">
-
-                  <div className="carousel-caption d-none d-md-block">
-                    <h5>Sample test</h5>
-                    <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
-                  </div>
-                </div>
-                <div className="banner-outer-2 carousel-item">
-
-                  <div className="carousel-caption d-none d-md-block">
-                    <h5>Sample test</h5>
-                    <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
-                  </div>
-                </div>
-                <div className="banner-outer-3 carousel-item">
-
-                  <div className="carousel-caption d-none d-md-block">
-                    <h5>Sample test</h5>
-                    <p>sdnfkjsdnfkdjnfskldjfnlskdnk;sdljn</p>
-                  </div>
-                </div>
-              </div>
-              <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="sr-only">Previous</span>
-              </a>
-              <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="sr-only">Next</span>
-              </a>
-            </div>
-          </div>
+    <Carousel.Caption>
+      <h3>Third slide label</h3>
+      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+</Carousel>
+</div> </div></div>
 
           <div className="col-md-6 col-lg-4 mb-4">
             <div className="card h-400">
@@ -163,6 +176,7 @@ class home extends Component {
               </div>
               
             </div>
+          </div>
           </div>
           <div className="row">
             <div className="col-lg-8 col-sm-12 mb-4">
@@ -303,15 +317,15 @@ class home extends Component {
                       <div className="card-body">
 
                         <div className="tab-content">
-                          {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
+                          {/* {this.state.menus?.length > 0 && this.state.menus.map((data, index) => */}
+{this.state.recentlinks?.length > 0 && this.state.recentlinks.map((data, index) =>
 
-                            <NavLink to={data.url}>
-                              {data.ShowQuickLink &&
+                            <NavLink to={data.DocPath}>
 
                                 <div className="links_with_icon">
-                                  <i className="glyph-icon iconsminds-link-2"></i><span>{data.DirName}</span>
+                                  <i className="glyph-icon iconsminds-link-2"></i><span>{data.DocName}</span>
                                 </div>
-                              }
+                              
                             </NavLink>
                           )}
                         </div>
@@ -323,7 +337,7 @@ class home extends Component {
             </div>
 
           </div>
-        </div>
+       
 
         <div className="row sortable extra_links">
           {this.state.menus?.length > 0 && this.state.menus.map((data, index) =>
