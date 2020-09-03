@@ -401,7 +401,7 @@ onSort(event, sortKey) {
             <div className="col-md-2">
 
             <NavLink to="/app/adminmenus">
-                                             <h4>Back to Home</h4>      </NavLink>
+            <div class="glyph-icon iconsminds-back back_home"> Back to Home</div>    </NavLink>
             </div>
 
           </div>
@@ -419,7 +419,7 @@ onSort(event, sortKey) {
                  </div>
             </div> */}
         </div>
-        <table className="table table-border  table-striped">
+        <table className="table table-border  table-striped admin_allign_center">
             <thead>
                 <tr>
                     {/* <th>S.No </th>
