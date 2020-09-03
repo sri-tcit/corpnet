@@ -372,6 +372,8 @@ let checkedShowQuickNavDetails = Object.assign({}, this.state.checkedShowQuickNa
               this.setState((prev) => {});
             }
         })
+       this.fecthData();
+
 }
 onSort(event, sortKey) {
     console.log('onSort');
