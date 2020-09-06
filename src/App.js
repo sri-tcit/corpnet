@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
-// import AppLocale from './lang';
+import AppLocale from './lang';
 import ColorSwitcher from './components/common/ColorSwitcher';
 import { isMultiColorActive, isDemo, adminRoot } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
@@ -82,13 +82,13 @@ class App extends React.Component {
     
     
     const { locale, loginUser } = this.props;
-    // const currentAppLocale = AppLocale[locale];
+    const currentAppLocale = AppLocale[locale];
     return (
       <div className="h-100">
-        {/* <IntlProvider
+        <IntlProvider
           locale={currentAppLocale.locale}
           messages={currentAppLocale.messages}
-        > */}
+        >
           <>
             {/* <NotificationContainer /> */}
             {isMultiColorActive && <ColorSwitcher />}
@@ -147,7 +147,7 @@ class App extends React.Component {
               </Router>
             </Suspense>
           </>
-        {/* </IntlProvider> */}
+        </IntlProvider>
       </div>
     );
   }
