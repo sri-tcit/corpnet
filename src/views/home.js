@@ -105,7 +105,7 @@ class home extends Component {
                 {this.state.content?.length > 0 && this.state.content.map((data) =>
                   data.id === 5 &&
                   <div key={data.id} className="img_sec">
-                    <img src={this.state.base+"/assets/img/banner.png"}></img>
+                    <img src={this.state.base+"/assets/img/contact-banner.png"}></img>
                     <h3>{data.maintitle}</h3>
                     <span>{data.pagecontent.length > 0 &&
                       Parser(data.pagecontent.slice(0, 400))}

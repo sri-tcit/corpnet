@@ -1115,7 +1115,14 @@ a.invert_style {
     transition: fill .3s;
 }
 .h-400 {
-    height: 400px;
+    min-height: 445px;
+    height: 100%;
+}
+li.nav-item a {
+    text-align: center;
+}
+.sub-menu li.nav-item a {
+    text-align: left;
 }
 .h-195{
     // overflow-y: scroll;
@@ -11669,4 +11676,24 @@ a.expand.active {
 .fav-icon{
     color: #ed7117 !important;
     font-weight: 600;
+}
+@media (min-width:991px) and (max-width:1440px){
+.h-195 {
+    min-height: calc(395px - 106px);
+    height: 100%;
+    margin-top: 20px;
+}
+}
+.p_content {
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+
+.sidebar1 {
+    max-height: 690px;
+    height: 100%;
+    background: #fff!important;
+    border-radius: 0;
+    padding: 20px;
 }

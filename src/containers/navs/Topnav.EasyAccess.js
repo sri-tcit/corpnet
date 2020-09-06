@@ -34,7 +34,7 @@ class TopnavEasyAccess extends Component {
     return (
     
     <>
-    <div className="position-relative d-none d-sm-inline-block">
+    <div className="position-relative d-none d-sm-inline-block" >
       <UncontrolledDropdown className="dropdown-menu-right">
         <DropdownToggle className="header-icon" color="empty"  data-toggle="tooltip" title="Favorite Links">
           <i className="simple-icon-grid" />

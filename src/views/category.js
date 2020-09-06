@@ -40,20 +40,22 @@ class category extends Component {
             else
                 this.makeSubLevelFav(id, type);
         })
+        // window.location.assign('/app/category/'+id);
+
     }
     makeInnerFav(data, id, type) {
         if (data) {
             data.map((_data) => {
                 if (type === 2 && _data.files) {
                     let _file = _data.files.map((file) => {
-                        if (file.ID === id) {
+                        if (file.id === id) {
                             file.ShowFavourite = file.ShowFavourite === 0 ? 1 : 0;
                         }
                         return file;
                     })
                     _data.files = _file;
                 }
-                if (_data.ID === id) {
+                if (_data.id === id) {
                     _data.ShowFavourite = _data.ShowFavourite === 0 ? 1 : 0;
                 } else {
                     this.getSubTreeDetails(_data.Dir, id, type)
@@ -68,7 +70,7 @@ class category extends Component {
             if (data.Dir) {
                 if (type === 2 && data.files) {
                     let _file = data.files.map((file) => {
-                        if (file.ID === id) {
+                        if (file.id === id) {
                             file.ShowFavourite = file.ShowFavourite === 0 ? 1 : 0;
                         }
                         return file;
@@ -92,12 +94,12 @@ class category extends Component {
     }
     makeFavoriteLocal(id, type) {
         let _result = this.state.result.map((data) => {
-            if (data.ID === id) {
+            if (data.id === id) {
                 data.ShowFavourite = data.ShowFavourite === 0 ? 1 : 0;
             }
             if (type === 2 && data.files) {
                 let _file = data.files.map((file) => {
-                    if (file.ID === id) {
+                    if (file.id === id) {
                         file.ShowFavourite = file.ShowFavourite === 0 ? 1 : 0;
                     }
                     return file;
@@ -111,15 +113,11 @@ class category extends Component {
         }, () => {
         })
     }
-    getFileLists(data) {
-    }
-    getDirLists(data) {
-    }
     showPanel(index, level) {
         this.setState(prevState => {
             let result = prevState.result;
             for (var i = 0; i < result.length; i++) {
-                if (result[i].ID === index) {
+                if (result[i].id === index) {
                     result[i].show = !result[i].show;
                 } else {
                     result[i].show = false;
@@ -155,22 +153,22 @@ class category extends Component {
         if (data) {
             return data.map((data, key) => {
                 return <li key={key} className={"list_acc" + (data.show === true ? '' : ' hide')}>
-                    <a style={{ cursor: 'pointer' }} data-toggle="collapse" data-target={"#inner_comp_" + data.ID} className={!data.show ? 'collapsed' : ''} aria-expanded={data.show ? 'true' : 'false'}>
-                        <span onClick={() => this.showSubTree(data.ID)} >
+                    <a style={{ cursor: 'pointer' }} data-toggle="collapse" data-target={"#inner_comp_" + data.id} className={!data.show ? 'collapsed' : ''} aria-expanded={data.show ? 'true' : 'false'}>
+                        <span onClick={() => this.showSubTree(data.id)} >
                             <i className="iconsminds-folder"></i>
                             <span className="d-inline-block">{Parser(" "+data.DirName)} </span>
                         </span>
-                        <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                        <i onClick={(e) => this.makeFavorite(data.id, e, 1, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                     </a>
-                    <span id={"inner_comp_" + data.ID} className="collapse show">
+                    <span id={"inner_comp_" + data.id} className="collapse show">
                         <ul className="list-unstyled inner-level-menu-new">
                             {data.show && data.files && data.files.map((file, fileIndex) =>
                                 <li key={fileIndex} className="list_acc second_level">
-                                    <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, this.state.user,file.DocPath)} target="_blank">
+                                    <a onClick={(e) => this.makeRecent(file.id, e, this.state.user,file.DocPath)} target="_blank">
                                         <i className="simple-icon-doc"></i>
                                         <span
                                             className="d-inline-block">{Parser(" "+file.DocName)}</span>
-                                        <i onClick={(e) => this.makeFavorite(file.ID, e, 2, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                        <i onClick={(e) => this.makeFavorite(file.id, e, 2, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                     </a>
                                 </li>
                             )
@@ -184,6 +182,8 @@ class category extends Component {
     }
     showSubTree(id) {
         let _result = this.state.result.map((data) => {
+            console.log('id',data.id,id)
+
             if (data.Dir) {
                 let _res = this.getSubTreeDetails(data.Dir, id);
                 data.Dir = _res;
@@ -199,10 +199,13 @@ class category extends Component {
     getSubTreeDetails(data, id) {
         if (data) {
             data.map((_data) => {
-                if (_data.ID === id) {
-                    _data.show = !_data.show;
+                console.log('id',_data.id,id)
+                if (_data.id === id) {
+                console.log('id2',_data.id,id)
+                _data.show = !_data.show;
                 } else {
-                    this.getSubTreeDetails(_data.Dir, id)
+                console.log('id3',_data.id,id)
+                this.getSubTreeDetails(_data.Dir, id)
                 }
             }
             )
@@ -267,7 +270,8 @@ class category extends Component {
                                 <nav className="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                                     <ol className="breadcrumb pt-0">
                                         <li className="breadcrumb-item">
-                                            <a href={"."+this.state.base+"/app/home"} target="_self">Home</a>
+                                            {/* <a href={"."+this.state.base+"/app/home"} target="_self">Home</a> */}
+                                            <a href={"/app/home"} target="_self">Home</a>
                                         </li>
                                         {this.state.mainTitle &&
                                             <li className="breadcrumb-item">
@@ -291,17 +295,17 @@ class category extends Component {
                                                             <div id="accordion" className="">
                                                                 {this.state.result?.length > 0 && this.state.result.map((data, index) =>
                                                                     Math.ceil(this.state.result.length / 2) > index &&
-                                                                    <div key={data.ID + index} className="sec_acc ">
+                                                                    <div key={data.id + index} className="sec_acc ">
                                                                         <button className={"btn btn-link acc_head" + (data.show === true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show === true ? true : false} aria-controls="comp_1">
-                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}</span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)}  className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                            <span onClick={(e) => this.showPanel(data.id, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}</span> <i onClick={(e) => this.makeFavorite(data.id, e, 1, 1)}  className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                         </button>
                                                                         <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show === true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
+                                                                                        <a onClick={(e) => this.makeRecent(file.id, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
                                                                                             <i className="simple-icon-doc col-lg-2"></i>
-                                                                                            <span className="d-inline-block col-lg-8">{file.DocName}  </span><i onClick={(e) => this.makeFavorite(file.ID, e, 2, 1)}  className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                                            <span className="d-inline-block col-lg-8">{file.DocName}  </span><i onClick={(e) => this.makeFavorite(file.id, e, 2, 1)}  className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>
                                                                                     </li>
                                                                                 )}
@@ -316,17 +320,17 @@ class category extends Component {
                                                             <div id="accordion" className="">
                                                                 {this.state.result.length > 0 && this.state.result.map((data, index) =>
                                                                     Math.ceil(this.state.result?.length / 2) <= index &&
-                                                                    <div key={data.ID + index} className="sec_acc ">
+                                                                    <div key={data.id + index} className="sec_acc ">
                                                                         <button className={"btn btn-link acc_head" + (data.show === true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show === true ? true : false} aria-controls="comp_1">
-                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}  </span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                            <span onClick={(e) => this.showPanel(data.id, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}  </span> <i onClick={(e) => this.makeFavorite(data.id, e, 1, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                         </button>
                                                                         <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show === true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
+                                                                                        <a  onClick={(e) => this.makeRecent(file.id, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
                                                                                             <i className="simple-icon-doc  col-lg-2"></i>
-                                                                                            <span className="d-inline-block  col-lg-8">{Parser(" "+file.DocName)}</span><i onClick={(e) => this.makeFavorite(data.ID, e, 2, 1)} data-brackets-id="15856" className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                                            <span className="d-inline-block  col-lg-8">{Parser(" "+file.DocName)}</span><i onClick={(e) => this.makeFavorite(file.id, e, 2, 1)} data-brackets-id="15856" className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>
                                                                                     </li>
                                                                                 )}

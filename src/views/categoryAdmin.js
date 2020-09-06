@@ -26,6 +26,7 @@ class category extends Component {
             submitdetfiles: false,
             baseurl: api, docBaseUrl: mediaPath,
             files: null,
+            dirID: '0',
             myfiles: null,
             UpdateDetails: {
                 updateDirID: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
@@ -38,6 +39,8 @@ class category extends Component {
                 subDirID: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
             },
             FileDetails: {
+                fileID: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
+
                 fileName: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
                 fileDesc: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
             },
@@ -52,6 +55,7 @@ class category extends Component {
         this.handleChangeFiles = this.handleChangeFiles.bind(this);
         this.handleChangeUpdate = this.handleChangeUpdate.bind(this);
         this.buildForm = this.buildForm.bind(this);
+        this.parentDirectory = this.parentDirectory.bind(this);
         this.SubmitFileDirectory = this.SubmitFileDirectory.bind(this);
         this.deleteDirectory = this.deleteDirectory.bind(this);
         this.DeleteDirectory = this.DeleteDirectory.bind(this);
@@ -113,6 +117,15 @@ class category extends Component {
                 })
         }
     }
+    parentDirectory(){
+        this.state.CreateDetails.subDirID._value = "";
+        let createDetails = Object.assign({}, this.state.CreateDetails);
+        this.setState({
+            CreateDetails:createDetails
+        })
+
+        
+    }
     deleteDirectory() {
         console.log('submitdetfiles', this.state.submitdetupdatedir)
         this.setState({
@@ -165,7 +178,6 @@ class category extends Component {
             buttons: [
                 {
                     label: 'Yes',
-                    style: 'color:orange',
                     onClick: () => this.deleteDirectory()
                 },
                 {
@@ -209,14 +221,34 @@ class category extends Component {
         this.setState({
             submitdetcreatedir: true
         })
+        let create = Object.assign({}, this.state.CreateDetails);
+        console.log('create',this.state)
+        let  datas = [];
+        console.log('dirID',this.state.CreateDetails.subDirID._value)
         if (this.state.CreateDetails.subDirName._value && this.state.CreateDetails.subDirDesc._value) {
-            let datas = {
+            // let dirID = '0';
+            if(this.state.CreateDetails.subDirID._value !== "")
+            {
+                datas = {
                 "dirName": this.state.CreateDetails.subDirName._value,
                 "dirDescription": this.state.CreateDetails.subDirDesc._value,
                 "thumbnail": "iconminds-folder",
+
                 "parent_id": this.state.CreateDetails.subDirID._value,
                 "createdBy": "Admin"
             }
+        }
+        else{
+             datas = {
+                "dirName": this.state.CreateDetails.subDirName._value,
+                "dirDescription": this.state.CreateDetails.subDirDesc._value,
+                "thumbnail": "iconminds-folder",
+
+                "parent_id": 0,
+                "createdBy": "Admin"
+            }
+        }
+            console.log('data',datas,this.state.CreateDetails.subDirID._value,this.state.dirID+'test')
             axios.post(this.state.baseurl + `Directory/Add`, datas)
                 .then(res => {
                     if (res.status != 200) {
@@ -342,17 +374,20 @@ class category extends Component {
         })
     }
     appendFiles(id) {
-        let FileName = '', FileDesc = '';
+        let FileName = '', FileDesc = '',FileID='';
         let _document = this.state.document.map((data) => {
             if (data.id == id) {
                 data.show = !data.show;
+                FileID=data.id;
                 FileName = data.DocName;
                 FileDesc = data.DocDescription;
-                console.log('show', data.show)
+                console.log('show', data)
             }
         })
         this.setState(prevState => {
             let fileDetails = Object.assign({}, this.state.FileDetails);
+            fileDetails['fileID']._value = FileID;
+            fileDetails['fileID'].touched = FileID;
             fileDetails['fileName']._value = FileName;
             fileDetails['fileName'].touched = FileName;
             fileDetails['fileDesc']._value = FileDesc;
@@ -387,12 +422,14 @@ class category extends Component {
         formData.append("DocName", this.state.FileDetails.fileName._value);
         formData.append("DocDescription", this.state.FileDetails.fileDesc._value);
         formData.append("Parent_id", this.state.CreateDetails.subDirID._value);
+        formData.append("id", this.state.FileDetails.fileID._value);
+
         formData.append("CreatedBy", "Admin");
         if(this.state.files)
         formData.append("files", this.state.files.files[0]);
         return formData;
     }
-    SubmitFileDirectory(event) {
+    SubmitFileDirectory() {
         this.setState({
             submitdetfiles: true
         })
@@ -417,9 +454,11 @@ class category extends Component {
                     });
                     console.log("form SubmitFileDirectory error", error);
                 });
-            event.preventDefault();
+            // event.preventDefault();
         }
-        this.getCategoryList();
+        // this.getCategoryList();
+        window.location.assign('/app/categoryAdmin');
+
     }
     render() {
         const selectData = [
@@ -497,7 +536,9 @@ class category extends Component {
                                         <div className="panel-body">
                                             <ul className="tree-group">
                                                 <li className="tree-item ">
-                                                    <span className="tree-item-label iconsminds-folder-open">  <a className="expand" >Home</a></span>
+                                                    <span className="tree-item-label iconsminds-folder-open"> 
+                                                     <a className="expand" onClick={() => this.parentDirectory()}>Home</a>
+                                                     </span>
                                                     <ul className="tree-group">
                                                         {this.state.result && this.state.result.map((data, key) =>
                                                             <li key={key} className="tree-item ">
@@ -520,7 +561,7 @@ class category extends Component {
                                                 <PerfectScrollbar
                                                     options={{ suppressScrollX: true, wheelPropagation: false }}
                                                 >
-                                                    <div className="card-body"><div className="topic-head"><h2>Add Sub Directory</h2></div>
+                                                    <div className="card-body"><div className="topic-head"><h2>Add Directory</h2></div>
                                                         <div className="form-group has-top-label" >
                                                             <Label>Directory Name</Label>
                                                             <Input
@@ -545,12 +586,12 @@ class category extends Component {
                                                         {(this.state.submitdetcreatedir || this.state.CreateDetails.subDirDesc.touched) && !this.state.CreateDetails.subDirDesc._value && <span className="text-danger">{this.state.CreateDetails.subDirDesc.errorMsg}</span>}
                                                         <div className="justify-center btn-n-r">
                                                             <Button
-                                                                outline color="primary" onClick={this.ResetCreateDirectory}>
+                                                                outline color="primary" onClick={() => (this.ResetCreateDirectory())}>
                                                                 Reset
                                                                 </Button>
                                                             <Button value="Send"
                                                                 color="primary"
-                                                                onClick={this.SubmitCreateDirectory} >
+                                                                onClick={() => (this.SubmitCreateDirectory())} >
                                                                 Add
                                                                 </Button>
                                                         </div>
@@ -588,16 +629,16 @@ class category extends Component {
                                                         {(this.state.submitdetupdatedir || this.state.UpdateDetails.updateDirDesc.touched) && !this.state.UpdateDetails.updateDirDesc._value && <span className="text-danger">{this.state.UpdateDetails.updateDirDesc.errorMsg}</span>}
                                                         <div className="justify-center btn-n-r">
                                                             <Button
-                                                                outline color="primary" onClick={this.DeleteDirectory} >
+                                                                outline color="primary" onClick={() => (this.DeleteDirectory())} >
                                                                 Delete
                                                                 </Button>
                                                             <Button
-                                                                outline color="primary" onClick={this.ResetUpdateDirectory}>
+                                                                outline color="primary" onClick={() => (this.ResetUpdateDirectory())}>
                                                                 Reset
                                                                 </Button>
                                                             <Button
                                                                 color="primary"
-                                                                onClick={this.SubmitUpdateDirectory} >
+                                                                onClick={() => (this.SubmitUpdateDirectory())} >
                                                                 Update
                                                                 </Button>
                                                         </div>
@@ -640,6 +681,7 @@ class category extends Component {
                                                         <div className="topic-head"><h2>Upload Files</h2></div>
                                                         <>
                                                             <DropzoneComponent
+                                                                id="fileID"
                                                                 config={dropzoneComponentConfig}
                                                                 djsConfig={dropzoneConfig}
                                                                 eventHandlers={{
@@ -673,12 +715,12 @@ class category extends Component {
                                                             <div className="justify-center btn-n-r">
                                                                 <Button
                                                                     outline color="primary"
-                                                                    onClick={this.ResetFileDirectory}>
+                                                                    onClick={() => (this.ResetFileDirectory())}>
                                                                     Reset
                                                                 </Button>
                                                                 <Button value="Send"
                                                                     color="primary"
-                                                                    onClick={this.SubmitFileDirectory} >
+                                                                    onClick={() => (this.SubmitFileDirectory())} >
                                                                     Upload
                                                                 </Button>
                                                             </div>

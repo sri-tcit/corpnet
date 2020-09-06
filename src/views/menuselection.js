@@ -4,6 +4,8 @@ import * as Icon from 'react-bootstrap-icons';
 import Switch from 'rc-switch';
 import { Link,NavLink } from 'react-router-dom';
 import 'rc-switch/assets/index.css';
+import { toast } from 'react-toastify';
+
 import {
     Button
   } from 'reactstrap';
@@ -264,10 +266,38 @@ let checkedShowQuickNavDetails = Object.assign({}, this.state.checkedShowQuickNa
         axios.put(this.state.baseurl + `Directory/UpdateNav`, datas)
           .then(res => {
             if (res) {
+              if (res.status != 200) {
+                this.setState(prev => {
+                    let error = true;
+                    let errorMsg = res.statusText;
+                    let variant = 'danger';
+                    return { errorMsg, error, variant };
+                })
+                toast.error(res.data, {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            } else {
+                console.log('sucess2', res.data.status, res.data)
+                // this.getCategoryList();
+                // this.ResetCreateDirectory();
+                // window.location.assign('/app/categoryAdmin');
+                this.setState((prev) => {
+                    let errorMsg = res.statusText;
+                    let error = true;
+                    let variant = 'success'
+                    return { error, errorMsg, variant };
+                    console.log('sucess', res.data.status, res.data)
+                })
+                toast.success(res.data, {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            }
               this.setState((prev) => {});
             }
         })
-       this.fecthData();
+      //  this.fecthData();
+      window.location.assign('/app/menuselection');
+
 }
 onSort(event, sortKey) {
     console.log('onSort');

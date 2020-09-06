@@ -210,8 +210,8 @@ class admincontent extends Component {
                                         <h1>Manage Content</h1>
                                     </div>
                                     <div className="col-md-2">
-                                        <NavLink to="/app/adminmenus">
-                                            <h4>Back to Home</h4>      </NavLink>
+            <NavLink to="/app/adminmenus">
+            <div className="glyph-icon iconsminds-back back_home"> Back to Home</div>    </NavLink>
                                     </div>
                                 </div>
                                 {/* Content Stars here */}
