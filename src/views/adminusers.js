@@ -43,8 +43,9 @@ class adminusers extends Component {
             selectRoles: [],
             checkedShowLeftNav: [],
             showLeftNav: false,
-            userid: '',
+            userid: 0,
             maintitle: '',
+            fk_RoleMaster_id: 0,
             subtitle: '',
             sort: [{ field: "id", order: "desc" }],
             sort1: [{ field: "id", order: "desc" }],
@@ -56,12 +57,113 @@ class adminusers extends Component {
             }
         }
         this.handleuserChange = this.handleuserChange.bind(this)
-        this.addData = this.addData.bind(this);
-        this.getRoles = this.getRoles.bind(this);
+       
+     //   this.getRoles = this.getRoles.bind(this);
         this.onSort = this.onSort.bind(this);
-        this.editData = this.editData.bind(this);
-        // this.handleChangeActive = this.handleChangeActive.bind(this);
-        //  this.handleChangeSelect = this.handleChangeSelect.bind(this);
+     //   this.editData = this.editData.bind(this);
+        this.handleChangeActive = this.handleChangeActive.bind(this);
+        this.handleChangeLeft = this.handleChangeLeft.bind(this);
+    //    this.fetchData = this.fetchData.bind(this);
+          this.handleChangeSelect = this.handleChangeSelect.bind(this);
+          this.addData = this.addData.bind(this);
+    }
+
+    handleChangeLeft(index) {
+        this.state.checkedShowLeftNav.map((data,i)=>{
+            console.log('left',data,i)
+          })
+    if (!this.state.checkedShowLeftNav[index])
+    {
+      this.setState(prev => ({
+        // prev.checkedShowLeftNav;
+        checkedShowLeftNav: prev.checkedShowLeftNav.map((val, i) => {
+          if(val){
+           if(i === index)
+            val.Selected = !val.Selected 
+          }
+          return val;
+        }),
+      }))
+    }
+    else if (this.state.checkedShowLeftNav[index])
+    {
+      this.setState( prev => ({
+        checkedShowLeftNav: prev.checkedShowLeftNav.map((val, i) => {
+          if(val){
+            if(i === index)
+             val.Selected = !val.Selected
+           }
+           console.log('index',val)
+          return val;
+
+        }),
+      }))
+    }
+    // this.state.checkedShowLeftNav.push(this.state.Leftid);
+    
+    }
+
+    handleChangeActive(index) {
+
+
+     //   this.setState(prevState => {
+     //       let user = Object.assign({}, this.state.users);
+            
+     //       user = user.map((data, i) => {
+     //           console.log("janec", data.id)
+     //           if (data[i].id === index) {
+                    
+     //               data[i].IsActive = !data[i].IsActive;
+     //           }
+     //       })
+     //       return user;
+
+     //   })
+
+        console.log('jane',this.state.checkedActive[index])
+        if (!this.state.checkedActive[index])
+        {
+          this.setState(prev => ({
+    
+            checkedActive: prev.checkedActive.map((val, i) => {
+              if(val){
+               if(i === index)
+                val.IsActive = !val.IsActive
+                
+              }
+              return val;
+            }),
+          }))
+        }
+        else if (this.state.checkedActive[index])
+        {
+          this.setState( prev => ({
+            checkedActive: prev.checkedActive.map((val, i) => {
+              if(val){
+                if(i === index)
+                {
+                val.IsActive = !val.IsActive
+                axios.put(this.state.baseurl + `Admin/Delete?id=${val.id}`)
+                .then(res => {
+                      console.log('jane', res.data);
+                      if (res) {
+                        this.fetchUsers();
+                        console.log(res.data);
+                     //  this.props.action();
+                    //   val.IsActive = !val.IsActive
+               }
+                  })
+                
+                }
+               }
+               return val;
+    
+            }),
+          }))
+        }
+        //this.fetchUsers();
+        console.log('index', this.state.checkedActive)
+
     }
     handleChangeSelect(e) {
         ////    this.setState({ selectRoles: e.target.value });
@@ -69,11 +171,13 @@ class adminusers extends Component {
         //console.log(name,value)
         //this.state.userDetails.ldapUser_id._value =e.value;
         console.log("role", e.id)
+        this.state.fk_RoleMaster_id = e.id;
         this.setState(prevState => {
             let userDetails = Object.assign({}, this.state.userDetails);
             //     userDetails[name]._value = value;
             userDetails["fk_RoleMaster_id"]._value = e.id;
             userDetails["fk_RoleMaster_id"].touched = true;
+            this.state.userDetails.fk_RoleMaster_id._value = e.id;
             return userDetails;
         })
     }
@@ -98,15 +202,17 @@ class adminusers extends Component {
 
                             userDetails["ldapUser_id"]._value = data.LDAPUser_id
                             userDetails["fk_RoleMaster_id"]._value = data.fk_RoleMaster_id
-
+                            this.state.fk_RoleMaster_id= data.fk_RoleMaster_id
                             userDetails["fk_RoleMaster_id"].touched = true;
                             console.log('mountdata', data);
                             // pageDetails['pageid']._value = pageid;
+                         //   this.handleChangeSelect = this.handleChangeSelect.bind(this);
+                          //  this.fetchData = this.fetchData.bind(this);
+                            this.fetchData();
                             return { userDetails };
                         })
                     })
-
-                //   this.fetchData();
+                  
             }
         })
     }
@@ -123,19 +229,128 @@ class adminusers extends Component {
             return userDetails;
         })
     }
-    addData = () => {
+    resetValues()
+    {
+        
+            this.state.userid = 0;
+            
+            this.state.userDetails.ldapUser_id.touched = false;
+            this.state.userDetails.ldapUser_id._value = "";
+            this.state.fk_RoleMaster_id = "";
+            this.state.userDetails.fk_RoleMaster_id._value = "";
+        
+          //  this.handleChangeSelect = this.handleChangeSelect.bind(this);
+            this.fetchData();
+            this.fetchUsers();
+    }
+    handleValidations() {
+        
+        let error = false;
+       
+        let order = this.state.userDetails;
+        for (var i in order) {
+            if (order[i].required && !order[i]._value) {
+                console.log('error', order[i].required, !order[i]._value)
+                error = true;
+            }
+            if (error)
+                return error;
 
-        this.setState({
+
+
+            ///      if (!this.checkDuplicate(error)) {
+            // console.log('test3');
+            // error = false;
+            //    }
+            //     else {
+            // console.log('test4');
+            //  error = true;
+            //     }
+        }
+        return error;
+
+    }
+    addData ()
+        {
+           
+            this.setState({
             submittet: true
         })
-
-        if (this.handleValidations())
+        this.state.submittet = true;
+            if (this.handleValidations())
             return;
+        
 
+        
+console.log("carol",this.state.submittet)
         if (this.state.submittet) {
             let _result = [];
-            console.log("jane", "sfdsf")
-
+            console.log("user", this.state.userid)
+            if (this.state.userid !== 0)
+            {
+                let postdata = {
+                    "ldapUser_id": this.state.userDetails.ldapUser_id._value,
+                    "fk_RoleMaster_id": this.state.userDetails.fk_RoleMaster_id._value,
+                    "createdBy": "Admin" 
+                }
+                // console.log('loadData', id)
+                //    var link = this.state.baseurl + `Generic/Update/${id}` ;
+                console.log('linkupdate', this.state.userid)
+    
+                //  axios.post(this.state.baseurl + `Generic/Update/${id}`,postdata)
+                axios.put(this.state.baseurl + `Admin/Update?id=${this.state.userid}`, postdata)
+                    .then(res => {
+                        console.log('sampleid',res);
+                        if (res) {
+                            
+                            let id = 0;
+                            let Selected='';
+                           
+                            let data1 = [];
+                            let datas = [];
+                            console.log('sampleid', "jane", this.state.checkedShowLeftNav );
+                          let checkedShowLeftNavDetails = Object.assign({}, this.state.checkedShowLeftNav);
+                          console.log('sampleid',checkedShowLeftNavDetails );
+                                  for (var i in checkedShowLeftNavDetails) {
+                                    id = checkedShowLeftNavDetails[i].id
+                                    Selected=checkedShowLeftNavDetails[i].Selected
+                                  
+                                    data1 = {
+                                      "fk_Directory_id": id,
+                                      "isActive":Selected,
+                                      "ldapUser_id": this.state.userDetails.ldapUser_id._value,
+                                      "createdBy":"Admin"
+                                    }
+                                    datas.push(data1);
+                                  }
+                              // let datas = {
+                              //     "checkedShowLeftNav": this.state.checkedShowLeftNav,
+                              //     "checkedShowContNav": this.state.checkedShowContNav,
+                              //     "checkedShowBottomNav": this.state.checkedShowBottomNav,
+                              //     "checkedShowQuickNav": this.state.checkedShowQuickNav
+                              //   }
+                                console.log('sampleid',datas);
+                                  axios.post(this.state.baseurl + `Admin/AdminDirectory`, datas)
+                                  
+                                    .then(res => {
+                                        console.log('results',res.data);
+                                      if (res) {
+                                          
+                                       // this.setState((prev) => {});
+                                        console.log('results',"DSfsdf");
+                                        this.fetchUsers();
+                                        this.resetValues();
+                                      }
+                                  })
+    
+                           
+                            
+                        }
+                    })
+                }  
+           
+            else if (this.state.userid === 0)
+            {
             let postdata = {
                 "ldapUser_id": this.state.userDetails.ldapUser_id._value,
                 "fk_RoleMaster_id": this.state.userDetails.fk_RoleMaster_id._value,
@@ -148,28 +363,28 @@ class adminusers extends Component {
             //  axios.post(this.state.baseurl + `Generic/Update/${id}`,postdata)
             axios.post(this.state.baseurl + `Admin/Add/`, postdata)
                 .then(res => {
-                    console.log('jane', res.data);
-                    if (res.data) {
-
+                   
+                    if (res) {
+                        
                         let id = 0;
-                        let ShowLeftNav='';
+                        let Selected='';
                        
-                        let data = [];
+                        let data1 = [];
                         let datas = [];
-                      
+                        console.log('sampleid', "jane", this.state.checkedShowLeftNav );
                       let checkedShowLeftNavDetails = Object.assign({}, this.state.checkedShowLeftNav);
                       console.log('sampleid',checkedShowLeftNavDetails );
                               for (var i in checkedShowLeftNavDetails) {
                                 id = checkedShowLeftNavDetails[i].id
-                                ShowLeftNav=checkedShowLeftNavDetails[i].ShowLeftNav
+                                Selected=checkedShowLeftNavDetails[i].Selected
                               
-                                data = {
+                                data1 = {
                                   "fk_Directory_id": id,
-                                  "isActive":ShowLeftNav,
+                                  "isActive":Selected,
                                   "ldapUser_id": this.state.userDetails.ldapUser_id._value,
                                   "createdBy":"Admin"
                                 }
-                                datas.push(data);
+                                datas.push(data1);
                               }
                           // let datas = {
                           //     "checkedShowLeftNav": this.state.checkedShowLeftNav,
@@ -180,17 +395,15 @@ class adminusers extends Component {
                             console.log('sampleid',datas);
                               axios.post(this.state.baseurl + `Admin/AdminDirectory`, datas)
                                 .then(res => {
-                                  if (res) {
-                                    this.setState((prev) => {});
-                                    this.fetchUsers()
-                                  }
+                                //  if (res) {
+                                    console.log('results',res);
+                                    this.fetchUsers();
+                                    this.resetValues();
+                                //  }
                               })
-
-                       
-                        
                     }
                 })
-
+            }  
         }
     }
     fetchData() {
@@ -201,26 +414,29 @@ class adminusers extends Component {
         let _checkedShowLeftNav = []
        
       //  var link = this.state.baseurl + `Menu/All`;
-      var link = this.state.baseurl + `Admin/GetAdminDirectory`;
+      var link = this.state.baseurl + `Admin/GetAdminDirectory?username=${this.state.userDetails.ldapUser_id._value}`;
         axios.get(link)
             .then(res => {
                 if (res.data) {
-                    console.log('result', res.data)
+                    console.log('result1', res.data)
 
                     res.data.map((data) => {
                         _menus.push(data)
                         _checkedShowLeftNav.push({
                             "id": data.ID,
-                          "ShowLeftNav": data.Selected
+                          "Selected": data.Selected // == 0 ? false : true
                         })
 
                         this.setState(prev => ({
                             menus: _menus,
                             checkedShowLeftNav: _checkedShowLeftNav,
-                        }
+                             }
+
                         )
+                        
                         );
-                        // return { menus, checkedShowLeftNav,checkedShowContNav,checkedShowQuickNav,checkedShowBottomNav}
+                        console.log('result', this.state.checkedShowLeftNav)
+                       // return { menus, checkedShowLeftNav}
 
                     })
                 }
@@ -243,7 +459,7 @@ class adminusers extends Component {
                         _checkedActive.push({
                             "id": data.id,
                             "LDAPUser_id": data.LDAPUser_id,
-                            "ShowActive": data.IsActive
+                            "IsActive": data.IsActive
                         })
 
                         this.setState(prev => ({
@@ -301,106 +517,7 @@ class adminusers extends Component {
         //     this.loadData(this.props.location.state.id);
         // }
     }
-    handleChangeLeft(index) {
-        console.log('left',this.state.checkedShowLeftNav[index].ShowLeftNav)
-    this.state.checkedShowLeftNav.map((data,i)=>{
-      console.log('left',data,i)
-    })
    
-
-    console.log(this.state)
-    if (!this.state.checkedShowLeftNav[index])
-    {
-      this.setState(prev => ({
-        // prev.checkedShowLeftNav;
-        checkedShowLeftNav: prev.checkedShowLeftNav.map((val, i) => {
-          if(val){
-           if(i === index)
-            val.ShowLeftNav = !val.ShowLeftNav  
-          }
-          return val;
-        }),
-      }))
-    }
-    else if (this.state.checkedShowLeftNav[index])
-    {
-      this.setState( prev => ({
-        checkedShowLeftNav: prev.checkedShowLeftNav.map((val, i) => {
-          if(val){
-            if(i === index)
-             val.ShowLeftNav = !val.ShowLeftNav 
-           }
-          return val;
-
-        }),
-      }))
-    }
-    // this.state.checkedShowLeftNav.push(this.state.Leftid);
-     console.log('index',this.state.checkedShowLeftNav)
-    }
-
-    handleChangeActive(index) {
-
-
-     //   this.setState(prevState => {
-     //       let user = Object.assign({}, this.state.users);
-            
-     //       user = user.map((data, i) => {
-     //           console.log("janec", data.id)
-     //           if (data[i].id === index) {
-                    
-     //               data[i].IsActive = !data[i].IsActive;
-     //           }
-     //       })
-     //       return user;
-
-     //   })
-
-        console.log(this.state)
-        if (!this.state.checkedActive[index])
-        {
-          this.setState(prev => ({
-            // prev.checkedShowLeftNav;
-            checkedActive: prev.checkedActive.map((val, i) => {
-              if(val){
-               if(i === index)
-                val.isActive = !val.isActive
-              }
-              return val;
-            }),
-          }))
-        }
-        else if (this.state.checkedShowLeftNav[index])
-        {
-          this.setState( prev => ({
-            checkedActive: prev.checkedActive.map((val, i) => {
-              if(val){
-                if(i === index)
-                //var id = data[index].id;
-                {
-                console.log('jane', index); 
-                    axios.put(this.state.baseurl + `Admin/Delete?id=${i}`)
-                     .then(res => {
-                          console.log('jane', res.data);
-                          if (res.data) {
-
-                            console.log(res.data);
-                             this.props.action();
-                             val.isActive = !val.isActive
-                     }
-                      })
-                    }
-                 
-               }
-              return val;
-    
-            }),
-          }))
-        }
-        
-        console.log('index', this.state.checkedActive)
-
-    }
     onSort(event, sortKey) {
         console.log('onSort');
         this.setState(prevState => {
@@ -413,33 +530,7 @@ class adminusers extends Component {
             this.fetchData();
         })
     }
-    handleValidations() {
-        let error = false;
-        // tell me sis sorry my misstake just wait let me check if this page is working as i added ur code here too
-
-        let order = this.state.userDetails;
-        for (var i in order) {
-            if (order[i].required && !order[i]._value) {
-                console.log('error', order[i].required, !order[i]._value)
-                error = true;
-            }
-            if (error)
-                return error;
-
-
-
-            ///      if (!this.checkDuplicate(error)) {
-            // console.log('test3');
-            // error = false;
-            //    }
-            //     else {
-            // console.log('test4');
-            //  error = true;
-            //     }
-        }
-        return error;
-
-    }
+    
     onSort1(event, sortKey) {
         console.log('onSort');
         this.setState(prevState => {
@@ -461,11 +552,7 @@ class adminusers extends Component {
         // set value for default selection
 
 
-        const SelectRole = [];
-        let selectData = this.state.listRoles && this.state.listRoles.map((data, index) => [
-            { label: data.roleName, value: data.id, key: index },
-
-        ]);
+       
         return (
             <>
                 <div className="row">
@@ -485,7 +572,7 @@ class adminusers extends Component {
                                     </div>
 
                                 </div>
-                                {console.log("userid", this.state.userid)}
+                                {/*this.state.userid*/}
                                 {/* Content Stars here */}
                                 <div className="row">
                                     <div className="col-12">
@@ -505,9 +592,9 @@ class adminusers extends Component {
                                         <div className="form-group">
                                             <Select
                                                 //value={this.state.userDetails.fk_RoleMaster_id._value}
-                                                //value={this.state.SelectRole} 
-                                                onChange={(event) => this.handleChangeSelect(event)}
-                                                //    onChange={this.handleChangeSelect.bind(this)}
+                                                value={this.state.listRoles.find(item => item.value === this.state.fk_RoleMaster_id)}
+                                                        // onChange={(event) => this.handleChangeSelect(event)}
+                                                   onChange={this.handleChangeSelect.bind(this)}
                                                 options={this.state.listRoles}
                                                 id="fk_RoleMaster_id"
                                                 name="fk_RoleMaster_id"
@@ -518,6 +605,7 @@ class adminusers extends Component {
                                             {(this.state.submittet || this.state.userDetails.fk_RoleMaster_id.touched) && !this.state.userDetails.fk_RoleMaster_id._value && <span className="text-danger">{this.state.userDetails.fk_RoleMaster_id.errorMsg}</span>}
 
                                         </div>
+                                        
                                         <table className="table table-border  table-striped">
                                             <thead>
                                                 <tr>
@@ -538,13 +626,7 @@ class adminusers extends Component {
                                                             <Icon.ArrowDown />
                                                         }
                                                     </th>
-                                                    <th className="is-sort" onClick={e => this.onSort(e, 'ShowLeftNav')}>Access
-                    {this.state.sort[0].field == "ShowLeftNav" && this.state.sort[0].order == "asc" &&
-                                                            <Icon.ArrowUp />
-                                                        }
-                                                        {this.state.sort[0].field == "ShowLeftNav" && this.state.sort[0].order == "desc" &&
-                                                            <Icon.ArrowDown />
-                                                        }</th>
+                                                    <th className="is-sort" >Access</th>
 
 
                                                 </tr>
@@ -556,12 +638,14 @@ class adminusers extends Component {
                                                             
                                                             <td>{data.DirName}</td>
 
-                                                            <td> {
+                                                            <td>{
+                                                                
                                                                 <Switch
                                                                     id="tooltip_switch"
                                                                     className="custom-switch custom-switch-primary custom-switch-small"
-                                                                    checked={this.state.checkedShowLeftNav[index].ShowLeftNav}
-                                                                    onChange={() => this.handleChangeLeft(index)} />
+                                                                    checked={this.state.checkedShowLeftNav[index].Selected}
+                                                                    onChange={ () => this.handleChangeLeft(index)}/>
+                                                                    
                                                             }
 
                                                             </td>
@@ -585,38 +669,44 @@ class adminusers extends Component {
                                         </table>
 
                                         <div className="form-group">
-                                            <Button value="Send"
-                                                color="secondary"
-                                                onClick={this.addData}
+                                           
+                                            <Button color="secondary"
+                                                onClick={() => this.addData()}
+                                             
                                             >
-                                                Add
+                                                Add 
+                        </Button>
+                        <Button value="Send"
+                                                color="secondary"
+                                                onClick={() => this.resetValues()}
+                                             
+                                            >
+                                                Reset 
                         </Button>
                                         </div>
 
                                     </div>
+                                    </div>
+                                    </div>
+                               </div></div></div>
+                                  
+                <div className="row">
+                    <div className="col-12">
+                                    <div className="card dashboard-progress" style={{ width: '100%' }}>
 
+<div className="card-body" >
                                     <table className="table table-border  table-striped">
                                         <thead>
                                             <tr>
-                                                <th className="is-sort" onClick={e => this.onSort(e, 'id')}> ID
-                    {this.state.sort[0].field == "id" && this.state.sort[0].order == "asc" &&
-                                                        <Icon.ArrowUp />
-                                                    }
-                                                    {this.state.sort[0].field == "id" && this.state.sort[0].order == "desc" &&
-                                                        <Icon.ArrowDown />
-                                                    }
+                                                <th className="is-sort"> User Name
+                   
                                                 </th>
-                                                <th className="is-sort" onClick={e => this.onSort1(e, 'DirName')}>User Name
-                    {this.state.sort1[0].field == "DirName" && this.state.sort1[0].order == "asc" &&
-                                                        <Icon.ArrowUp />
-                                                    }
-                                                    {this.state.sort1[0].field == "DirName" && this.state.sort1[0].order == "desc" &&
-                                                        <Icon.ArrowDown />
-                                                    }
+                                                <th className="is-sort">Role Name
+                   
                                                 </th>
                                                 <th className="is-sort" >Edit
                     </th>
-                                                <th className="is-sort" >Active
+                                                <th className="is-sort" >Disable
                    </th>
 
                                             </tr>
@@ -625,20 +715,20 @@ class adminusers extends Component {
                                             {this.state.users &&
                                                 this.state.users.map((data, index) => {
                                                     return (<tr key={index}>
-                                                        <td>{index + 1}</td>
-                                                        {/*<td>{data.id}</td>*/}
+                                                       
                                                         <td>{data.LDAPUser_id}</td>
+                                                        <td>{data.RoleName}</td>
                                                         <td className="action">
                                                             <span onClick={() => this.editData(data.id)}><Icon.Pencil size={20} /></span>
                                                             {/* <span onClick={() => this.deleteData(data.savedformID)}> <Icon.Trash size={20} /></span> */}
                                                         </td>
                                                         <td> {
                                                             <>
-                                                                <p>{data.ShowActive}</p>
+                                                                
                                                                 <Switch
                                                                     id="tooltip_switch"
                                                                     className="custom-switch custom-switch-primary custom-switch-small"
-                                                                    checked={this.state.checkedActive[index].isActive}
+                                                                    checked={this.state.checkedActive[index].IsActive}
                                                                     onChange={() => this.handleChangeActive(index)} />
                                                             </>
                                                         }
@@ -668,7 +758,7 @@ class adminusers extends Component {
 
                             </div></div>
                     </div>
-                </div>
+               
             </>
         );
     };

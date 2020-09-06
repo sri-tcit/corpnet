@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink,Link } from 'react-router-dom';
-
 // var Link = Router.Link;
 // const backUrl = '/some/other/value';
 const Footer = () => {
@@ -24,7 +23,6 @@ const Footer = () => {
                                           pathname: "/app/generic/1",
                                           state: {
                                               id: "1"
-
                                           }
                                       }}>
                                       Disclaimer
@@ -37,7 +35,6 @@ const Footer = () => {
                                           pathname: "/app/generic/2",
                                           state: {
                                               id: "2"
-
                                           }
                                       }}>
                                       Terms of Use
@@ -50,7 +47,6 @@ const Footer = () => {
                                           pathname: "/app/generic/3",
                                           state: {
                                               id: "3"
-
                                           }
                                       }}>
                                       Privacy Policy
@@ -64,5 +60,4 @@ const Footer = () => {
     </footer>
   );
 };
-
 export default Footer;

@@ -1,33 +1,28 @@
-import React, { Component, Suspense } from "react";
-import { getAnimationType } from "react-scroll/modules/mixins/animate-scroll";
+import React, { Component } from "react";
 import Parser from 'html-react-parser'; 
 import axios from 'axios';
 import { api,mediaPath} from '../views/Shared/baseurl-api';
+import {Baseurl} from '../constants/defaultValues';
 
 class category extends Component {
     constructor(props) {
         super(props);
-
         this.props.history.listen((location, action) => {
             this.getCategoryList(location.pathname)
         });
-
         this.state = {
             baseurl: api,
-
             docBaseUrl: mediaPath,
-            loader: false,
+      base: Baseurl,
+      loader: false,
             result: [],
             document: [],
             user: "hakkimb"
-
-
-            //console.log('query', this.props.match.params.id)
+            
         }
         this.hasFileOrDir = this.hasFileOrDir.bind(this)
     }
-    //  this.showPanel = this.showPanel.bind(this);
-
+    
     makeFavorite(id, e, type, level) {
         if (e) {
             e.stopPropagation();
@@ -40,55 +35,48 @@ class category extends Component {
             "fk_DocDir_id": id,
             "ldapUser_id": "admin"
         }).then(res => {
-            if (level == 1)
+            if (level === 1)
                 this.makeFavoriteLocal(id, type);
             else
                 this.makeSubLevelFav(id, type);
         })
     }
-
-
     makeInnerFav(data, id, type) {
-
         if (data) {
             data.map((_data) => {
-
-                if (type == 2 && _data.files) {
+                if (type === 2 && _data.files) {
                     let _file = _data.files.map((file) => {
-                        if (file.ID == id) {
-                            file.ShowFavourite = file.ShowFavourite == 0 ? 1 : 0;
+                        if (file.ID === id) {
+                            file.ShowFavourite = file.ShowFavourite === 0 ? 1 : 0;
                         }
                         return file;
                     })
                     _data.files = _file;
                 }
-
-                if (_data.ID == id) {
-                    _data.ShowFavourite = _data.ShowFavourite == 0 ? 1 : 0;
+                if (_data.ID === id) {
+                    _data.ShowFavourite = _data.ShowFavourite === 0 ? 1 : 0;
                 } else {
                     this.getSubTreeDetails(_data.Dir, id, type)
                 }
             }
             )
         }
-
         return data;
     }
-
     makeSubLevelFav(id, type) {
         let _result = this.state.result.map((data) => {
             if (data.Dir) {
-                if (type == 2 && data.files) {
+                if (type === 2 && data.files) {
                     let _file = data.files.map((file) => {
-                        if (file.ID == id) {
-                            file.ShowFavourite = file.ShowFavourite == 0 ? 1 : 0;
+                        if (file.ID === id) {
+                            file.ShowFavourite = file.ShowFavourite === 0 ? 1 : 0;
                         }
                         return file;
                     })
                     data.files = _file;
                 } else {
-                    if (data.Dir.Id == id) {
-                        data.Dir.ShowFavourite = data.Dir.ShowFavourite == 0 ? 1 : 0;
+                    if (data.Dir.Id === id) {
+                        data.Dir.ShowFavourite = data.Dir.ShowFavourite === 0 ? 1 : 0;
                     }
                 }
                 let _res = this.makeInnerFav(data.Dir, id, type);
@@ -102,17 +90,15 @@ class category extends Component {
             result: _result
         })
     }
-
     makeFavoriteLocal(id, type) {
-
         let _result = this.state.result.map((data) => {
-            if (data.ID == id) {
-                data.ShowFavourite = data.ShowFavourite == 0 ? 1 : 0;
+            if (data.ID === id) {
+                data.ShowFavourite = data.ShowFavourite === 0 ? 1 : 0;
             }
-            if (type == 2 && data.files) {
+            if (type === 2 && data.files) {
                 let _file = data.files.map((file) => {
-                    if (file.ID == id) {
-                        file.ShowFavourite = file.ShowFavourite == 0 ? 1 : 0;
+                    if (file.ID === id) {
+                        file.ShowFavourite = file.ShowFavourite === 0 ? 1 : 0;
                     }
                     return file;
                 })
@@ -124,33 +110,24 @@ class category extends Component {
             result: _result
         }, () => {
         })
-
-
     }
     getFileLists(data) {
-
     }
-
     getDirLists(data) {
-
     }
-
     showPanel(index, level) {
         this.setState(prevState => {
             let result = prevState.result;
-
             for (var i = 0; i < result.length; i++) {
-                if (result[i].ID == index) {
+                if (result[i].ID === index) {
                     result[i].show = !result[i].show;
                 } else {
                     result[i].show = false;
                 }
             }
             return { result };
-
         })
     }
-
     makeRecent(id, e, user,DocPath) {
         if (e) {
             e.stopPropagation();
@@ -168,24 +145,22 @@ class category extends Component {
            console.log(id)
         })
         let path = `${this.state.docBaseUrl + DocPath}`; 
-    //    window.location.href=path;
+    
         window.open(path, '_blank');
-      //  const history = useHistory()
-      //  let path = `${this.state.docBaseUrl + 'data/SOP/sample.pdf'}`; 
-      //  this.props.history.push(path);
+      
+      
+      
     }
     hasFileOrDir(data) {
-
         if (data) {
             return data.map((data, key) => {
-                return <li key={key} className={"list_acc" + (data.show == true ? '' : ' hide')}>
-
+                return <li key={key} className={"list_acc" + (data.show === true ? '' : ' hide')}>
                     <a style={{ cursor: 'pointer' }} data-toggle="collapse" data-target={"#inner_comp_" + data.ID} className={!data.show ? 'collapsed' : ''} aria-expanded={data.show ? 'true' : 'false'}>
                         <span onClick={() => this.showSubTree(data.ID)} >
                             <i className="iconsminds-folder"></i>
                             <span className="d-inline-block">{Parser(" "+data.DirName)} </span>
                         </span>
-                        <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                        <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                     </a>
                     <span id={"inner_comp_" + data.ID} className="collapse show">
                         <ul className="list-unstyled inner-level-menu-new">
@@ -195,23 +170,19 @@ class category extends Component {
                                         <i className="simple-icon-doc"></i>
                                         <span
                                             className="d-inline-block">{Parser(" "+file.DocName)}</span>
-                                        <i onClick={(e) => this.makeFavorite(file.ID, e, 2, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                        <i onClick={(e) => this.makeFavorite(file.ID, e, 2, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                     </a>
                                 </li>
                             )
                             }
-
                         </ul>
                     </span>
                     {data.Dir && this.hasFileOrDir(data.Dir)}
                 </li>
-
             })
         }
     }
-
     showSubTree(id) {
-
         let _result = this.state.result.map((data) => {
             if (data.Dir) {
                 let _res = this.getSubTreeDetails(data.Dir, id);
@@ -223,15 +194,12 @@ class category extends Component {
         this.setState({
             result: _result
         }, () => {
-
         })
-
     }
     getSubTreeDetails(data, id) {
-
         if (data) {
             data.map((_data) => {
-                if (_data.ID == id) {
+                if (_data.ID === id) {
                     _data.show = !_data.show;
                 } else {
                     this.getSubTreeDetails(_data.Dir, id)
@@ -239,10 +207,8 @@ class category extends Component {
             }
             )
         }
-
         return data;
     }
-
     getCategoryList(id) {
         id = id.split("/");
         id = id[id.length - 1];
@@ -252,12 +218,11 @@ class category extends Component {
             var link = this.state.baseurl+`directory/${id}`;
             axios.get(link)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         let _res = [];
-                        // console.log('test',res,res.data[1].Content[0].hasOwnProperty('Dir'))
+                        
                         if (res.data[1].hasOwnProperty('Content')) {
-                        // console.log('test',res.data[1].Content[0].hasOwnProperty('Dir'))
-
+                        
                             if (res.data[1].Content[0].hasOwnProperty('Dir'))
                         _res = res.data[1]?.Content[0]?.Dir;
                             else{
@@ -286,17 +251,12 @@ class category extends Component {
                     }
                 })
         }
-
     }
-
     componentDidMount() {
         this.getCategoryList(this.props.location.pathname);
     }
-
-
     render() {
         const { user } = this.state
-
         return (
             <>
                 {this.state.loader && <div className="loading" />}
@@ -304,15 +264,14 @@ class category extends Component {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-12">
-
                                 <nav className="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                                     <ol className="breadcrumb pt-0">
                                         <li className="breadcrumb-item">
-                                            <a href="./app/home">Home</a>
+                                            <a href={"."+this.state.base+"/app/home"} target="_self">Home</a>
                                         </li>
                                         {this.state.mainTitle &&
                                             <li className="breadcrumb-item">
-                                                <a href="#">{this.state.mainTitle}</a>
+                                                <a>{this.state.mainTitle}</a>
                                             </li>
                                         }
                                         {this.state.document && <li className="breadcrumb-item active" aria-current="page">
@@ -328,64 +287,56 @@ class category extends Component {
                                                 {this.state.document && <h2 className="page_title">{Parser(" "+this.state.document.DirDescription)}</h2>}
                                                 <div className="col-lg-12">
                                                     <div className="row">
-
                                                         <div className="col-lg-6">
                                                             <div id="accordion" className="">
                                                                 {this.state.result?.length > 0 && this.state.result.map((data, index) =>
-
                                                                     Math.ceil(this.state.result.length / 2) > index &&
                                                                     <div key={data.ID + index} className="sec_acc ">
-                                                                        <button className={"btn btn-link acc_head" + (data.show == true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show == true ? true : false} aria-controls="comp_1">
-                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}</span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)}  className={"simple-icon-star  " + (data.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                        <button className={"btn btn-link acc_head" + (data.show === true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show === true ? true : false} aria-controls="comp_1">
+                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}</span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)}  className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                         </button>
-                                                                        <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show == true ? ' show' : '')} data-parent="#accordion">
+                                                                        <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show === true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
                                                                                         <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
                                                                                             <i className="simple-icon-doc col-lg-2"></i>
-                                                                                            <span className="d-inline-block col-lg-8">{file.DocName}  </span><i onClick={(e) => this.makeFavorite(file.ID, e, 2, 1)}  className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                                            <span className="d-inline-block col-lg-8">{file.DocName}  </span><i onClick={(e) => this.makeFavorite(file.ID, e, 2, 1)}  className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>
                                                                                     </li>
                                                                                 )}
                                                                                 {this.hasFileOrDir(data.Dir)}
                                                                             </ul>
                                                                         </div>
-
                                                                     </div>
                                                                 )}
                                                             </div>
                                                         </div>
-
-
                                                         <div className="col-lg-6">
                                                             <div id="accordion" className="">
                                                                 {this.state.result.length > 0 && this.state.result.map((data, index) =>
                                                                     Math.ceil(this.state.result?.length / 2) <= index &&
                                                                     <div key={data.ID + index} className="sec_acc ">
-                                                                        <button className={"btn btn-link acc_head" + (data.show == true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show == true ? true : false} aria-controls="comp_1">
-                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}  </span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                        <button className={"btn btn-link acc_head" + (data.show === true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show === true ? true : false} aria-controls="comp_1">
+                                                                            <span onClick={(e) => this.showPanel(data.ID, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}  </span> <i onClick={(e) => this.makeFavorite(data.ID, e, 1, 1)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                         </button>
-                                                                        <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show == true ? ' show' : '')} data-parent="#accordion">
+                                                                        <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show === true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
                                                                                         <a href={`${this.state.docBaseUrl}${file.DocPath}`} onClick={(e) => this.makeRecent(data.ID, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
                                                                                             <i className="simple-icon-doc  col-lg-2"></i>
-                                                                                            <span className="d-inline-block  col-lg-8">{Parser(" "+file.DocName)}</span><i onClick={(e) => this.makeFavorite(data.ID, e, 2, 1)} data-brackets-id="15856" className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite == 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                                            <span className="d-inline-block  col-lg-8">{Parser(" "+file.DocName)}</span><i onClick={(e) => this.makeFavorite(data.ID, e, 2, 1)} data-brackets-id="15856" className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>
                                                                                     </li>
                                                                                 )}
                                                                                 {this.hasFileOrDir(data.Dir)}
                                                                             </ul>
                                                                         </div>
-
                                                                     </div>
                                                                 )}
                                                             </div>
-
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -398,12 +349,8 @@ class category extends Component {
                 </div>
                 }
             </>
-
         );
     };
 }
 category.propTypes = {}
 export default category;
-
-
-

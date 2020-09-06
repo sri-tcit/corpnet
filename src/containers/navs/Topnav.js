@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable no-use-before-define */
+
 import React, { useState } from 'react';
 import { injectIntl } from 'react-intl';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -15,31 +13,24 @@ import {
 
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import IntlMessages from '../../helpers/IntlMessages';
 import {
   setContainerClassnames,
   clickOnMobileMenu,
-  logoutUser,
   changeLocale,
 } from '../../redux/actions';
 
 import {
   menuHiddenBreakpoint,
   searchPath,
-  localeOptions,
-  isDarkSwitchActive,
-  buyUrl,
   adminRoot,
 } from '../../constants/defaultValues';
 
 import { MobileMenuIcon, MenuIcon } from '../../components/svg';
 import TopnavEasyAccess from './Topnav.EasyAccess';
 import TopnavNotifications from './Topnav.Notifications';
-import TopnavDarkSwitch from './Topnav.DarkSwitch';
-
 import { getDirection, setDirection } from '../../helpers/Utils';
 import { api } from '../../views/Shared/baseurl-api';
+import {Baseurl} from '../../constants/defaultValues';
 
 const TopNav = ({
   
@@ -293,39 +284,6 @@ const TopNav = ({
 
           </div>
         </UncontrolledDropdown>
-        {/* <div className="d-inline-block">
-          <UncontrolledDropdown className="ml-2">
-            <DropdownToggle
-              caret
-              color="light"
-              size="sm"
-              className="language-button"
-            >
-              <span className="name">{locale.toUpperCase()}</span>
-            </DropdownToggle>
-            <DropdownMenu className="mt-3" right>
-              {localeOptions.map((l) => {
-                return (
-                  <DropdownItem
-                    onClick={() => handleChangeLocale(l.id, l.direction)}
-                    key={l.id}
-                  >
-                    {l.name}
-                  </DropdownItem>
-                );
-              })}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </div>  */}
-        {/* <div className="position-relative d-none d-none d-lg-inline-block">
-          <a
-            className="btn btn-outline-primary btn-sm ml-2"
-            target="_top"
-            href={buyUrl}
-          >
-            <IntlMessages id="user.buy" />
-          </a>
-        </div> */}
       </div>
       <NavLink className="navbar-logo" to="/app/home">
         <span className="logo d-none d-xs-block" />
@@ -333,43 +291,19 @@ const TopNav = ({
       </NavLink>
 
       <div className="navbar-right">
-        {/* {isDarkSwitchActive && <TopnavDarkSwitch />} */}
         <div className="header-icons d-inline-block align-middle">
-          <TopnavEasyAccess  />
+          <TopnavEasyAccess />
           <TopnavNotifications />
-          {/* <button
-            className="header-icon btn btn-empty d-none d-sm-inline-block"
-            type="button"
-            onClick={TopnavNotifications}
-          >
-            </button> */}
-          {/* <button
-            className="header-icon btn btn-empty d-none d-sm-inline-block"
-            type="button"
-            id="fullScreenButton"
-            onClick={toggleFullScreen}
-          > */}
-          {/* {isInFullScreen ? (
-              <i className="simple-icon-size-actual d-block" />
-            ) : (
-              <i className="simple-icon-size-fullscreen d-block" />
-            )} */}
-          {/* </button> */}
         </div>
         <div className="user d-inline-block">
           <UncontrolledDropdown className="dropdown-menu-right">
             <DropdownToggle className="p-0" color="empty">
-              <span className="name mr-1">Sarah Kortney</span>
+              <span className="name mr-1">Adam</span>
               <span>
-                <img alt="Profile" src="/assets/img/l-1.jpg" />
+                <img alt="Profile" src={Baseurl+"/assets/img/l-1.jpg"} />
               </span>
             </DropdownToggle>
             <DropdownMenu className="mt-3" right>
-              {/* <DropdownItem>Account</DropdownItem>
-              <DropdownItem>Features</DropdownItem>
-              <DropdownItem>History</DropdownItem>
-              <DropdownItem>Support</DropdownItem>
-              <DropdownItem divider /> */}
               <DropdownItem onClick={() => handleLogout()}>
                 Admin Panel
               </DropdownItem>

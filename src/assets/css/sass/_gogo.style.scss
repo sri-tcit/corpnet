@@ -393,6 +393,21 @@ $error-color: #c43d4b;
 //     padding: 8px;
 //     color: #848484;
 // }
+a.list_acc_filelink {
+    cursor: pointer;
+}
+a.list_acc_filelink:hover> span a {
+    color: #ed7117 !important;}
+    a.list_acc_filelink:hover>i {
+    color: #ed7117 !important;
+    opacity: 1 !important;
+}
+.filelink{
+    padding-left: 0px !important;
+}
+a.filelink:hover {
+    color: #ed7118;
+}
 .banner-outer-1 {
     // background-image: url(../img/banner-4.png);
 
@@ -427,6 +442,84 @@ $error-color: #c43d4b;
     background-repeat: no-repeat;
     background-position: center center;
     box-shadow: 0 1px 15px rgba(0,0,0,.04), 0 1px 6px rgba(0,0,0,.04);
+} 
+.form-group.has-top-label .form-control, .form-group.has-top-label .react-tagsinput, .form-group.has-top-label .react-datepicker_input-container input, .form-group.has-top-label .react-select_value-container {
+    min-height: 35px !important;
+    height: 35px;
+}
+.form-group.has-top-label .form-control, .form-group.has-top-label .react-tagsinput, .form-group.has-top-label .react-datepicker_input-container input, .form-group.has-top-label .react-select_value-container {
+    padding: 0.75em 1.5em !important;
+}
+
+.sidebar1 {
+    height: 96vh;
+    background: #ffffff !important;
+    border-radius: 0px;
+    padding: 20px;
+    box-shadow: 1px 1px 4px 2px #0000001f;
+    border: 1px solid #f8f8f8;
+}
+        
+        .bk-grey {
+    background: #ffffff;
+    min-height: 280px;
+    height: 100% !important;
+    box-shadow: 1px 1px 4px 2px #0000001f;
+    border: 1px solid #f8f8f8;
+}
+.h-300 .scroll.bk-grey {
+            min-height: 400px !important;
+        }
+        .text-danger {
+            color: #dc3545 !important;
+            position: relative;
+            bottom: 10px;
+        }
+            
+            .nav-tabs .nav-item {
+    width: 50%;
+    text-align: center;
+}
+.carousel-caption {
+    position: absolute;
+    right: 0;
+    top: 35%;
+    text-align: left!important;
+    left: 10%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #f15a22;
+    text-align: center;
+    z-index: 0!important;
+}
+.banner-colored-blue {
+    background: #221c58;
+}
+.carousel-caption h3 {
+    color: #3a3a3a;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 19px;
+    text-shadow: 2px 1px 1px #00000036;
+    font-size: 22px;
+}
+.carousel-caption p {
+    width: 30%;
+    color: #1c4398;
+}
+.color-blue.carousel-caption h3 {
+    color: white !important;
+}
+.color-blue.carousel-caption p {
+    color: white !important;
+}
+.carousel-item {
+    background: white;
+    min-height: 400px;
+}
+.carousel-inner {
+   
+    box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
 }
 .form-group.has-top-label {
     margin-bottom: 10px;
@@ -441,19 +534,6 @@ $error-color: #c43d4b;
     color: #ffffff !important;
     background-color: #1c4398 !important;
     border-color: #1d4498 !important;
-}
-.carousel-caption {
-    position: absolute;
-    right: 0%;
-    top: 25%;
-    text-align: left !important;
-    left: 10%;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    color: #fdbe5b;
-    text-align: center;
-    width: 50%;
-    z-index: 0 !important;
 }
 .carousel-indicators li {
     background-color: #1c4398 !important;
@@ -488,12 +568,7 @@ $error-color: #c43d4b;
     max-height: 120px;
     height: 120px;
 }
-.sidebar1{
-    height: 71.5vh;
-    background: #f8f8f8 !important;
-    border-radius: 0px;
-    padding: 20px;
-        }
+
         ul.tree-group {
     /* padding-left: 15px; */
     list-style: none;
@@ -512,13 +587,6 @@ $error-color: #c43d4b;
     padding-left: 0px;
 }
     
-     .bk-grey {
-    background: #ffffff;
-    min-height: 280px;
-    height: 280px !important;
-    box-shadow: 1px 1px 4px 2px #0000001f;
-    border: 1px solid #f8f8f8;
-}
     .pad_left_0{
         padding-left: 0px;
 }
@@ -556,7 +624,7 @@ $error-color: #c43d4b;
     color: #1d4498;
     border: 1px solid #1d4498;
 }
-        .h-300{height: 300px;}
+        .h-300{min-height: 300px;height:100%}
         .no-padding{padding: 0px !important;}
         .justify-center.btn-n-r .btn {
             border-radius: 0px;
@@ -1051,7 +1119,7 @@ a.invert_style {
 }
 .h-195{
     // overflow-y: scroll;
-    height: 225px;
+    height: 275px;
     margin-top: 20px;
 }
 .box {
@@ -4184,7 +4252,7 @@ main {
 
 .dashboard-progress {
     min-height: 395px;
-    margin-left: 14px;
+    // margin-left: 14px;
 }
 
 .dashboard-top-rated {

@@ -7,25 +7,16 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
-// import './helpers/Firebase';
 import AppLocale from './lang';
 import ColorSwitcher from './components/common/ColorSwitcher';
-// import { NotificationContainer } from './components/common/react-notifications';
 import { isMultiColorActive, isDemo, adminRoot } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import AppLayout from '../src/layout/AppLayout';
 toast.configure();
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app')
 );
-const ViewHome = React.lazy(() =>
-  import(/* webpackChunkName: "views" */ './views/home')
-);
-// const ViewUser = React.lazy(() =>
-//   import(/* webpackChunkName: "views-user" */ './views/user')
-// );
 const ViewCategory = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/category')
 );
@@ -53,20 +44,19 @@ const ViewAdminUsers= React.lazy(() =>
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
-
 const AuthRoute = ({ component: Component, authUser, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
         authUser || isDemo ? (
-          // authUser || isDemo ? (
+          
           <Component {...props} />
         ) : (
           <Redirect
             to={{
               pathname: '/',
-              // pathname: '/app/applications/survey',
+              
               state: { from: props.location },
             }}
           />
@@ -75,7 +65,6 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
     />
   );
 };
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -88,14 +77,12 @@ class App extends React.Component {
       document.body.classList.remove('rtl');
     }
   }
-
   render() {
     console.log('props',this.props);
-    // this.props.user ='bzebm5ZQnhepuRBYAAZBbWxa1lm2';
-    // console.log('props',this.props);
+    
+    
     const { locale, loginUser } = this.props;
     const currentAppLocale = AppLocale[locale];
-
     return (
       <div className="h-100">
         <IntlProvider
@@ -107,17 +94,12 @@ class App extends React.Component {
             {isMultiColorActive && <ColorSwitcher />}
             <Suspense fallback={<div className="loading" />}>
               <Router>
-            {/* <AppLayout> */}
                 <Switch>
                   <AuthRoute
                     path={adminRoot}
                     authUser={loginUser}
                     component={ViewApp}
                   />
-                  {/* <Route
-                    path="/user"
-                    render={(props) => <ViewUser {...props} />}
-                  /> */}
                   <Route
                     path="/error"
                     exact
@@ -160,14 +142,8 @@ class App extends React.Component {
                     exact
                     render={(props) => <Redirect to="/app/home"/>}
                   />
-                  {/* <Route
-                    path="/"
-                    exact
-                    render={(props) => <ViewHome {...props} />}
-                  /> */}
                   <Redirect to="/error" />
                 </Switch>
-            {/* </AppLayout> */}
               </Router>
             </Suspense>
           </>
@@ -176,11 +152,9 @@ class App extends React.Component {
     );
   }
 }
-
 const mapStateToProps = ({  settings }) => {
   const { locale } = settings;
   return {  locale };
 };
 const mapActionsToProps = {};
-
 export default connect(mapStateToProps, mapActionsToProps)(App);
