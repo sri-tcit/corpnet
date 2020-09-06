@@ -29,7 +29,7 @@ class category extends Component {
             e.preventDefault();
         }
         console.log("Make Favourute" + id)
-        var link = this.state.baseUrl + 'Favourite/Add';
+        var link = this.state.baseurl + 'Favourite/Add';
         axios.post(link, {
             "docDirType": type.toString(),
             "fk_DocDir_id": id,
