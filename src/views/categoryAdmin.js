@@ -318,7 +318,7 @@ class category extends Component {
     hasFileOrDir(data) {
         if (data) {
             return data.map((data, key) => <li key={key} className="tree-item ">
-                <span className={"tree-item-label " + data.show ? "iconsminds-folder" : "iconsminds-folder-open" + "show-on-hover"}><a onClick={() => this.showSubTree(data.ID, data.DirName)} className={data.show && data.Dir ? "expand active" : "expand"}>{data.DirName} {data.show}</a></span>
+                <span className={"tree-item-label " + data.show ? "iconsminds-folder" : "iconsminds-folder-open" + "show-on-hover"}><a onClick={() => this.showSubTree(data.id, data.DirName)} className={data.show && data.Dir ? "expand active" : "expand"}>{data.DirName} {data.show}</a></span>
                 {data.Dir && data.show && this.hasFileOrDir(data.Dir)}
             </li >
             )
@@ -357,7 +357,7 @@ class category extends Component {
     }
     showSubTree(id, DirName) {
         let _result = this.state.result.map((data) => {
-            if (data.ID == id) {
+            if (data.id == id) {
                 data.show = !data.show;
             }
             if (data.Dir) {
@@ -399,9 +399,9 @@ class category extends Component {
     getSubTreeDetails(data, id, DirName) {
         if (data) {
             data.map((_data) => {
-                if (_data.ID == id) {
-                    this.state.CreateDetails.subDirID._value = _data.ID;
-                    this.state.UpdateDetails.updateDirID._value = _data.ID;
+                if (_data.id == id) {
+                    this.state.CreateDetails.subDirID._value = _data.id;
+                    this.state.UpdateDetails.updateDirID._value = _data.id;
                     this.state.UpdateDetails.updateDirName._value = _data.DirName;
                     this.state.UpdateDetails.updateDirDesc._value = _data.DirDescription;
                     _data.show = !_data.show;
@@ -543,7 +543,7 @@ class category extends Component {
                                                         {this.state.result && this.state.result.map((data, key) =>
                                                             <li key={key} className="tree-item ">
                                                                 <span className={"tree-item-label " + data.show ? "iconsminds-folder" : "iconsminds-folder-open" + "show-on-hover"}>
-                                                                    <a onClick={() => this.showSubTree(data.ID, data.DirName)} className={data.show && data.Dir ? "expand active" : "expand"}>{data.DirName}</a>
+                                                                    <a onClick={() => this.showSubTree(data.id, data.DirName)} className={data.show && data.Dir ? "expand active" : "expand"}>{data.DirName}</a>
                                                                 </span>
                                                                 {data.show && this.hasFileOrDir(data.Dir)}
                                                             </li>
