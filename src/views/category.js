@@ -132,7 +132,7 @@ class category extends Component {
             e.preventDefault();
         }
         console.log("recent" + id)
-        var link = this.state.baseUrl + 'Generic/AddRecentLink';
+        var link = this.state.baseurl + 'Generic/AddRecentLink';
         axios.post(link, {
             "ldapUser_id": user,
             "fk_Document_id": id,

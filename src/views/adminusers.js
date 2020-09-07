@@ -4,6 +4,11 @@ import { api } from './Shared/baseurl-api';
 import { Link, NavLink } from 'react-router-dom';
 import Parser from 'html-react-parser';
 import * as Icon from 'react-bootstrap-icons';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 // import { ArrowRight } from 'react-bootstrap-icons';
 import Switch from 'rc-switch';
 import 'rc-switch/assets/index.css';
@@ -26,7 +31,7 @@ import {
 import Select from 'react-select';
 
 import { RouteEditor } from 'react-yandex-maps';
-
+const ReactDOMServer = require('react-dom/server');
 class adminusers extends Component {
     constructor(props) {
 
@@ -102,25 +107,61 @@ class adminusers extends Component {
     // this.state.checkedShowLeftNav.push(this.state.Leftid);
     
     }
+    deleteUser(id) {
+        axios.put(this.state.baseurl + `Admin/Delete?id=${id}`)
+                .then(res => {
+                      console.log('jane', res.data);
+                                            
+                        if (res.status != 200) {
+                            this.setState(prev => {
+                                let error = true;
+                                let errorMsg = res.data;
+                                let variant = 'danger';
+                                return { errorMsg, error, variant };
+                                console.log('sucess', res.data.status, res.data)
+                            })
+                            toast.error(res.data, {
+                                position: toast.POSITION.TOP_RIGHT
+                            });
+                        } else {
+                            console.log('sucess2', res.data.status, res.data)
+                            this.setState((prev) => {
+                                let errorMsg = res.data;
+                                let error = true;
+                                let variant = 'success'
+                                return { error, errorMsg, variant };
+                                console.log('sucess', res.data.status, res.data)
+                            })
+                            toast.success(res.data, {
+                                position: toast.POSITION.TOP_RIGHT
+                            });
+                            this.fetchUsers();
+                        }
+                  })
 
+    }
+    dontdeleteUser() { }
+    DeleteUser(id) {
+        confirmAlert({
+            title: 'Are you to Delete this user?',
+            message: '',
+            buttons: [
+                {
+                    label: 'Yes',
+                    style: 'color:orange',
+                    onClick: () => this.deleteUser(id)
+                },
+                {
+                    label: 'No',
+                    onClick: () => this.dontdeleteUser()
+                }
+            ]
+        });
+    }
     handleChangeActive(index) {
 
 
-     //   this.setState(prevState => {
-     //       let user = Object.assign({}, this.state.users);
-            
-     //       user = user.map((data, i) => {
-     //           console.log("janec", data.id)
-     //           if (data[i].id === index) {
-                    
-     //               data[i].IsActive = !data[i].IsActive;
-     //           }
-     //       })
-     //       return user;
 
-     //   })
-
-        console.log('jane',this.state.checkedActive[index])
         if (!this.state.checkedActive[index])
         {
           this.setState(prev => ({
@@ -142,18 +183,8 @@ class adminusers extends Component {
               if(val){
                 if(i === index)
                 {
-                val.IsActive = !val.IsActive
-                axios.put(this.state.baseurl + `Admin/Delete?id=${val.id}`)
-                .then(res => {
-                      console.log('jane', res.data);
-                      if (res) {
-                        this.fetchUsers();
-                        console.log(res.data);
-                     //  this.props.action();
-                    //   val.IsActive = !val.IsActive
-               }
-                  })
-                
+                    this.DeleteUser(val.id);
+                    //val.IsActive = !val.IsActive
                 }
                }
                return val;
@@ -209,7 +240,9 @@ class adminusers extends Component {
                          //   this.handleChangeSelect = this.handleChangeSelect.bind(this);
                           //  this.fetchData = this.fetchData.bind(this);
                             this.fetchData();
+                            window.scroll(0,0);
                             return { userDetails };
+                            
                         })
                     })
                   
@@ -281,9 +314,7 @@ class adminusers extends Component {
             return;
         
 
-        
-console.log("carol",this.state.submittet)
-        if (this.state.submittet) {
+         if (this.state.submittet) {
             let _result = [];
             console.log("user", this.state.userid)
             if (this.state.userid !== 0)
@@ -334,13 +365,39 @@ console.log("carol",this.state.submittet)
                                   
                                     .then(res => {
                                         console.log('results',res.data);
-                                      if (res) {
+                                        if (res.status != 200) {
+                                            this.setState(prev => {
+                                                let error = true;
+                                                let errorMsg = res.statusText;
+                                                let variant = 'danger';
+                                                return { errorMsg, error, variant };
+                                            })
+                                            toast.error(res.data, {
+                                                position: toast.POSITION.TOP_RIGHT
+                                            });
+                                        } else {
+                                            console.log('sucess2', res.data.status, res.data)
+                                            // this.getCategoryList();
+                                            // this.ResetCreateDirectory();
+                                            window.location.assign('/app/adminusers');
+                                            this.setState((prev) => {
+                                                let errorMsg = res.statusText;
+                                                let error = true;
+                                                let variant = 'success'
+                                                return { error, errorMsg, variant };
+                                                console.log('sucess', res.data.status, res.data)
+                                            })
+                                            toast.success(res.data, {
+                                                position: toast.POSITION.TOP_RIGHT
+                                            });
+                                        }
+                                    //  if (res) {
                                           
                                        // this.setState((prev) => {});
-                                        console.log('results',"DSfsdf");
-                                        this.fetchUsers();
-                                        this.resetValues();
-                                      }
+                                     //   console.log('results',"DSfsdf");
+                                     //   this.fetchUsers();
+                                     //   this.resetValues();
+                                    //  }
                                   })
     
                            
@@ -395,10 +452,36 @@ console.log("carol",this.state.submittet)
                             console.log('sampleid',datas);
                               axios.post(this.state.baseurl + `Admin/AdminDirectory`, datas)
                                 .then(res => {
+                                    if (res.status != 200) {
+                                        this.setState(prev => {
+                                            let error = true;
+                                            let errorMsg = res.statusText;
+                                            let variant = 'danger';
+                                            return { errorMsg, error, variant };
+                                        })
+                                        toast.error(res.data, {
+                                            position: toast.POSITION.TOP_RIGHT
+                                        });
+                                    } else {
+                                        console.log('sucess2', res.data.status, res.data)
+                                        // this.getCategoryList();
+                                        // this.ResetCreateDirectory();
+                                        window.location.assign('/app/adminusers');
+                                        this.setState((prev) => {
+                                            let errorMsg = res.statusText;
+                                            let error = true;
+                                            let variant = 'success'
+                                            return { error, errorMsg, variant };
+                                            console.log('sucess', res.data.status, res.data)
+                                        })
+                                        toast.success(res.data, {
+                                            position: toast.POSITION.TOP_RIGHT
+                                        });
+                                    }
                                 //  if (res) {
-                                    console.log('results',res);
-                                    this.fetchUsers();
-                                    this.resetValues();
+                                //    console.log('results',res);
+                                //    this.fetchUsers();
+                                //    this.resetValues();
                                 //  }
                               })
                     }
@@ -551,7 +634,53 @@ console.log("carol",this.state.submittet)
         //    const {listRoles}  = this.state;
         // set value for default selection
 
-
+        const dropzoneComponentConfig = {
+            postUrl: 'https://httpbin.org/post',
+        };
+        const dropzoneConfig = {
+            thumbnailHeight: 160,
+            maxFilesize: 1,
+            previewTemplate: ReactDOMServer.renderToStaticMarkup(
+                <div className="dz-preview dz-file-preview mb-3">
+                    <div className="d-flex flex-row ">
+                        <div className="p-0 w-30 position-relative">
+                            <div className="dz-error-mark">
+                                <span>
+                                    <i />{' '}
+                                </span>
+                            </div>
+                            <div className="dz-success-mark">
+                                <span>
+                                    <i />
+                                </span>
+                            </div>
+                            <div className="preview-container">
+                                <img data-dz-thumbnail className="img-thumbnail border-0" />
+                                <i className="simple-icon-doc preview-icon" />
+                            </div>
+                        </div>
+                        <div className="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative">
+                            <div>
+                                {' '}
+                                <span data-dz-name />{' '}
+                            </div>
+                            <div className="text-primary text-extra-small" data-dz-size />
+                            <div className="dz-progress">
+                                <span className="dz-upload" data-dz-uploadprogress />
+                            </div>
+                            <div className="dz-error-message">
+                                <span data-dz-errormessage />
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#/" className="remove" data-dz-remove>
+                        {' '}
+                        <i className="glyph-icon simple-icon-trash" />{' '}
+                    </a>
+                </div>
+            ),
+            headers: { 'My-Awesome-Header': 'header value' },
+        };
        
         return (
             <>
@@ -565,31 +694,30 @@ console.log("carol",this.state.submittet)
                                     <div className="col-md-10">
                                         <h1>Manage Users</h1>
                                     </div>
-                                    <div className="col-md-2">
-
-                                        <NavLink to="/app/adminmenus">
-                                            <h4>Back to Home</h4>      </NavLink>
-                                    </div>
+                                    <div className="col-md-2"><NavLink to="/app/adminmenus">
+                                <div className="glyph-icon iconsminds-back back_home"> Back to Home</div>
+                            </NavLink>
+                            </div>
 
                                 </div>
                                 {/*this.state.userid*/}
                                 {/* Content Stars here */}
                                 <div className="row">
                                     <div className="col-12">
-
-                                        <div className="form-group">
+                                        <div className="form-group has-top-label">
+                                        <Label>User Name</Label>
                                             <Input
                                                 name="ldapUser_id"
                                                 id="ldapUser_id"
-                                                placeholder={"User Name"}
                                                 onChange={this.handleuserChange}
                                                 value={this.state.userDetails.ldapUser_id._value}
-
                                             />
-                                            {(this.state.submittet || this.state.userDetails.ldapUser_id.touched) && !this.state.userDetails.ldapUser_id._value && <span className="text-danger">{this.state.userDetails.ldapUser_id.errorMsg}</span>}
+                                           
                                         </div>
+                                        {(this.state.submittet || this.state.userDetails.ldapUser_id.touched) && !this.state.userDetails.ldapUser_id._value && <span className="text-danger">{this.state.userDetails.ldapUser_id.errorMsg}</span>}
 
-                                        <div className="form-group">
+                                        <div className="form-group has-top-label">
+                                        <Label>Select a Role</Label>
                                             <Select
                                                 //value={this.state.userDetails.fk_RoleMaster_id._value}
                                                 value={this.state.listRoles.find(item => item.value === this.state.fk_RoleMaster_id)}
@@ -599,14 +727,18 @@ console.log("carol",this.state.submittet)
                                                 id="fk_RoleMaster_id"
                                                 name="fk_RoleMaster_id"
                                                 //    className="react-select"
-                                                placeholder="Select a Role"
                                                 classNamePrefix="react-select"
                                             />
-                                            {(this.state.submittet || this.state.userDetails.fk_RoleMaster_id.touched) && !this.state.userDetails.fk_RoleMaster_id._value && <span className="text-danger">{this.state.userDetails.fk_RoleMaster_id.errorMsg}</span>}
-
+                                           
                                         </div>
-                                        
-                                        <table className="table table-border  table-striped">
+                                        {(this.state.submittet || this.state.userDetails.fk_RoleMaster_id.touched) && !this.state.userDetails.fk_RoleMaster_id._value && <span className="text-danger">{this.state.userDetails.fk_RoleMaster_id.errorMsg}</span>}
+
+                                     <div className="height_adjust_250">
+                                        <PerfectScrollbar
+                                    options={{  suppressScrollX: true, wheelPropagation: false }}
+                                >
+                                           <div >
+                                        <table  className="table table-border  table-striped">
                                             <thead>
                                                 <tr>
                                                     {/* <th>S.No </th>
@@ -618,20 +750,15 @@ console.log("carol",this.state.submittet)
                             <Icon.ArrowDown />
                         } 
                     </th> */}
-                                                    <th className="is-sort" onClick={e => this.onSort(e, 'DirName')}>Category Name
-                    {this.state.sort[0].field == "DirName" && this.state.sort[0].order == "asc" &&
-                                                            <Icon.ArrowUp />
-                                                        }
-                                                        {this.state.sort[0].field == "DirName" && this.state.sort[0].order == "desc" &&
-                                                            <Icon.ArrowDown />
-                                                        }
+                                                    <th className="is-sort">Category Name
+                   
                                                     </th>
                                                     <th className="is-sort" >Access</th>
 
 
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class= "display: block; overflow: auto; table-layout: fixed; max-height: 250px;">
                                                 {this.state.menus &&
                                                     this.state.menus.map((data, index) => {
                                                         return (<tr key={index}>
@@ -667,22 +794,22 @@ console.log("carol",this.state.submittet)
                                                 }
                                             </tbody>
                                         </table>
-
-                                        <div className="form-group">
+                                        </div></PerfectScrollbar></div>
+                                        <div className="justify-center btn-n-r">
                                            
-                                            <Button color="secondary"
+                                            <Button color="primary"
                                                 onClick={() => this.addData()}
                                              
                                             >
-                                                Add 
+                                                Submit 
                         </Button>
-                        <Button value="Send"
-                                                color="secondary"
+                       {/* <Button value="Send"
+                                                outline color="primary"
                                                 onClick={() => this.resetValues()}
                                              
                                             >
                                                 Reset 
-                        </Button>
+                                            </Button>*/}
                                         </div>
 
                                     </div>
@@ -691,11 +818,16 @@ console.log("carol",this.state.submittet)
                                </div></div></div>
                                   
                 <div className="row">
+               
                     <div className="col-12">
                                     <div className="card dashboard-progress" style={{ width: '100%' }}>
+                                   
 
-<div className="card-body" >
-                                    <table className="table table-border  table-striped">
+<div className="card-body " >
+<div className="col-md-10">
+                                        <h2>Users list</h2>
+                                    </div>
+                                    <table className="table table-border table table-striped">
                                         <thead>
                                             <tr>
                                                 <th className="is-sort"> User Name
@@ -706,7 +838,7 @@ console.log("carol",this.state.submittet)
                                                 </th>
                                                 <th className="is-sort" >Edit
                     </th>
-                                                <th className="is-sort" >Disable
+                                                <th className="is-sort" >Delete
                    </th>
 
                                             </tr>
