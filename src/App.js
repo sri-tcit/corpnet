@@ -9,10 +9,9 @@ import {
 import { IntlProvider } from 'react-intl';
 import AppLocale from './lang';
 import ColorSwitcher from './components/common/ColorSwitcher';
-import { isMultiColorActive, isDemo, adminRoot } from './constants/defaultValues';
+import { isMultiColorActive, isDemo, adminRoot,Baseurl } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
 import { toast } from 'react-toastify';
-import {Baseurl} from '../constants/defaultValues';
 
 import 'react-toastify/dist/ReactToastify.css';
 toast.configure();
