@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { NavLink } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import DropzoneComponent from 'react-dropzone-component';
+import {Baseurl} from '../constants/defaultValues';
 import { api, mediaPath } from '../views/Shared/baseurl-api';
 import 'dropzone/dist/min/dropzone.min.css';
 const ReactDOMServer = require('react-dom/server');
@@ -64,6 +65,13 @@ class category extends Component {
         this.changeHandler = this.changeHandler.bind(this);
     }
     componentDidMount() {
+        const username = sessionStorage.getItem("username");
+        const role = sessionStorage.getItem("role");
+        if (role == "Super Admin" || role == "Admin")
+        {}
+        else{
+        window.location.assign(Baseurl+'/app/home');
+        }
         this.getCategoryList();
     }
     SubmitUpdateDirectory() {
@@ -85,7 +93,7 @@ class category extends Component {
                 .then(res => {
                     if (res) {
                         // this.getCategoryList();
-                        window.location.assign('/app/categoryAdmin');
+                        window.location.assign(Baseurl+'/app/categoryAdmin');
                         // this.ResetUpdateDirectory();
                         if (res.status != 200) {
                             console.log('sucess21', res.data.status, res)
@@ -265,7 +273,7 @@ class category extends Component {
                         console.log('sucess2', res.data.status, res.data)
                         // this.getCategoryList();
                         // this.ResetCreateDirectory();
-                        window.location.assign('/app/categoryAdmin');
+                        window.location.assign(Baseurl+'/app/categoryAdmin');
                         this.setState((prev) => {
                             let errorMsg = res.statusText;
                             let error = true;
@@ -470,7 +478,7 @@ class category extends Component {
                 //  this.appendFiles(this.state.CreateDetails.subDirID._value)
                  this.ResetFileDirectory();
 
-        // window.location.assign('/app/categoryAdmin');
+        // window.location.assign(Baseurl+'/app/categoryAdmin');
 
             // event.preventDefault();
         }
