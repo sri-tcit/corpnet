@@ -590,6 +590,10 @@ class adminusers extends Component {
     componentDidMount() {
         //console.log('prop', this.props.location.state.id)
         // this.loadData(this.props.location.state.id);
+        const username = sessionStorage.getItem("username");
+        const role = sessionStorage.getItem("role");
+        if (role != "Super Admin")
+        window.location.assign('/app/home');
         this.getRoles();
         this.fetchData();
         this.fetchUsers();

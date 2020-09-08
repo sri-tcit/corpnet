@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-quill/dist/quill.snow.css';
 
+import {Baseurl} from '../constants/defaultValues';
 import {
     Button,
     Input,
@@ -130,7 +131,10 @@ class admincontent extends Component {
     }
     componentDidMount() {
         
-        
+        const username = sessionStorage.getItem("username");
+        const role = sessionStorage.getItem("role");
+        if (role != "Super Admin")
+        window.location.assign(Baseurl+'/app/home');
         this.getPages();
     }
     handleValidations() {
@@ -190,7 +194,7 @@ class admincontent extends Component {
                     } else {
                         console.log('sucess2', res.data.status, res.data)
                        
-                      //  window.location.assign('/app/admincontent');
+                      //  window.location.assign(Baseurl+'/app//admincontent');
                         this.setState((prev) => {
                             let errorMsg = res.statusText;
                             let error = true;

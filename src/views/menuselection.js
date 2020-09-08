@@ -11,10 +11,11 @@ import {
   } from 'reactstrap';
 import axios from 'axios';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import Pagination from '../views/Shared/pagination';
+// import baseurl from '../views/Shared/baseurl-api';
 import Moment from 'moment';
 import DatePicker from 'react-datepicker';
 import { api } from '../views/Shared/baseurl-api';
+import {Baseurl} from '../constants/defaultValues';
 
 class menuselection extends Component {
     constructor(props) {
@@ -172,6 +173,12 @@ class menuselection extends Component {
     this.fecthData();
     }
     componentDidMount() {
+
+      console.log('data')
+      const username = sessionStorage.getItem("username");
+      const role = sessionStorage.getItem("role");
+      if (role != "Super Admin")
+      window.location.assign(Baseurl+'/app/home');
         console.log('data')
        this.fecthData();
 }
@@ -269,7 +276,7 @@ let checkedShowQuickNavDetails = Object.assign({}, this.state.checkedShowQuickNa
       console.log('sampleid',datas);
         axios.put(this.state.baseurl + `Directory/UpdateNav`, datas)
           .then(res => {
-      window.location.assign('/app/menuselection');
+      window.location.assign(Baseurl+'/app/menuselection');
 
             if (res) {
               if (res.status != 200) {
@@ -286,7 +293,7 @@ let checkedShowQuickNavDetails = Object.assign({}, this.state.checkedShowQuickNa
                 console.log('sucess2', res.data.status, res.data)
                 // this.getCategoryList();
                 // this.ResetCreateDirectory();
-                // window.location.assign('/app/categoryAdmin');
+                // window.location.assign(Baseurl+'/app/categoryAdmin');
                 this.setState((prev) => {
                     let errorMsg = res.statusText;
                     let error = true;
@@ -431,8 +438,13 @@ onSort(event, sortKey) {
             </tbody>
         </table>
       }
-
-        <Button  className="cta-contact" onClick={() => this.submitForm()}>Submit</Button>
+      <div className="justify-center btn-n-r">
+   <Button value="Send"
+                                                color="primary"
+                                                onClick={() => this.submitForm()}
+                                            >
+                                                Submit
+                        </Button></div>
     </div>
     <div className="col-md-12">
         <div className="float-right">

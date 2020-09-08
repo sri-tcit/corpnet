@@ -13,6 +13,10 @@ import { isMultiColorActive, isDemo, adminRoot,Baseurl } from './constants/defau
 import { getDirection } from './helpers/Utils';
 import { toast } from 'react-toastify';
 
+import axios from 'axios';
+
+import { api } from './views/Shared/baseurl-api';
+
 import 'react-toastify/dist/ReactToastify.css';
 toast.configure();
 const ViewApp = React.lazy(() =>
@@ -77,6 +81,21 @@ class App extends React.Component {
       document.body.classList.add('ltr');
       document.body.classList.remove('rtl');
     }
+    this.state = {
+      baseurl: api,
+      base: Baseurl,
+  }
+  }
+
+  componentDidMount() {
+    var link = this.state.baseurl + `Generic/GetUsername`;
+    axios.get(link)
+   //   .then(res => {
+    //    if (res.data) {
+          sessionStorage.setItem("username","Adam");
+            sessionStorage.setItem("role","Super Admin");
+    //    }
+    //  })
   }
   render() {
     console.log('props',this.props);

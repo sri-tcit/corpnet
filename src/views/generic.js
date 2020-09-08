@@ -49,7 +49,7 @@ class generic extends Component {
             <>
                 {this.state.result?.length > 0 && this.state.result.map((data) =>
                     <div className="row">
-                        <div className="card dashboard-progress">
+                        <div className="card col-lg-12 dashboard-progress">
                             <div className="card-body">
                                 <h2 className="title_cn">{data.maintitle}</h2>
                                 <p className="welcome_content">{Parser(data.pagecontent)}

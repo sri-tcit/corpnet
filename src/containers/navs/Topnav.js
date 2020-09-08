@@ -29,7 +29,7 @@ import { MobileMenuIcon, MenuIcon } from '../../components/svg';
 import TopnavEasyAccess from './Topnav.EasyAccess';
 import TopnavNotifications from './Topnav.Notifications';
 import { getDirection, setDirection } from '../../helpers/Utils';
-import { api } from '../../views/Shared/baseurl-api';
+import { api,mediaPath } from '../../views/Shared/baseurl-api';
 import {Baseurl} from '../../constants/defaultValues';
 
 const TopNav = ({
@@ -55,6 +55,8 @@ const TopNav = ({
     setSearchKeyword('');
   };
 
+  const username = sessionStorage.getItem("username");
+  const role = sessionStorage.getItem("role");
   const handleChangeLocale = (_locale, direction) => {
     changeLocaleAction(_locale);
 
@@ -271,7 +273,7 @@ const TopNav = ({
                   options={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   {searchResult.map((data, index) => {
-                    return <a key={data.id} className="search-item" target="_blank" href={data.DocPath}>
+                    return <a key={data.id} className="search-item" target="_blank" href={`${mediaPath}${data.DocPath}`}>
                       {data.DocName}
                       <span className="search-item-desc">
                         {data.DocDescription}
@@ -298,16 +300,19 @@ const TopNav = ({
         <div className="user d-inline-block">
           <UncontrolledDropdown className="dropdown-menu-right">
             <DropdownToggle className="p-0" color="empty">
-              <span className="name mr-1">Adam</span>
+              <span className="name mr-1">{username}</span>
               <span>
                 <img alt="Profile" src={Baseurl+"/assets/img/l-1.jpg"} />
               </span>
             </DropdownToggle>
+            {
+            ( role && (role == "Admin" || role == "Super Admin")) &&
+            
             <DropdownMenu className="mt-3" right>
               <DropdownItem onClick={() => handleLogout()}>
                 Admin Panel
               </DropdownItem>
-            </DropdownMenu>
+            </DropdownMenu>}
           </UncontrolledDropdown>
         </div>
       </div>
