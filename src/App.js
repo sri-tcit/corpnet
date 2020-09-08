@@ -12,6 +12,8 @@ import ColorSwitcher from './components/common/ColorSwitcher';
 import { isMultiColorActive, isDemo, adminRoot } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
 import { toast } from 'react-toastify';
+import {Baseurl} from '../constants/defaultValues';
+
 import 'react-toastify/dist/ReactToastify.css';
 toast.configure();
 const ViewApp = React.lazy(() =>
@@ -93,7 +95,7 @@ class App extends React.Component {
             {/* <NotificationContainer /> */}
             {isMultiColorActive && <ColorSwitcher />}
             <Suspense fallback={<div className="loading" />}>
-              <Router>
+              <Router basename={Baseurl}>
                 <Switch>
                   <AuthRoute
                     path={adminRoot}

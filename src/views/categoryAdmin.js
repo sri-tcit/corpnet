@@ -446,9 +446,10 @@ class category extends Component {
                     this.state.baseurl + "DocumentUpload",
                     this.buildForm(),
                     { withCredentials: true,
-                        headers: new HttpHeaders({
-                             'Content-Type':  'application/json',
-                           }) },
+                        // headers: new HttpHeaders({
+                        //      'Content-Type':  'application/json',
+                        //    })
+                         },
                     toast.success("File Uploaded", {
                         position: toast.POSITION.TOP_RIGHT
                     })
