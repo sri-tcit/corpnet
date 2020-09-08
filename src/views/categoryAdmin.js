@@ -282,6 +282,8 @@ class category extends Component {
     }
     getFileList(id) {
         this.setState({ document: [], loader: true });
+        console.log('filelist',id)
+
         if (id) {
             var link = this.state.baseurl + `Document/GetFiles?id=${id}`;
             axios.get(link)
@@ -375,6 +377,7 @@ class category extends Component {
     }
     appendFiles(id) {
         let FileName = '', FileDesc = '',FileID='';
+        // this.setState({document:[]})
         let _document = this.state.document.map((data) => {
             if (data.id == id) {
                 data.show = !data.show;
@@ -427,19 +430,25 @@ class category extends Component {
         formData.append("CreatedBy", "Admin");
         if(this.state.files)
         formData.append("files", this.state.files.files[0]);
+        else
+        formData.append("files", '');
+        console.log('formdata',formData)
         return formData;
     }
     SubmitFileDirectory() {
         this.setState({
             submitdetfiles: true
         })
-        console.log('submitdetfiles', this.state.submitdetfiles)
+        console.log('submitdetfiles', this.state)
         if (this.state.FileDetails.fileName._value && this.state.FileDetails.fileDesc._value) {
             axios
                 .post(
                     this.state.baseurl + "DocumentUpload",
                     this.buildForm(),
-                    { withCredentials: true },
+                    { withCredentials: true,
+                        headers: new HttpHeaders({
+                             'Content-Type':  'application/json',
+                           }) },
                     toast.success("File Uploaded", {
                         position: toast.POSITION.TOP_RIGHT
                     })
@@ -454,10 +463,17 @@ class category extends Component {
                     });
                     console.log("form SubmitFileDirectory error", error);
                 });
+                console.log('file',this.state.CreateDetails.subDirID._value)
+                this.getFileList(this.state.CreateDetails.subDirID._value);
+                this.showSubTree(this.state.CreateDetails.subDirID._value,'')
+                //  this.appendFiles(this.state.CreateDetails.subDirID._value)
+                 this.ResetFileDirectory();
+
+        // window.location.assign('/app/categoryAdmin');
+
             // event.preventDefault();
         }
         // this.getCategoryList();
-        window.location.assign('/app/categoryAdmin');
 
     }
     render() {
@@ -553,10 +569,11 @@ class category extends Component {
                                             </ul>
                                         </div>
                                     </div>
-                                </PerfectScrollbar></div></div>
+                                </PerfectScrollbar></div>
+                                </div>
                                 <div className="col-md-9">
                                     <div className="row">
-                                        <div className="col-lg-6 height-adjust-scroll ">
+                                        <div className="col-lg-6 height-adjust-scroll">
                                             <div className="scroll bk-grey">
                                                 <PerfectScrollbar
                                                     options={{ suppressScrollX: true, wheelPropagation: false }}

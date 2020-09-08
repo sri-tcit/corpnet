@@ -17,7 +17,10 @@ class TopnavEasyAccess extends Component {
     componentDidUpdate(){
     }
     componentDidMount() {
-        let _menus =[];
+        this.fetchData();
+}
+  fetchData(){
+    let _menus =[];
   
       var link =this.state.baseurl + `Favourite/admin`;
       axios.get(link)
@@ -25,16 +28,21 @@ class TopnavEasyAccess extends Component {
                   if (res.data) {
                     res.data.map((data)=>{
                         _menus.push(data)
+    console.log('test1',_menus)
+
                         this.setState({menus:_menus});
                   })
                 }
               })
-}
+
+  }
+
+
   render() {
     return (
     
     <>
-    <div className="position-relative d-none d-sm-inline-block" >
+    <div className="position-relative d-none d-sm-inline-block" onClick={() => (this.fetchData())}>
       <UncontrolledDropdown className="dropdown-menu-right">
         <DropdownToggle className="header-icon" color="empty"  data-toggle="tooltip" title="Favorite Links">
           <i className="simple-icon-grid" />

@@ -182,6 +182,8 @@ fecthData(){
     let _checkedShowContNav = []
     let _checkedShowQuickNav = []
     let _checkedShowBottomNav = []
+    this.setState({ _menus: [], loader: true });
+
     var link =this.state.baseurl + `Menu/ALL`;
     axios.get(link)
             .then(res => {
@@ -217,6 +219,8 @@ fecthData(){
                 })
               }
             })
+            this.setState({   loader: false });
+
 }
 submitForm(){
   let id = 0;
@@ -265,6 +269,8 @@ let checkedShowQuickNavDetails = Object.assign({}, this.state.checkedShowQuickNa
       console.log('sampleid',datas);
         axios.put(this.state.baseurl + `Directory/UpdateNav`, datas)
           .then(res => {
+      window.location.assign('/app/menuselection');
+
             if (res) {
               if (res.status != 200) {
                 this.setState(prev => {
@@ -296,7 +302,6 @@ let checkedShowQuickNavDetails = Object.assign({}, this.state.checkedShowQuickNa
             }
         })
       //  this.fecthData();
-      window.location.assign('/app/menuselection');
 
 }
 onSort(event, sortKey) {
@@ -314,6 +319,7 @@ onSort(event, sortKey) {
   render() {
   return (
   <>
+
    <div className="row">
                         <div className="card dashboard-progress"   style={{ width : '100%' }}>
                             <div className="card-body">
@@ -328,6 +334,9 @@ onSort(event, sortKey) {
             </div>
           </div>
         </div>
+
+{this.state.loader && this.state.menus.length && <div className="loading" />}
+{ !this.state.loader &&
         <table className="table table-border  table-striped admin_allign_center">
             <thead>
                 <tr>
@@ -416,17 +425,14 @@ onSort(event, sortKey) {
                     })
                 }
                 {
-                    this.state.menus.length == 0 && !this.state.loader &&
-                    <tr><td colSpan="5" className="text-center" >Loading</td></tr>
-                }
-                {
-                    this.state.loader &&
-                    <tr><td colSpan="5" className="text-center" >Loading</td></tr>
+                    this.state.menus.length == 0 && this.state.loader &&
+                    <tr><td colSpan="5" className="text-center" >No Result found</td></tr>
                 }
             </tbody>
         </table>
+      }
+
         <Button  className="cta-contact" onClick={() => this.submitForm()}>Submit</Button>
-   
     </div>
     <div className="col-md-12">
         <div className="float-right">
