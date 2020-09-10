@@ -107,6 +107,17 @@ const TopNav = ({
     e.stopPropagation();
   };
 
+  const showDocType = (DocType) => {
+    if (DocType != null && (DocType === "pdf" || DocType === "txt" || DocType === "doc" || DocType === "docx" || DocType === "xls" || DocType === "xlsx" || DocType === "pptx" || DocType === "ppt" || DocType === "jpg" || DocType === "png"  || DocType === "zip" || DocType === "bmp")) 
+   {return(true)
+  
+  }
+  else
+  {
+      return(false)
+         
+  }
+};
   const handleDocumentClickSearch = (e) => {
     let isSearchClick = false;
 
@@ -273,12 +284,28 @@ const TopNav = ({
                   options={{ suppressScrollX: true, wheelPropagation: false }}
                 >
                   {searchResult.map((data, index) => {
-                    return <a key={data.id} className="search-item" target="_blank" href={`${mediaPath}${data.DocPath}`}>
-                      {data.DocName}
-                      <span className="search-item-desc">
-                        {data.DocDescription}
+                     return <div className="row"><div className="col-2">
+                     {showDocType(data.DocType) &&
+                     <span class='small_icon'>
+                     <img src={Baseurl+"/assets/img/"+data.DocType+".png"} />
+                     </span>}
+ 
+                     {!showDocType(data.DocType) &&
+                      <span class='small_icon'>
+                      <img src={Baseurl+"/assets/img/file.png"} />
                       </span>
-                    </a>;
+                     }
+                     </div><div className="col-8"><a key={data.id} className="search-item" target="_blank" href={Baseurl+data.DocPath}>
+                         {data.DocName}
+                       <span className="search-item-desc">
+                         {data.DocDescription}
+                          
+                         
+                     </span>
+                     </a></div><div className="col-2">
+                     <a key={data.id} className="search-item"  href={Baseurl+"/app/category/"+data.Fk_Directory_id}>
+                     <span className="search-item-desc">  <i className="iconsminds-folder"></i>                 
+                     </span> </a></div></div>
                   })}
                 </PerfectScrollbar>
               </div>

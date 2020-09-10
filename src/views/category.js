@@ -17,7 +17,7 @@ class category extends Component {
       loader: false,
             result: [],
             document: [],
-            user: "Adam"
+            user: sessionStorage.getItem("username")
             
         }
         this.hasFileOrDir = this.hasFileOrDir.bind(this)
@@ -33,7 +33,7 @@ class category extends Component {
         axios.post(link, {
             "docDirType": type.toString(),
             "fk_DocDir_id": id,
-            "ldapUser_id": "admin"
+            "ldapUser_id": sessionStorage.getItem("username")
         }).then(res => {
             if (level === 1)
                 this.makeFavoriteLocal(id, type);
@@ -72,7 +72,7 @@ class category extends Component {
 
     showDocType(DocType)
     {
-         if (DocType != null && (DocType === "pdf" || DocType === "txt" || DocType === "doc" || DocType === "docx" || DocType === "xls" || DocType === "xlsx" || DocType === "pptx" || DocType === "ppt" || DocType === "jpg")) 
+        if (DocType != null && (DocType === "pdf" || DocType === "txt" || DocType === "doc" || DocType === "docx" || DocType === "xls" || DocType === "xlsx" || DocType === "pptx" || DocType === "ppt" || DocType === "jpg" || DocType === "png"  || DocType === "zip" || DocType === "bmp"))  
          {return(
         <span class='small_icon'>
         <img src={this.state.base+"/assets/img/"+DocType+".png"} />
@@ -81,7 +81,9 @@ class category extends Component {
         else
         {
             return(
-                <i className="simple-icon-doc col-lg-2"></i>)
+                <span class='small_icon'>
+                     <img src={this.state.base+"/assets/img/file.png"} />
+                     </span>)
         }
     }
     makeSubLevelFav(id, type) {
