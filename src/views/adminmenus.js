@@ -66,7 +66,7 @@ class adminmenus extends Component {
                                         <div className="row admin_icon_fix">
                                         {
             ( role == "Super Admin") &&
-                                            <div className="col-lg-4 col-12 mb-4">
+                                            <div className="col-lg-6 col-12 mb-4">
                                                 <NavLink to="/app/menuselection">
                                                     <div className="card">
                                                         <div className="card-body d-flex  align-items-center">
@@ -76,7 +76,7 @@ class adminmenus extends Component {
                                                     </div></NavLink>
                                             </div>}
                                             {
-            ( role == "Admin" || role == "Super Admin") &&
+            ( role == "Admins" || role == "Super") &&
                                             <div className="col-lg-4 col-12 mb-4">
                                                 <NavLink to="/app/categoryAdmin">
                                                     <div className="card">
@@ -89,12 +89,12 @@ class adminmenus extends Component {
 
                                             {
             ( role == "Admin" || role == "Super Admin") &&
-                                            <div className="col-lg-4 col-12 mb-4">
+                                            <div className="col-lg-6 col-12 mb-4">
                                                 <NavLink to="/app/adminmanagefiles">
                                                     <div className="card">
                                                         <div className="card-body d-flex  align-items-center">
                                                             <div className="glyph-icon iconsminds-folder-cloud"></div>
-                                                            <h6 className="mb-0 pl-3">Admin Manage Files</h6>
+                                                            <h6 className="mb-0 pl-3">Manage Files</h6>
                                                         </div>
                                                     </div></NavLink>
                                             </div>}

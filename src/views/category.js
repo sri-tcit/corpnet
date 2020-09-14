@@ -74,16 +74,14 @@ class category extends Component {
     {
         if (DocType != null && (DocType === "pdf" || DocType === "txt" || DocType === "doc" || DocType === "docx" || DocType === "xls" || DocType === "xlsx" || DocType === "pptx" || DocType === "ppt" || DocType === "jpg" || DocType === "png"  || DocType === "zip" || DocType === "bmp"))  
          {return(
-        <span class='small_icon'>
+        <span className="small_icon">
         <img src={this.state.base+"/assets/img/"+DocType+".png"} />
         </span>)
         }
         else
         {
             return(
-                <span class='small_icon'>
-                     <img src={this.state.base+"/assets/img/file.png"} />
-                     </span>)
+               <i className="simple-icon-doc col-lg-2"></i>)
         }
     }
     makeSubLevelFav(id, type) {
@@ -181,7 +179,7 @@ class category extends Component {
                     <a style={{ cursor: 'pointer' }} data-toggle="collapse" data-target={"#inner_comp_" + data.id} className={!data.show ? 'collapsed' : ''} aria-expanded={data.show ? 'true' : 'false'}>
                         <span onClick={() => this.showSubTree(data.id)} >
                             <i className="iconsminds-folder"></i>
-                            <span className="d-inline-block">{Parser(" "+data.DirName)} </span>
+                            <span className="d-inline-block col-lg-8">{Parser(" "+data.DirName)} </span>
                         </span>
                         <i onClick={(e) => this.makeFavorite(data.id, e, 1, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                     </a>
@@ -192,7 +190,7 @@ class category extends Component {
                                     <a onClick={(e) => this.makeRecent(file.id, e, this.state.user,file.DocPath)} target="_blank">
                                     {this.showDocType(file.DocType)}  
                                         <span
-                                            className="d-inline-block">{Parser(" "+file.DocName)}</span>
+                                            className="d-inline-block col-lg-8">{Parser(" "+file.DocName)}</span>
                                         <i onClick={(e) => this.makeFavorite(file.id, e, 2, 2)} data-brackets-id="15856" className={"simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                     </a>
                                 </li>
@@ -353,10 +351,15 @@ class category extends Component {
                                                                             <ul className="list-unstyled inner-level-menu-new">
                                                                                 {data.files?.length > 0 && data.files.map((file, fileIndex) =>
                                                                                     <li key={fileIndex} className="list_acc">
-                                                                                        <a  onClick={(e) => this.makeRecent(file.id, e, user,file.DocPath)}  target="_blank"  className="row col-lg-12">
-                                                                                        {this.showDocType(file.DocType)}  
-                                                                                            <span className="d-inline-block  col-lg-8">{Parser(" "+file.DocName)}</span><i onClick={(e) => this.makeFavorite(file.id, e, 2, 1)} data-brackets-id="15856" className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                                        
+                                                                                        <a onClick={(e) => this.makeRecent(file.id, e, this.state.user, file.DocPath)} className="row col-lg-12" target="_blank">
+                                                                                            {this.showDocType(file.DocType)}
+                                                                                            <span
+                                                                                                className="d-inline-block col-lg-8">{Parser(" " + file.DocName)}</span>
+                                                                                            <i onClick={(e) => this.makeFavorite(file.id, e, 2, 2)} data-brackets-id="15856" className={"col-lg-2 simple-icon-star  " + (file.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                                         </a>
+
+
                                                                                     </li>
                                                                                 )}
                                                                                 {this.hasFileOrDir(data.Dir)}
