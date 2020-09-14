@@ -49,6 +49,9 @@ const ViewAdminUsers= React.lazy(() =>
 const ViewAdminFiles= React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/adminmanagefiles')
 );
+const ViewSubCategory= React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/subcategory')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -91,8 +94,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    var link = this.state.baseurl + `Generic/GetUsername`;
-    axios.get(link)
+  //  var link = this.state.baseurl + `Generic/GetUsername`;
+   // axios.get(link)
    //   .then(res => {
     //    if (res.data) {
           sessionStorage.setItem("username","Adam");
@@ -163,6 +166,10 @@ class App extends React.Component {
                   <Route
                     path={`/app/adminmanagefiles`}
                     render={(props) => <ViewAdminFiles {...props} />}
+                  />
+                  <Route
+                    path={`/app/subcategory`}
+                    render={(props) => <ViewSubCategory {...props} />}
                   />
                   <Route
                     path="/"

@@ -5,7 +5,7 @@ import Parser from 'html-react-parser';
 import { Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { Tabs, Tab } from 'react-bootstrap-tabs';
-import { api } from '../views/Shared/baseurl-api';
+import { api,mediaPath } from '../views/Shared/baseurl-api';
 import Carousel from 'react-bootstrap/Carousel';
 import {Baseurl} from '../constants/defaultValues';
 class home extends Component {
@@ -125,7 +125,7 @@ class home extends Component {
                     </span>
                   </div>
                 )}
-                <div className="cta-contact"><NavLink to="">i help</NavLink> <span></span>
+                <div className="cta-contact"><NavLink to="http://ihelp/">i help</NavLink> <span></span>
                   <NavLink to="" className="invert_style">+9714 45454545</NavLink>
                 </div>
               </div>
@@ -234,12 +234,12 @@ class home extends Component {
               options={{ suppressScrollX: true, wheelPropagation: false }}>   
                       <div className="tab-content">
                       {this.state.recentlinks?.length > 0 && this.state.recentlinks.map((data, index) =>
-                        <NavLink key={data.id}  to={data.DocPath}>
-                        
+                      
+                        <a key={data.id}  target="_blank" href={mediaPath+data.DocPath}>
                 <div key={data.id} className="links_with_icon row col-lg-12">
                               <i className="glyph-icon iconsminds-link-2 col-lg-2"></i><span  className="col-lg-10">{data.DocName}</span>
                             </div>
-                          </NavLink>
+                            </a>
                         )}
                       </div>
               </PerfectScrollbar>

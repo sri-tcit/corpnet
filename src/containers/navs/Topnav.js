@@ -295,7 +295,7 @@ const TopNav = ({
                       <img src={Baseurl+"/assets/img/file.png"} />
                       </span>
                      }
-                     </div><div className="col-8"><a key={data.id} className="search-item" target="_blank" href={Baseurl+data.DocPath}>
+                     </div><div className="col-8"><a key={data.id} className="search-item" target="_blank" href={mediaPath+data.DocPath}>
                          {data.DocName}
                        <span className="search-item-desc">
                          {data.DocDescription}
@@ -303,7 +303,7 @@ const TopNav = ({
                          
                      </span>
                      </a></div><div className="col-2">
-                     <a key={data.id} className="search-item"  href={Baseurl+"/app/category/"+data.Fk_Directory_id}>
+                     <a key={data.id} className="search-item" target="_blank" href={Baseurl+"/app/subcategory/"+data.Fk_Directory_id}>
                      <span className="search-item-desc">  <i className="iconsminds-folder"></i>                 
                      </span> </a></div></div>
                   })}

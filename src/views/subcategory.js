@@ -293,7 +293,6 @@ class category extends Component {
                                 <nav className="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                                     <ol className="breadcrumb pt-0">
                                         <li className="breadcrumb-item">
-                                            {/* <a href={"."+this.state.base+"/app/home"} target="_self">Home</a> */}
                                             <a href={this.state.base+"/app/home"} target="_self">Home</a>
                                         </li>
                                         {this.state.mainTitle &&
@@ -320,7 +319,7 @@ class category extends Component {
                                                                     Math.ceil(this.state.result.length / 2) > index &&
                                                                     <div key={data.id + index} className="sec_acc ">
                                                                         <button className={"btn btn-link acc_head" + (data.show === true ? '' : ' collapsed')} data-toggle="collapse" data-target="#comp_1" aria-expanded={data.show === true ? true : false} aria-controls="comp_1">
-                                                                            <span onClick={(e) => this.showPanel(data.id, 1)}><i className="iconsminds-folder"></i> {Parser(" "+data.DirName)}</span> <i onClick={(e) => this.makeFavorite(data.id, e, 1, 1)}  className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
+                                                                            <span onClick={(e) => this.showPanel(data.id, 1)}><i className="iconsminds-folder"></i> {Parser(" "+this.state.document.DirDescription)}</span> <i onClick={(e) => this.makeFavorite(data.id, e, 1, 1)}  className={"simple-icon-star  " + (data.ShowFavourite === 1 ? 'fav-icon' : 'show-on-hover')}></i>
                                                                         </button>
                                                                         <div id="comp_1" style={{ transition: '3s all ease' }} className={"collapse " + (data.show === true ? ' show' : '')} data-parent="#accordion">
                                                                             <ul className="list-unstyled inner-level-menu-new">
