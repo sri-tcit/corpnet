@@ -46,6 +46,9 @@ const ViewAdminContent = React.lazy(() =>
 const ViewAdminUsers= React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/adminusers')
 );
+const ViewAdminFiles= React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/adminmanagefiles')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -156,6 +159,10 @@ class App extends React.Component {
                   <Route
                     path={`/app/adminusers`}
                     render={(props) => <ViewAdminUsers {...props} />}
+                  />
+                  <Route
+                    path={`/app/adminmanagefiles`}
+                    render={(props) => <ViewAdminFiles {...props} />}
                   />
                   <Route
                     path="/"

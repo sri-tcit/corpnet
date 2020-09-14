@@ -37,6 +37,9 @@ const ViewAdminContent = React.lazy(() =>
 const ViewAdminUsers= React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ '../../views/adminusers')
 );
+const ViewAdminFiles= React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ '../../views/adminmanagefiles')
+);
 // const Applications = React.lazy(() =>
 //   import(/* webpackChunkName: "applications" */ './applications')
 // );
@@ -100,6 +103,10 @@ const App = ({ match }) => {
             <Route
               path={`${match.url}/adminusers`}
               render={(props) => <ViewAdminUsers {...props} />}
+            />
+            <Route
+              path={`${match.url}/adminmanagefiles`}
+              render={(props) => <ViewAdminFiles {...props} />}
             />
             {/* <Route
               path={`${match.url}/pages`}

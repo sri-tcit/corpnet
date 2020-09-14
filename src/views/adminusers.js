@@ -9,10 +9,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-// import { ArrowRight } from 'react-bootstrap-icons';
 import Switch from 'rc-switch';
 import 'rc-switch/assets/index.css';
-// import { Checkbox } from 'react-bootstrap/Checkbox';
 import {
     Row,
     Card,
@@ -29,14 +27,12 @@ import {
     Dropdown,
 } from 'reactstrap';
 import Select from 'react-select';
-
 import { RouteEditor } from 'react-yandex-maps';
 const ReactDOMServer = require('react-dom/server');
 class adminusers extends Component {
     constructor(props) {
-
         super(props);
-        //console.log("generic", this.props)
+        
         this.state = {
             baseurl: api,
             result: [],
@@ -58,21 +54,19 @@ class adminusers extends Component {
             userDetails: {
                 ldapUser_id: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
                 fk_RoleMaster_id: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
-
             }
         }
         this.handleuserChange = this.handleuserChange.bind(this)
        
-     //   this.getRoles = this.getRoles.bind(this);
+     
         this.onSort = this.onSort.bind(this);
-     //   this.editData = this.editData.bind(this);
+     
         this.handleChangeActive = this.handleChangeActive.bind(this);
         this.handleChangeLeft = this.handleChangeLeft.bind(this);
-    //    this.fetchData = this.fetchData.bind(this);
+    
           this.handleChangeSelect = this.handleChangeSelect.bind(this);
           this.addData = this.addData.bind(this);
     }
-
     handleChangeLeft(index) {
         this.state.checkedShowLeftNav.map((data,i)=>{
             console.log('left',data,i)
@@ -80,7 +74,7 @@ class adminusers extends Component {
     if (!this.state.checkedShowLeftNav[index])
     {
       this.setState(prev => ({
-        // prev.checkedShowLeftNav;
+        
         checkedShowLeftNav: prev.checkedShowLeftNav.map((val, i) => {
           if(val){
            if(i === index)
@@ -100,11 +94,10 @@ class adminusers extends Component {
            }
            console.log('index',val)
           return val;
-
         }),
       }))
     }
-    // this.state.checkedShowLeftNav.push(this.state.Leftid);
+    
     
     }
     deleteUser(id) {
@@ -138,7 +131,6 @@ class adminusers extends Component {
                             this.fetchUsers();
                         }
                   })
-
     }
     dontdeleteUser() { }
     DeleteUser(id) {
@@ -159,9 +151,6 @@ class adminusers extends Component {
         });
     }
     handleChangeActive(index) {
-
-
-
         if (!this.state.checkedActive[index])
         {
           this.setState(prev => ({
@@ -184,7 +173,7 @@ class adminusers extends Component {
                 if(i === index)
                 {
                     this.DeleteUser(val.id);
-                    //val.IsActive = !val.IsActive
+                    
                 }
                }
                return val;
@@ -192,53 +181,48 @@ class adminusers extends Component {
             }),
           }))
         }
-        //this.fetchUsers();
+        
         console.log('index', this.state.checkedActive)
-
     }
     handleChangeSelect(e) {
-        ////    this.setState({ selectRoles: e.target.value });
-        // let {  value } = e.target;
-        //console.log(name,value)
-        //this.state.userDetails.ldapUser_id._value =e.value;
+        
+        
+        
+        
         console.log("role", e.id)
         this.state.fk_RoleMaster_id = e.id;
         this.setState(prevState => {
             let userDetails = Object.assign({}, this.state.userDetails);
-            //     userDetails[name]._value = value;
+            
             userDetails["fk_RoleMaster_id"]._value = e.id;
             userDetails["fk_RoleMaster_id"].touched = true;
             this.state.userDetails.fk_RoleMaster_id._value = e.id;
             return userDetails;
         })
     }
-
     editData(id) {
         console.log('id', id);
         this.setState(state => {
-            // selectPage: e.id;
-
+            
             if (id) {
-                //  this.setState({ pageid: pageid });
-                // this.state.pageid = pageid;
+                
+                
                 var link = this.state.baseurl + `Admin/GetAdminUsers?id=${id}`;
                 console.log("link", link);
                 axios.get(link)
                     .then(res => {
                         let data = res.data[0];
-
                         this.state.userid = data.id;
                         this.setState(prevState => {
                             let userDetails = Object.assign({}, this.state.userDetails)
-
                             userDetails["ldapUser_id"]._value = data.LDAPUser_id
                             userDetails["fk_RoleMaster_id"]._value = data.fk_RoleMaster_id
                             this.state.fk_RoleMaster_id= data.fk_RoleMaster_id
                             userDetails["fk_RoleMaster_id"].touched = true;
                             console.log('mountdata', data);
-                            // pageDetails['pageid']._value = pageid;
-                         //   this.handleChangeSelect = this.handleChangeSelect.bind(this);
-                          //  this.fetchData = this.fetchData.bind(this);
+                            
+                         
+                          
                             this.fetchData();
                             window.scroll(0,0);
                             return { userDetails };
@@ -249,11 +233,9 @@ class adminusers extends Component {
             }
         })
     }
-
-
     handleuserChange(e) {
-        // this.setState({maintitle: e.target.value});
-        // console.log("maintitle", this.state.maintitle);
+        
+        
         let { name, value } = e.target;
         this.setState(prevState => {
             let userDetails = Object.assign({}, this.state.userDetails);
@@ -272,7 +254,7 @@ class adminusers extends Component {
             this.state.fk_RoleMaster_id = "";
             this.state.userDetails.fk_RoleMaster_id._value = "";
         
-          //  this.handleChangeSelect = this.handleChangeSelect.bind(this);
+          
             this.fetchData();
             this.fetchUsers();
     }
@@ -288,20 +270,16 @@ class adminusers extends Component {
             }
             if (error)
                 return error;
-
-
-
-            ///      if (!this.checkDuplicate(error)) {
-            // console.log('test3');
-            // error = false;
-            //    }
-            //     else {
-            // console.log('test4');
-            //  error = true;
-            //     }
+            
+            
+            
+            
+            
+            
+            
+            
         }
         return error;
-
     }
     addData ()
         {
@@ -313,7 +291,6 @@ class adminusers extends Component {
             if (this.handleValidations())
             return;
         
-
          if (this.state.submittet) {
             let _result = [];
             console.log("user", this.state.userid)
@@ -324,11 +301,11 @@ class adminusers extends Component {
                     "fk_RoleMaster_id": this.state.userDetails.fk_RoleMaster_id._value,
                     "createdBy": "Admin" 
                 }
-                // console.log('loadData', id)
-                //    var link = this.state.baseurl + `Generic/Update/${id}` ;
+                
+                
                 console.log('linkupdate', this.state.userid)
     
-                //  axios.post(this.state.baseurl + `Generic/Update/${id}`,postdata)
+                
                 axios.put(this.state.baseurl + `Admin/Update?id=${this.state.userid}`, postdata)
                     .then(res => {
                         console.log('sampleid',res);
@@ -354,12 +331,12 @@ class adminusers extends Component {
                                     }
                                     datas.push(data1);
                                   }
-                              // let datas = {
-                              //     "checkedShowLeftNav": this.state.checkedShowLeftNav,
-                              //     "checkedShowContNav": this.state.checkedShowContNav,
-                              //     "checkedShowBottomNav": this.state.checkedShowBottomNav,
-                              //     "checkedShowQuickNav": this.state.checkedShowQuickNav
-                              //   }
+                              
+                              
+                              
+                              
+                              
+                              
                                 console.log('sampleid',datas);
                                   axios.post(this.state.baseurl + `Admin/AdminDirectory`, datas)
                                   
@@ -377,8 +354,8 @@ class adminusers extends Component {
                                             });
                                         } else {
                                             console.log('sucess2', res.data.status, res.data)
-                                            // this.getCategoryList();
-                                            // this.ResetCreateDirectory();
+                                            
+                                            
                                             window.location.assign('/app/adminusers');
                                             this.setState((prev) => {
                                                 let errorMsg = res.statusText;
@@ -391,13 +368,13 @@ class adminusers extends Component {
                                                 position: toast.POSITION.TOP_RIGHT
                                             });
                                         }
-                                    //  if (res) {
+                                    
                                           
-                                       // this.setState((prev) => {});
-                                     //   console.log('results',"DSfsdf");
-                                     //   this.fetchUsers();
-                                     //   this.resetValues();
-                                    //  }
+                                       
+                                     
+                                     
+                                     
+                                    
                                   })
     
                            
@@ -413,11 +390,10 @@ class adminusers extends Component {
                 "fk_RoleMaster_id": this.state.userDetails.fk_RoleMaster_id._value,
                 "createdBy": "Admin" 
             }
-            // console.log('loadData', id)
-            //    var link = this.state.baseurl + `Generic/Update/${id}` ;
+            
+            
             console.log('link', postdata)
-
-            //  axios.post(this.state.baseurl + `Generic/Update/${id}`,postdata)
+            
             axios.post(this.state.baseurl + `Admin/Add/`, postdata)
                 .then(res => {
                    
@@ -443,12 +419,12 @@ class adminusers extends Component {
                                 }
                                 datas.push(data1);
                               }
-                          // let datas = {
-                          //     "checkedShowLeftNav": this.state.checkedShowLeftNav,
-                          //     "checkedShowContNav": this.state.checkedShowContNav,
-                          //     "checkedShowBottomNav": this.state.checkedShowBottomNav,
-                          //     "checkedShowQuickNav": this.state.checkedShowQuickNav
-                          //   }
+                          
+                          
+                          
+                          
+                          
+                          
                             console.log('sampleid',datas);
                               axios.post(this.state.baseurl + `Admin/AdminDirectory`, datas)
                                 .then(res => {
@@ -464,8 +440,8 @@ class adminusers extends Component {
                                         });
                                     } else {
                                         console.log('sucess2', res.data.status, res.data)
-                                        // this.getCategoryList();
-                                        // this.ResetCreateDirectory();
+                                        
+                                        
                                         window.location.assign('/app/adminusers');
                                         this.setState((prev) => {
                                             let errorMsg = res.statusText;
@@ -478,11 +454,11 @@ class adminusers extends Component {
                                             position: toast.POSITION.TOP_RIGHT
                                         });
                                     }
-                                //  if (res) {
-                                //    console.log('results',res);
-                                //    this.fetchUsers();
-                                //    this.resetValues();
-                                //  }
+                                
+                                
+                                
+                                
+                                
                               })
                     }
                 })
@@ -490,53 +466,42 @@ class adminusers extends Component {
         }
     }
     fetchData() {
-
-
         let _menus = [];
-
         let _checkedShowLeftNav = []
        
-      //  var link = this.state.baseurl + `Menu/All`;
+      
       var link = this.state.baseurl + `Admin/GetAdminDirectory?username=${this.state.userDetails.ldapUser_id._value}`;
         axios.get(link)
             .then(res => {
                 if (res.data) {
                     console.log('result1', res.data)
-
                     res.data.map((data) => {
                         _menus.push(data)
                         _checkedShowLeftNav.push({
                             "id": data.ID,
-                          "Selected": data.Selected // == 0 ? false : true
+                          "Selected": data.Selected 
                         })
-
                         this.setState(prev => ({
                             menus: _menus,
                             checkedShowLeftNav: _checkedShowLeftNav,
                              }
-
                         )
                         
                         );
                         console.log('result', this.state.checkedShowLeftNav)
-                       // return { menus, checkedShowLeftNav}
-
+                       
                     })
                 }
             })
     }
     fetchUsers() {
-
         let _users = [];
-
         let _checkedActive = []
-
         var link = this.state.baseurl + `Admin/GetAdminUsers`;
         axios.get(link)
             .then(res => {
                 if (res.data) {
-                    //console.log('result',)
-
+                    
                     res.data.map((data) => {
                         _users.push(data)
                         _checkedActive.push({
@@ -544,15 +509,13 @@ class adminusers extends Component {
                             "LDAPUser_id": data.LDAPUser_id,
                             "IsActive": data.IsActive
                         })
-
                         this.setState(prev => ({
                             users: _users,
                             checkedActive: _checkedActive,
                         }
                         )
                         );
-                        // return { menus, checkedShowLeftNav,checkedShowContNav,checkedShowQuickNav,checkedShowBottomNav}
-
+                        
                     })
                 }
             })
@@ -561,15 +524,13 @@ class adminusers extends Component {
         var link = this.state.baseurl + `Roles/get/`;
         axios.get(link)
             .then(res => {
-
                 if (res) {
-                    //   this.setState(prevState => {
-                    //      let listRoles = Object.assign({}, this.state.listRoles);
-                    //      listRoles = res.data;
-                    //     return { listRoles }
+                    
+                    
+                    
+                    
                     for (let i in res.data) {
                         let data = res.data[i];
-
                         this.state.listRoles.push({
                             "id": res.data[i].id,
                             "value": res.data[i].id,
@@ -577,19 +538,18 @@ class adminusers extends Component {
                             "key": i
                         })
                     }
-                    //    const listRoles = res.data;
-                    //   this.setState({ listRoles });
-                    //   console.log('sdd', this.state.listRoles);
-
+                    
+                    
+                    
                 }
             })
     }
     componentWillMount() {
-        //console.log('mount', this.state.result[0])
+        
     }
     componentDidMount() {
-        //console.log('prop', this.props.location.state.id)
-        // this.loadData(this.props.location.state.id);
+        
+        
         const username = sessionStorage.getItem("username");
         const role = sessionStorage.getItem("role");
         if (role != "Super Admin")
@@ -598,11 +558,10 @@ class adminusers extends Component {
         this.fetchData();
         this.fetchUsers();
     }
-
     componentDidUpdate(prevProps) {
-        // if (this.props.location.pathname !== prevProps.location.pathname) {
-        //     this.loadData(this.props.location.state.id);
-        // }
+        
+        
+        
     }
    
     onSort(event, sortKey) {
@@ -631,69 +590,12 @@ class adminusers extends Component {
         })
     }
     render() {
-
-        let optionItems = this.state.listRoles// && this.state.listRoles.map((data, index) => 
-        // [{id: data.id, maintitle: data.maintitle}] );
-        //   const defaultOption = options[0];
-        //    const {listRoles}  = this.state;
-        // set value for default selection
-
-        const dropzoneComponentConfig = {
-            postUrl: 'https://httpbin.org/post',
-        };
-        const dropzoneConfig = {
-            thumbnailHeight: 160,
-            maxFilesize: 1,
-            previewTemplate: ReactDOMServer.renderToStaticMarkup(
-                <div className="dz-preview dz-file-preview mb-3">
-                    <div className="d-flex flex-row ">
-                        <div className="p-0 w-30 position-relative">
-                            <div className="dz-error-mark">
-                                <span>
-                                    <i />{' '}
-                                </span>
-                            </div>
-                            <div className="dz-success-mark">
-                                <span>
-                                    <i />
-                                </span>
-                            </div>
-                            <div className="preview-container">
-                                <img data-dz-thumbnail className="img-thumbnail border-0" />
-                                <i className="simple-icon-doc preview-icon" />
-                            </div>
-                        </div>
-                        <div className="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative">
-                            <div>
-                                {' '}
-                                <span data-dz-name />{' '}
-                            </div>
-                            <div className="text-primary text-extra-small" data-dz-size />
-                            <div className="dz-progress">
-                                <span className="dz-upload" data-dz-uploadprogress />
-                            </div>
-                            <div className="dz-error-message">
-                                <span data-dz-errormessage />
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#/" className="remove" data-dz-remove>
-                        {' '}
-                        <i className="glyph-icon simple-icon-trash" />{' '}
-                    </a>
-                </div>
-            ),
-            headers: { 'My-Awesome-Header': 'header value' },
-        };
-       
         return (
             <>
                 <div className="row">
                     <div className="col-12">
                         <div className="card dashboard-progress" style={{ width: '100%' }}>
-
                             <div className="card-body" >
-
                                 <div className="row">
                                     <div className="col-md-10">
                                         <h1>Manage Users</h1>
@@ -702,7 +604,6 @@ class adminusers extends Component {
                                 <div className="glyph-icon iconsminds-back back_home"> Back to Home</div>
                             </NavLink>
                             </div>
-
                                 </div>
                                 {/*this.state.userid*/}
                                 {/* Content Stars here */}
@@ -719,24 +620,22 @@ class adminusers extends Component {
                                            
                                         </div>
                                         {(this.state.submittet || this.state.userDetails.ldapUser_id.touched) && !this.state.userDetails.ldapUser_id._value && <span className="text-danger">{this.state.userDetails.ldapUser_id.errorMsg}</span>}
-
                                         <div className="form-group has-top-label">
                                         <Label>Select a Role</Label>
                                             <Select
-                                                //value={this.state.userDetails.fk_RoleMaster_id._value}
+                                                
                                                 value={this.state.listRoles.find(item => item.value === this.state.fk_RoleMaster_id)}
-                                                        // onChange={(event) => this.handleChangeSelect(event)}
+                                                        
                                                    onChange={this.handleChangeSelect.bind(this)}
                                                 options={this.state.listRoles}
                                                 id="fk_RoleMaster_id"
                                                 name="fk_RoleMaster_id"
-                                                //    className="react-select"
+                                                
                                                 classNamePrefix="react-select"
                                             />
                                            
                                         </div>
                                         {(this.state.submittet || this.state.userDetails.fk_RoleMaster_id.touched) && !this.state.userDetails.fk_RoleMaster_id._value && <span className="text-danger">{this.state.userDetails.fk_RoleMaster_id.errorMsg}</span>}
-
                                      <div className="height_adjust_250">
                                         <PerfectScrollbar
                                     options={{  suppressScrollX: true, wheelPropagation: false }}
@@ -745,21 +644,10 @@ class adminusers extends Component {
                                         <table  className="table table-border  table-striped">
                                             <thead>
                                                 <tr>
-                                                    {/* <th>S.No </th>
-                    <th className="is-sort" onClick={e => this.onSort(e, 'id')}> ID
-                    {this.state.sort[0].field == "id" && this.state.sort[0].order == "asc" &&
-                            <Icon.ArrowUp />
-                        }
-                        {this.state.sort[0].field == "id" && this.state.sort[0].order == "desc" &&
-                            <Icon.ArrowDown />
-                        } 
-                    </th> */}
                                                     <th className="is-sort">Category Name
                    
                                                     </th>
                                                     <th className="is-sort" >Access</th>
-
-
                                                 </tr>
                                             </thead>
                                             <tbody class= "display: block; overflow: auto; table-layout: fixed; max-height: 250px;">
@@ -768,7 +656,6 @@ class adminusers extends Component {
                                                         return (<tr key={index}>
                                                             
                                                             <td>{data.DirName}</td>
-
                                                             <td>{
                                                                 
                                                                 <Switch
@@ -778,20 +665,15 @@ class adminusers extends Component {
                                                                     onChange={ () => this.handleChangeLeft(index)}/>
                                                                     
                                                             }
-
                                                             </td>
-
-
                                                         </tr>
                                                         )
                                                     })
                                                 }
-
                                                 {
                                                     this.state.menus.length == 0 && !this.state.loading &&
                                                     <tr><td colSpan="5" className="text-center" >No Result Found</td></tr>
                                                 }
-
                                                 {
                                                     this.state.loading &&
                                                     <tr><td colSpan="5" className="text-center" >Loading</td></tr>
@@ -807,15 +689,7 @@ class adminusers extends Component {
                                             >
                                                 Submit 
                         </Button>
-                       {/* <Button value="Send"
-                                                outline color="primary"
-                                                onClick={() => this.resetValues()}
-                                             
-                                            >
-                                                Reset 
-                                            </Button>*/}
                                         </div>
-
                                     </div>
                                     </div>
                                     </div>
@@ -826,7 +700,6 @@ class adminusers extends Component {
                     <div className="col-12">
                                     <div className="card dashboard-progress" style={{ width: '100%' }}>
                                    
-
 <div className="card-body " >
 <div className="col-md-10">
                                         <h2>Users list</h2>
@@ -844,7 +717,6 @@ class adminusers extends Component {
                     </th>
                                                 <th className="is-sort" >Delete
                    </th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -868,30 +740,22 @@ class adminusers extends Component {
                                                                     onChange={() => this.handleChangeActive(index)} />
                                                             </>
                                                         }
-
                                                         </td>
-
-
                                                     </tr>
                                                     )
                                                 })
                                             }
-
                                             {
                                                 this.state.users.length == 0 && !this.state.loading &&
                                                 <tr><td colSpan="5" className="text-center" >No Result Found</td></tr>
                                             }
-
                                             {
                                                 this.state.loading &&
                                                 <tr><td colSpan="5" className="text-center" >Loading</td></tr>
                                             }
                                         </tbody>
                                     </table>
-
                                 </div>
-
-
                             </div></div>
                     </div>
                
