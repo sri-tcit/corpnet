@@ -1291,7 +1291,7 @@ a.invert_style {
     transition: fill .3s;
 }
 .h-400 {
-    min-height: 445px;
+    min-height: 350px;
     height: 100%;
 }
 li.nav-item a {
@@ -1300,9 +1300,13 @@ li.nav-item a {
 .sub-menu li.nav-item a {
     text-align: left;
 }
+.tab-content{
+    height: 200px;
+}
 .h-195{
     // overflow-y: scroll;
-    height: 275px;
+    max-height: 250px;
+    height: 100%;
     margin-top: 20px;
 }
 .box {
@@ -11851,7 +11855,7 @@ a.expand.active , a.expand.active:hover {
 }
 @media (min-width:991px) and (max-width:1440px){
 .h-195 {
-    min-height: calc(395px - 106px);
+    min-height: 280px;
     height: 100%;
     margin-top: 20px;
 }
