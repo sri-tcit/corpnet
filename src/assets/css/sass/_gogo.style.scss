@@ -548,12 +548,12 @@ a.filelink:hover {
 .form-group.has-top-label {
     margin-bottom: 10px;
 }
- .has-top-label label {
+.has-top-label label {
     top: -4px !important;
-    left: 1em !important;
+    left: 1.7em !important;
     font-size: 90% !important;
     background: white;
-    padding: 0px 10px !important;
+    padding: 0px 5px !important;
 }
 .btn-dark {
     color: #ffffff !important;
@@ -618,15 +618,15 @@ a.filelink:hover {
     .fl-right {
     float: right;
 }
-        .add_dir{
-            margin-top: 2em;
-        }
    
+.add_dir{
+    margin-top: 2em;
+}
         .topic-head h2 {
             color: #ed7117;
             font-weight: 500;
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 1em;
         }
         .mar-top-20 {
     margin-top: 1em;
@@ -660,22 +660,32 @@ a.filelink:hover {
         li.list_acc a {
             cursor: pointer;
         }
-
+        .add_dir button.btn.btn-primary {
+            margin-top: 10px;
+        }
         .has-top-label > span:last-of-type {
             position: absolute;
             cursor: text;
             font-size: 95% !important;
             opacity: 1;
-            top: 4rem !important;
+            top: 2.7rem !important;
             left: 0.75rem;
             z-index: 3;
             line-height: 1;
             padding: 0 1px;
             font-weight: 600;
         }
-        .add_dir button.btn.btn-primary {
-            margin-top: 10px;
+        .w_allign button.btn.btn-primary {
+            width: 85px;
         }
+        .w_allign button.btn.btn-outline-primary {
+            width: 85px;
+        }
+        .justify-center.w_allign {
+            padding: 0px 15px;
+            justify-content: space-between;
+        }
+        
 //shanmug css
 
 
@@ -733,7 +743,7 @@ button.btn.btn-custm {
 }
 
 .topic-head {
-    display: inline-flex;
+   
     width: 100%;
 }
 
@@ -741,10 +751,6 @@ button.btn.btn-custm {
     cursor: pointer;
     color: black;
     font-size: 20px;
-    position: absolute;
-    float: right;
-    right: 25px;
-    top: 75px;
 }
 
 .topic-head i.glyph-icon.iconsminds-close:hover {
@@ -832,7 +838,7 @@ margin-bottom: 20px;
 }
 .search-item{
     display: block;
-    // padding: 10px 0px;
+    padding: 10px 0px;
     color: rgba(58, 58, 58, 0.8);
     font-size: 13px !important;
     font-weight: 700;
@@ -5748,7 +5754,7 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .dropzone {
-    min-height: 115px !important;
+    min-height: 130px !important;
     border: 1px solid $separator-color !important;
     background: $input-background !important;
     padding: 10px 10px !important;
@@ -7778,12 +7784,7 @@ input:-webkit-autofill {
     border-top-left-radius: 0;
 }
 
-.form-group.has-top-label .form-control,
-.form-group.has-top-label .react-tagsinput,
-.form-group.has-top-label .react-datepicker__input-container input,
-.form-group.has-top-label .react-select__value-container {
-    padding: 1.7rem 0.75rem 0.5rem 0.75rem !important;
-}
+
 
 
 .react-tagsinput-input {
@@ -7930,7 +7931,7 @@ input:-webkit-autofill {
 .form-group.has-top-label .react-tagsinput,
 .form-group.has-top-label .react-datepicker__input-container input,
 .form-group.has-top-label .react-select__value-container {
-    min-height: calc(3.2rem + 2px) !important;
+    min-height: calc(2.2rem + 2px) !important;
 }
 
 .form-group.has-top-label select.form-control:not([size]):not([multiple]) {
@@ -11799,7 +11800,7 @@ ul.list-unstyled.inner-level-menu-new span a {
     cursor: pointer;
     color:black;
 }
-a.expand.active {
+a.expand.active , a.expand.active:hover {
     color: #ed7118;
 }
 .tree-item{
