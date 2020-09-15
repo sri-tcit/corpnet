@@ -30,6 +30,7 @@ class category extends Component {
             submitdetupdatedir: false,
             submitdetfiles: false,
             baseurl: api, docBaseUrl: mediaPath,
+            base: Baseurl,
             files: null,
             dirID: '0',
             addAction: false,
@@ -43,19 +44,23 @@ class category extends Component {
                 updateDirID: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
                 updateDirName: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
                 updateDirDesc: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
+                isVisible: { _value: "", touched: false },
             },
             CreateDetails: {
                 subDirName: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
                 subDirDesc: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
                 subDirID: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
+                isVisible: { _value: "", touched: false },
             },
             FileDetails: {
                 fileID: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
 
                 fileName: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
                 fileDesc: { _value: "", touched: false, required: true, error: "", errorMsg: "This field is required." },
+                fileisVisible: { _value: "", touched: false },
             },
             document: [],
+            user: sessionStorage.getItem("username"),
             subCategoryName: null,
         }
         this.SubmitCreateDirectory = this.SubmitCreateDirectory.bind(this);
@@ -72,6 +77,7 @@ class category extends Component {
         this.DeleteDirectory = this.DeleteDirectory.bind(this);
         this.dontdeleteDirectory = this.dontdeleteDirectory.bind(this);
         this.ResetFileDirectory = this.ResetFileDirectory.bind(this);
+        this.hideDirectory = this.hideDirectory.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
     }
     addAction = () => {
@@ -98,13 +104,100 @@ class category extends Component {
         else
             this.setState({ isDelete: data })
     }
-    visibleAction = (data) => {
-        if (this.state.selectedId == 0)
-            this.setState({ isVisible: false,isHome : true ,msg: "Sorry!! You are in Home directory, so you are not allowed to do this action." })
+    showhideDirectory(flag)
+    {
+        if (flag)
+        var alerttxt = "Are you sure to hide the Directory?"
         else
-            this.setState({ isVisible: data })
+        var alerttxt = "Are you sure to show the Directory?"
+        confirmAlert({
+            
+            title: alerttxt,
+            
+            message: '',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.hideDirectory(flag)
+                },
+                {
+                    label: 'No',
+                    onClick: () => this.donthideDirectory()
+                }
+            ]
+        });
     }
-
+    hideDirectory(flag) {
+        console.log('submitdetfiles', this.state.submitdetupdatedir)
+      //  this.setState({
+      //      submitdetupdatedir: true
+      //  })
+     //  console.log('submitdetfiles', this.state.submitdetupdatedir)
+     this.setState({
+        //submitdetupdatedir: true,
+        isShow: false,
+    })
+        if (this.state.UpdateDetails.updateDirName._value && this.state.UpdateDetails.updateDirDesc._value) {
+            let datas = {
+                "id": this.state.UpdateDetails.updateDirID._value,
+                "username":this.state.user
+            }
+            console.log('data', datas)
+            axios.put(this.state.baseurl + `Directory/ShowHide?id=${this.state.UpdateDetails.updateDirID._value}&ModifiedBy=${sessionStorage.getItem("username")}`)
+                .then(res => {                   
+                            console.log('sucess', res, res.data)
+                            if (res.status != 200) {
+                        this.setState(prev => {
+                            let error = true;
+                            let errorMsg = res.data;
+                            let variant = 'danger';
+                            return { errorMsg, error, variant };
+                            console.log('sucess', res.data.status, res.data)
+                        })
+                        toast.error(res.data, {
+                            position: toast.POSITION.TOP_RIGHT
+                        });
+                    } else {
+                        console.log('sucess2', res.data.status, res.data)
+                        this.setState((prev) => {
+                            let errorMsg = res.data;
+                            let error = true;
+                            let variant = 'success'
+                            return { error, errorMsg, variant };
+                            console.log('sucess', res.data.status, res.data)
+                        })
+                        toast.success(res.data, {
+                            position: toast.POSITION.TOP_RIGHT
+                        });
+                        this.getCategoryList();
+                        //  this.ResetUpdateDirectory();
+                       //   this.parentDirectory()
+                         if (flag == true)
+                         flag = false;
+                         else
+                         flag = true;
+                         this.state.UpdateDetails.isVisible._value = flag;
+                          console.log("test", flag )
+                        //  this.showSubTree1(this.state.UpdateDetails.updateDirID._value, this.state.UpdateDetails.updateDirName._value, flag, 'true')
+                    }
+                   
+                   // this.ResetUpdateDirectory();
+                })
+        }
+    }
+    donthideDirectory() { }
+    visibleAction = (showflag, data) => {
+        if (this.state.selectedId == 0)
+            this.setState({ isShow: false,isHome : true ,msg: "Sorry!! You are in Home directory, you are not allowed to do this action." })
+        else
+            this.setState({ isShow: data, showflag: showflag })
+    }
+    filevisibleAction = (id,showfileflag, data,docname) => {
+        if (this.state.selectedId == 0)
+            this.setState({ isfileShow: false,isHome : true ,msg: "Sorry!! You are in Home directory, you are not allowed to do this action." })
+        else
+            this.setState({ isfileShow: data, showfileflag: showfileflag, fileid: id, docname: docname })
+    }
     componentDidMount() {
         const username = sessionStorage.getItem("username");
         const role = sessionStorage.getItem("role");
@@ -126,14 +219,14 @@ class category extends Component {
                 "dirDescription": this.state.UpdateDetails.updateDirDesc._value,
                 "thumbnail": "simple",
                 "parent_id": 0,
-                "createdBy": "Admin"
+                "createdBy": this.state.user
             }
             console.log('data', datas)
             axios.put(this.state.baseurl + `Directory/Update?id=${this.state.UpdateDetails.updateDirID._value}`, datas)
                 .then(res => {
                     if (res) {
                         // this.getCategoryList();
-                        window.location.assign(Baseurl + '/app/categoryAdmin');
+                        window.location.assign(Baseurl + '/app/adminmanagefiles');
                         // this.ResetUpdateDirectory();
                         if (res.status != 200) {
                             console.log('sucess21', res.data.status, res)
@@ -190,7 +283,7 @@ class category extends Component {
         if (this.state.UpdateDetails.updateDirName._value && this.state.UpdateDetails.updateDirDesc._value) {
             let datas = {
                 "id": this.state.UpdateDetails.updateDirID._value,
-                "username": "Admin"
+                "username": this.state.user
             }
             console.log('data', datas)
             axios.post(this.state.baseurl + `Directory/Delete?id=${this.state.UpdateDetails.updateDirID._value}&username=${'Admin'}`)
@@ -257,19 +350,24 @@ class category extends Component {
         this.state.UpdateDetails.updateDirDesc._value = "";
         let _updateDirName = this.state.UpdateDetails.updateDirName._value;
         let _updateDirDesc = this.state.UpdateDetails.updateDirDesc._value;
+        let _isVisible = this.state.UpdateDetails.isVisible._value;
         this.setState({
             updateDirName: _updateDirName,
-            updateDirDesc: _updateDirDesc
+            updateDirDesc: _updateDirDesc,
+            isVisible: _isVisible
         });
     }
     ResetFileDirectory() {
         this.state.FileDetails.fileName._value = "";
         this.state.FileDetails.fileDesc._value = "";
+        this.state.FileDetails.fileisVisible._value = "";
         let _fileName = this.state.FileDetails.fileName._value;
         let _fileDesc = this.state.FileDetails.fileDesc._value;
+        let _fileisVisible = this.state.FileDetails.fileisVisible._value;
         this.setState({
             fileName: _fileName,
-            fileDesc: _fileDesc
+            fileDesc: _fileDesc,
+            fileisVisible: _fileisVisible
         });
     }
     SubmitCreateDirectory() {
@@ -287,9 +385,8 @@ class category extends Component {
                     "dirName": this.state.CreateDetails.subDirName._value,
                     "dirDescription": this.state.CreateDetails.subDirDesc._value,
                     "thumbnail": "iconminds-folder",
-
                     "parent_id": this.state.CreateDetails.subDirID._value,
-                    "createdBy": "Admin"
+                    "createdBy": this.state.user
                 }
             }
             else {
@@ -297,9 +394,8 @@ class category extends Component {
                     "dirName": this.state.CreateDetails.subDirName._value,
                     "dirDescription": this.state.CreateDetails.subDirDesc._value,
                     "thumbnail": "iconminds-folder",
-
                     "parent_id": 0,
-                    "createdBy": "Admin"
+                    "createdBy": this.state.user
                 }
             }
             console.log('data', datas, this.state.CreateDetails.subDirID._value, this.state.dirID + 'test')
@@ -319,13 +415,12 @@ class category extends Component {
                         console.log('sucess2', res.data.status, res.data)
                         // this.getCategoryList();
                         // this.ResetCreateDirectory();
-                        window.location.assign(Baseurl + '/app/categoryAdmin');
+                        window.location.assign(Baseurl + '/app/adminmanagefiles');
                         this.setState((prev) => {
                             let errorMsg = res.statusText;
                             let error = true;
                             let variant = 'success'
                             return { error, errorMsg, variant };
-                            console.log('sucess', res.data.status, res.data)
                         })
                         toast.success(res.data, {
                             position: toast.POSITION.TOP_RIGHT
@@ -373,9 +468,16 @@ class category extends Component {
     };
     hasFileOrDir(data) {
         if (data) {
+            
             return data.map((data, key) => <li key={key} className="tree-item ">
-                <span className={"tree-item-label " + data.show ? "iconsminds-folder" : "iconsminds-folder-open" + "show-on-hover"}><a onClick={() => this.showSubTree(data.id, data.DirName)} className={this.state.selectedId == data.id ? "expand active" : "expand"}>{data.DirName} {data.show}</a></span>
-                {data.Dir && data.show && this.hasFileOrDir(data.Dir)}
+               {data.IsVisible  &&
+                <i className={"tree-item-label iconsminds-folder show-on-hover" }><a onClick={() => this.showSubTree(data.id, data.DirName, data.IsVisible)} className={this.state.selectedId == data.id ? "expand active" : "expand"}>{data.DirName} {data.show}</a></i>
+               }
+               {!data.IsVisible  &&
+                <i className="tree-item-label new-left-icon"> <img src={this.state.base+"/assets/img/invisible.svg"} /><a onClick={() => this.showSubTree(data.id, data.DirName, data.IsVisible)} className={this.state.selectedId == data.id ? "expand active" : "expand"}>{data.DirName} {data.show}</a></i>
+               }
+                              
+                {data.Dir  && data.show && this.hasFileOrDir(data.Dir)}
             </li >
             )
         }
@@ -411,14 +513,30 @@ class category extends Component {
             return fileDetails;
         })
     }
-    showSubTree(id, DirName) {
+    showDocType(DocType)
+    {
+        if (DocType != null && (DocType === "pdf" || DocType === "txt" || DocType === "doc" || DocType === "docx" || DocType === "xls" || DocType === "xlsx" || DocType === "pptx" || DocType === "ppt" || DocType === "jpg" || DocType === "png"  || DocType === "zip" || DocType === "bmp"))  
+         {return(
+        <span class='small_icon'>
+        <img src={this.state.base+"/assets/img/"+DocType+".png"} />
+        </span>)
+        }
+        else
+        {
+            return(
+                <span class='small_icon'>
+                     <img src={this.state.base+"/assets/img/file.png"} />
+                     </span>)
+        }
+    }
+    showSubTree(id, DirName, IsVisible) {
         let _result = this.state.result.map((data) => {
             if (data.id == id) {
                 data.show = !data.show;
             }
             if (data.Dir) {
-                let _res = this.getSubTreeDetails(data.Dir, id, DirName);
-                this.getFileList(id);
+                let _res = this.getSubTreeDetails(data.Dir, id, DirName, IsVisible);
+                
                 data.Dir = _res;
                 return data;
             } else
@@ -427,10 +545,11 @@ class category extends Component {
         this.setState({
             result: _result
         }, () => {
+            this.getFileList(id);
         })
     }
     appendFiles(id) {
-        let FileName = '', FileDesc = '', FileID = '';
+        let FileName = '', FileDesc = '', FileID = '', fileisVisible = '';
         // this.setState({document:[]})
         let _document = this.state.document.map((data) => {
             if (data.id == id) {
@@ -439,6 +558,7 @@ class category extends Component {
 
                 FileName = data.DocName;
                 FileDesc = data.DocDescription;
+                fileisVisible = data.IsVisible;
                 console.log('show', data)
             }
         })
@@ -450,12 +570,13 @@ class category extends Component {
             fileDetails['fileName'].touched = FileName;
             fileDetails['fileDesc']._value = FileDesc;
             fileDetails['fileDesc'].touched = FileDesc;
+            fileDetails['fileisVisible']._value = fileisVisible;
             let uploadAction = true;
             return { fileDetails, uploadAction };
         }, () => {
         })
     }
-    getSubTreeDetails(data, id, DirName) {
+    getSubTreeDetails(data, id, DirName, IsVisible) {
         if (data) {
             data.map((_data) => {
                 if (_data.id == id) {
@@ -463,13 +584,15 @@ class category extends Component {
                     this.state.UpdateDetails.updateDirID._value = _data.id;
                     this.state.UpdateDetails.updateDirName._value = _data.DirName;
                     this.state.UpdateDetails.updateDirDesc._value = _data.DirDescription;
+                    this.state.UpdateDetails.isVisible._value = data._IsVisible;
                     _data.show = !_data.show;
                 } else {
-                    this.getSubTreeDetails(_data.Dir, id, DirName)
+                    this.getSubTreeDetails(_data.Dir, id, DirName, IsVisible)
                     this.state.CreateDetails.subDirID._value = id;
                     this.state.UpdateDetails.updateDirID._value = id;
                     this.state.UpdateDetails.updateDirName._value = DirName;
                     this.state.UpdateDetails.updateDirDesc._value = DirName;
+                    this.state.UpdateDetails.isVisible._value = IsVisible;
                 }
             }
             )
@@ -482,8 +605,8 @@ class category extends Component {
         formData.append("DocDescription", this.state.FileDetails.fileDesc._value);
         formData.append("Parent_id", this.state.CreateDetails.subDirID._value);
         formData.append("id", this.state.FileDetails.fileID._value);
-
-        formData.append("CreatedBy", "Admin");
+        formData.append("IsVisible", this.state.FileDetails.fileisVisible._value);
+        formData.append("CreatedBy", this.state.user);
         if (this.state.files)
             formData.append("files", this.state.files.files[0]);
         else
@@ -523,7 +646,7 @@ class category extends Component {
                 });
             console.log('file', this.state.CreateDetails.subDirID._value)
             this.getFileList(this.state.CreateDetails.subDirID._value);
-            this.showSubTree(this.state.CreateDetails.subDirID._value, '')
+            this.showSubTree(this.state.CreateDetails.subDirID._value, '', this.state.CreateDetails.isVisible._value)
             //  this.appendFiles(this.state.CreateDetails.subDirID._value)
             this.ResetFileDirectory();
 
@@ -534,7 +657,59 @@ class category extends Component {
         // this.getCategoryList();
 
     }
+    hideDocument(id, showfileflag) {
+        console.log('submitdetfiles', this.state.submitdetupdatedir)
+      //  this.setState({
+      //      submitdetupdatedir: true
+      //  })
+     //  console.log('submitdetfiles', this.state.submitdetupdatedir)
+     this.setState({
+        //submitdetupdatedir: true,
+        isfileShow: false,
+    })
 
+        if (id) {
+           
+            
+            axios.put(this.state.baseurl + `Document/ShowHide?id=${id}&ModifiedBy=${sessionStorage.getItem("username")}`)
+                .then(res => {                   
+                            console.log('sucess', res, res.data)
+                            if (res.status != 200) {
+                        this.setState(prev => {
+                            let error = true;
+                            let errorMsg = res.data;
+                            let variant = 'danger';
+                            return { errorMsg, error, variant };
+                            console.log('sucess', res.data.status, res.data)
+                        })
+                        toast.error(res.data, {
+                            position: toast.POSITION.TOP_RIGHT
+                        });
+                    } else {
+                        console.log('sucess2', res.data.status, res.data)
+                        this.setState((prev) => {
+                            let errorMsg = res.data;
+                            let error = true;
+                            let variant = 'success'
+                            return { error, errorMsg, variant };
+                            console.log('sucess', res.data.status, res.data)
+                        })
+                        toast.success(res.data, {
+                            position: toast.POSITION.TOP_RIGHT
+                        });
+                        if (showfileflag == true)
+                         showfileflag = false;
+                         else
+                         showfileflag = true;
+                         
+                         this.getFileList(this.state.UpdateDetails.updateDirID._value)
+                       //  this.state.FileDetailsDetails.fileisVisible._value = showfileflag;
+                    }
+                   // this.getCategoryList();
+                   // this.ResetUpdateDirectory();
+                })
+        }
+    }
 
     render() {
         const selectData = [
@@ -600,7 +775,7 @@ class category extends Component {
                             <div className="col-md-10">
                                 <h1>Manage Files</h1>
                             </div>
-                            <div className="col-md-2"><a href="/app/adminmenus">
+                            <div className="col-md-2"><a href={Baseurl+"/app/adminmenus"}>
                                 <div className="glyph-icon iconsminds-back back_home"> Back to Home</div>
                             </a></div>
                         </div>
@@ -622,8 +797,9 @@ class category extends Component {
                                                         <ul className="tree-group">
                                                             {this.state.result && this.state.result.map((data, key) =>
                                                                 <li key={key} className="tree-item ">
-                                                                    <span className={"tree-item-label " + data.show ? "iconsminds-folder" : "iconsminds-folder-open" + "show-on-hover"}>
-                                                                        <a onClick={() => this.showSubTree(data.id, data.DirName)} className={this.state.selectedId == data.id ? "expand active" : "expand"}>{data.DirName}</a>
+                                                                    <span className={data.show ? "tree-item-label iconsminds-folder-open show-on-hover" : "tree-item-label iconsminds-folder show-on-hover"}>
+                                                                  
+                                                                        <a onClick={() => this.showSubTree(data.id, data.DirName, data.IsVisible)} className={this.state.selectedId == data.id ? "expand active" : "expand"}>{data.DirName}</a>
                                                                     </span>
                                                                     {data.show && this.hasFileOrDir(data.Dir)}
                                                                 </li>
@@ -647,7 +823,10 @@ class category extends Component {
                                             <a className="cust_icon green_icon" id="btn_edit" onClick={() => this.editAction()} data-toggle="tooltip"
                                                 data-placement="top" title="Edit Directory"><i className="glyph-icon simple-icon-pencil"></i></a>
                                             <a data-toggle="modal" data-target="#hide_folder" className="cust_icon hide_btn" data-tooltip="tooltip"
-                                                data-placement="top" onClick={() => this.visibleAction(true)} title="Show/Hide Directory"><i className="glyph-icon simple-icon-eye "></i></a>
+                                                data-placement="top" onClick={() => (this.visibleAction(this.state.UpdateDetails.isVisible._value, true))}  title="Show/Hide Directory">
+                                                    {this.state.UpdateDetails.isVisible._value === true &&<i className="glyph-icon simple-icon-eye "></i>}
+                                                    {this.state.UpdateDetails.isVisible._value === false &&<i className="new-icon"> <img src={this.state.base+"/assets/img/invisible.svg"} /></i>}
+                                            </a>
                                             <a data-toggle="modal" onClick={() => this.deleteAction(true)} data-target="#exampleModal" className="cust_icon red_icon" data-tooltip="tooltip"
                                                 data-placement="top" title="Delete Directory"><i className="glyph-icon simple-icon-trash"></i></a>
 
@@ -659,13 +838,14 @@ class category extends Component {
                                     <div className="row">
                                         <nav className="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                                             <ol className="breadcrumb pt-0">
-                                                <li className="breadcrumb-item">
-                                                    <a href="./index.html">Home</a>
+                                                <li className="breadcrumb-item">                                            
+                                                <a href={this.state.base+"/app/home"} target="_self">Home</a> >
+
                                                 </li>
-                                                <li className="breadcrumb-item">
+                                                {/* <li className="breadcrumb-item">
                                                     <a href="./index.html">SOP's</a>
                                                 </li>
-                                                <li className="breadcrumb-item active" aria-current="page">O &amp; T</li>
+                                                <li className="breadcrumb-item active" aria-current="page">O &amp; T</li> */}
                                             </ol>
                                         </nav>
                                     </div>
@@ -787,7 +967,7 @@ class category extends Component {
                                                     <div className="add_dir">
                                                         <>
                                                             <div className="row">
-                                                                <div className="col-6">
+                                                                <div className="col-7">
                                                                     <DropzoneComponent
                                                                         id="fileID"
                                                                         config={dropzoneComponentConfig}
@@ -800,7 +980,7 @@ class category extends Component {
                                                                     />
 
                                                                 </div>
-                                                                <div className="col-6 no-padding">
+                                                                <div className="col-5 no-padding">
 
                                                                     <div className="form-group has-top-label col-12">
                                                                         <Label>File Name</Label>
@@ -828,7 +1008,7 @@ class category extends Component {
                                                                     {(this.state.submitdetfiles || this.state.FileDetails.fileDesc.touched) && !this.state.FileDetails.fileDesc._value && <span className="text-danger">{this.state.FileDetails.fileDesc.errorMsg}</span>}
                                                                     <div className="justify-center w_allign">
                                                                         <Button
-                                                                            outline color="primary"
+                                                                             color="primary"
                                                                             onClick={() => (this.ResetFileDirectory())}>
                                                                             Reset
                                                                 </Button>
@@ -861,13 +1041,19 @@ class category extends Component {
                                                     {this.state.document && this.state.document.map((data, key) =>
                                                         <li key={key} className="list_acc second_level">
                                                             <a target="_blank" className="row col-lg-12 list_acc_filelink">
-                                                                <i className="simple-icon-doc col-lg-2"></i>
+                                                            {this.showDocType(data.DocType)} 
+                                                               
                                                                 <span
-                                                                    className="d-inline-block col-lg-8">
+                                                                    className="d-inline-block col-lg-6">
                                                                     <a href={`${this.state.docBaseUrl}${data.DocPath}`} target="_blank" className="filelink">{data.DocName}</a>
                                                                 </span>
                                                                 <i data-brackets-id="15856" onClick={() => this.appendFiles(data.id)} className="simple-icon-note show-on-hover col-lg-2"></i>
-                                                            </a>
+                                                            
+                                                            <span
+                                                                    className="d-inline-block col-lg-2">
+                                                    {data.IsVisible === true && <i onClick={() => (this.filevisibleAction(data.id,data.IsVisible, true, data.DocName))} className="simple-icon-eye show-on-hover"></i>}
+                                                    {data.IsVisible === false &&<i  onClick={() => (this.filevisibleAction(data.id,data.IsVisible, true, data.DocName))}className="new-hide-icon"><img src={this.state.base+"/assets/img/invisible.svg"} /></i>}
+                                            </span></a>
                                                         </li>
                                                     )}
                                                 </ul>
@@ -955,7 +1141,7 @@ class category extends Component {
                 </Modal>
 
                 <Modal
-                    isOpen={this.state.isVisible}
+                    isOpen={this.state.isShow}
                     className={'alert-modal'}
                     centered
                 >
@@ -965,16 +1151,19 @@ class category extends Component {
                             <h4 className="">Alert</h4>
                         </div>
                         <div className={'col-md-6 text-right'}>
-                            <i style={{ fontSize: '1.15rem' }} onClick={() => this.visibleAction(false)} className="glyph-icon iconsminds-close col-2 no-padding text-right" id="close_add"></i>
+                            <i style={{ fontSize: '1.15rem' }} onClick={() => this.visibleAction(this.state.showflag, false)} className="glyph-icon iconsminds-close col-2 no-padding text-right" id="close_add"></i>
                         </div>
                     </div>
+                    
                     <ModalBody className={'text-center'}>
-                        <p>Are you do you want to hide <b> {this.state.UpdateDetails.updateDirDesc._value}</b>? </p>
+                    {this.state.showflag == false &&<p>Are you sure to show <b> {this.state.UpdateDetails.updateDirDesc._value}</b>? </p>}
+                    {this.state.showflag == true && <p>Are you sure to hide <b> {this.state.UpdateDetails.updateDirDesc._value}</b>? </p>}
                     </ModalBody>
+                   
                     <ModalFooter >
                         <Button
                             color="btn btn-primary btn-custm"
-                            onClick={() => this.deleteDirectory()}
+                            onClick={() => this.hideDirectory(this.state.showflag)}
                         >
                             Ok
                                 {/* <b>{this.state.action.DirName} {this.state.action.DocName}</b>? */}
@@ -982,7 +1171,7 @@ class category extends Component {
 
                         <Button
                             color="btn btn-secondary btn-custm"
-                            onClick={() => this.visibleAction(false)}
+                            onClick={() => this.visibleAction(this.state.showflag,false)}
                         >
                             Cancel
                             </Button>
@@ -990,6 +1179,44 @@ class category extends Component {
                     </ModalFooter>
                 </Modal>
 
+                <Modal
+                    isOpen={this.state.isfileShow}
+                    className={'alert-modal'}
+                    centered
+                >
+                    <div className={'col-md-12  modal-header'}>
+                        <div className={'col-md-6'}>
+                            {/* <span className="iconsminds-danger icon-red"></span> */}
+                            <h4 className="">Alert</h4>
+                        </div>
+                        <div className={'col-md-6 text-right'}>
+                            <i style={{ fontSize: '1.15rem' }} onClick={() => this.filevisibleAction(this.state.fileid, this.state.showfileflag, false, this.state.docname)} className="glyph-icon iconsminds-close col-2 no-padding text-right" id="close_add"></i>
+                        </div>
+                    </div>
+                    
+                    <ModalBody className={'text-center'}>
+                    {this.state.showfileflag == false &&<p>Are you sure to show <b> {this.state.docname}</b>? </p>}
+                    {this.state.showfileflag == true && <p>Are you sure to hide <b> {this.state.docname}</b>? </p>}
+                    </ModalBody>
+                   
+                    <ModalFooter >
+                        <Button
+                            color="btn btn-primary btn-custm"
+                            onClick={() => this.hideDocument(this.state.fileid,this.state.showfileflag)}
+                        >
+                            Ok
+                                {/* <b>{this.state.action.DirName} {this.state.action.DocName}</b>? */}
+                        </Button>
+
+                        <Button
+                            color="btn btn-secondary btn-custm"
+                            onClick={() => this.filevisibleAction(this.state.fileid,this.state.showfileflag,false)}
+                        >
+                            Cancel
+                            </Button>
+
+                    </ModalFooter>
+                </Modal>
 
             </>
         );
