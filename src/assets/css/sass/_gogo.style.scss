@@ -417,8 +417,8 @@ i.new-hide-icon img {
     width: 17px;
     margin-top: -5px;
 }
-i.simple-icon-eye.show-on-hover {
-    color: black;
+i.simple-icon-eye {
+    color: black !important;
 }
 i.tree-item-label.new-left-icon img {
     width: 15px;
@@ -444,8 +444,26 @@ span.search-item-desc i {
 }
 .list_acc a span.small_icon img {
     margin: 0px 10px;
+    margin-right: 0px;
+    vertical-align: middle;
 }
-        
+span.d-inline-block.col-lg-8 {
+    padding-left: 0px;
+    vertical-align: middle;
+}
+span.d-inline-block.col-8 {
+    padding-left: 0px;
+    vertical-align: middle;
+}
+i.iconsminds-folder {
+    margin-right: 5px;
+}  
+i.simple-icon-note.show-on-hover.col-lg-2 {
+    text-align: center;
+}    
+a.col-lg-12.list_acc_filelink {
+    padding-right: 0px !important;
+}
 //jane//
 a.list_acc_filelink {
     cursor: pointer;
@@ -578,9 +596,16 @@ a.filelink:hover {
 .form-group.has-top-label {
     margin-bottom: 10px;
 }
-.has-top-label label {
+.has-top-label.col-5 label {
     top: -4px !important;
     left: 1.7em !important;
+    font-size: 90% !important;
+    background: white;
+    padding: 0px 5px !important;
+}
+.has-top-label label {
+    top: -4px !important;
+    left: 0.7em !important;
     font-size: 90% !important;
     background: white;
     padding: 0px 5px !important;
@@ -712,7 +737,34 @@ a.filelink:hover {
             padding: 0px 15px;
             justify-content: space-between;
         }
+        li.list_acc a:hover > span i.simple-icon-eye {
+            color: #ed7117 !important;
+        }
+        .admin li.list_acc.second_level {
+            padding-left: 0px !important;
+            margin-left: 0px;
+            width: 100%;
+        }
+        .pad-left-0 {
+            padding-left: 0px !important;
+        }
         
+        span.small_icon.pad-left-0 img {
+            margin-left: 0px !important;
+        }
+        a.col-lg-12.list_acc_filelink {
+            padding-left: 0px !important;
+        }
+        span.d-inline-block.col-1.no-padding {
+            float: right;
+        }
+        .mar-b-20{
+            margin: 20px 0px;
+        }
+        .mar-b-20 a.filelink {
+            font-size: 14px !important;
+            color: #585858;
+        }
 //shanmug css
 
 
@@ -850,10 +902,7 @@ margin-bottom: 20px;
     padding-left: 0px;
 }
 
-.admin li.list_acc.second_level {
-    padding-left: 0px !important; 
-    margin-left: -40px;
-}
+
 .title{
   padding-top: 10px;
   padding-left: 10px;
@@ -11868,10 +11917,7 @@ a.expand.active , a.expand.active:hover {
     padding-left: 0px;
 }
 
-.admin li.list_acc.second_level {
-    padding-left: 0px !important; 
-    margin-left: -40px;
-}
+
 .title{
   padding-top: 10px;
   padding-left: 10px;
