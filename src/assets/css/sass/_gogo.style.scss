@@ -394,6 +394,36 @@ $error-color: #c43d4b;
 //     color: #848484;
 // }
 //jane//
+
+i.new-icon {
+    padding: 11px 8.5px;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin: 0px 4px !important;
+    box-shadow: 0px 8px 6px -8px black;
+    top: -3px;
+    position: relative;
+}
+i.new-icon img {
+    width: 20px;
+    height: auto;
+}
+a.cust_icon:hover> i.new-icon {
+    background: #828282 !important;
+    border: 1px solid #828282 !important;
+    cursor: pointer;
+}
+i.new-hide-icon img {
+    width: 17px;
+    margin-top: -5px;
+}
+i.simple-icon-eye.show-on-hover {
+    color: black;
+}
+i.tree-item-label.new-left-icon img {
+    width: 15px;
+    margin-right: 10px;
+}
 .height_adjust_250{
     height: 280px;
     margin-bottom: 2em;
